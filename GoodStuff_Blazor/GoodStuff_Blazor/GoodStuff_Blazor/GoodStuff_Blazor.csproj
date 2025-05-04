@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\bootstrap\js\bootstrap.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\bootstrap\js\bootstrap.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GoodStuff_Blazor.Client\GoodStuff_Blazor.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.15" />
   </ItemGroup>
