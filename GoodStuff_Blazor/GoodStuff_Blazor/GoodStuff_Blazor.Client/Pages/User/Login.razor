@@ -1,0 +1,44 @@
+﻿@page "/login"  
+
+<div class="alert alert-danger col-3 position-absolute mt-5 hide" hidden id="loginFailMsg" role="alert">
+    <h4 class="alert-heading">O nie, cos poszlo nie tak!</h4>
+    <p>Prosze sprawdz czy poprawnie podales dane</p>
+    <hr>
+    <p class="mb-0">Mamy nadzieje ze nastepnym wszystko bedzie sie zgadzac <i class="fas fa-smile-beam"></i></p>
+</div>
+
+<div class="alert alert-success col-3 position-absolute mt-5" hidden id="loginSuccessMsg" role="alert">
+    <h4 class="alert-heading">Witaj, @* @Context.Session.GetString("Name") *@</h4>
+    <p>Za chwile zostaniesz przekierowany na strone glowna uzytkownika.</p>
+    <hr>
+</div>
+
+<div class="container col-lg-6 col-md-10 p-5 h-100">
+    <div class="h-100 shadow rounded justify-content-center col-12 align-items-center">
+        <h4 class="py-3 border-bottom">Logowanie</h4>
+        <div class="row">
+            <form class="p-2 col-6 border-right float-left" id="loginForm">
+                @* @Html.AntiForgeryToken() *@
+                <div class="form-group m-2">
+                    <label>Email</label>
+                    <input type="email" name="email" id="email" class="form-control " required />
+                    <span class="text-danger " id="emailErrorMsg"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label>Haslo</label>
+                    <input type="password" name="password" id="password" class="form-control " required />
+                    <span class="text-danger " id="passwordErrorMsg"></span>
+                </div>
+                <span class="btn btn-primary m-2 font-weight-bold" id="loginFormSubmit">Zaloguj</span>
+            </form>
+            <div class="col-6 float-left">
+                <h4>Nie masz jeszcze u nas konta?</h4>
+                <h5>Najwyzszy czas je zalozyc!</h5>
+                W sumie to nie masz wyboru bo bez zalozenia konta nie zlozysz zamowienia
+                <i class="fa-regular fa-face-smile-wink"></i>
+                <a href="/"
+                   class="btn btn-primary mt-2 font-weight-bold d-block">Rejestracja</a>
+            </div>
+        </div>
+    </div>
+</div>
