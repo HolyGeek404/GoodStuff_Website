@@ -1,5 +1,4 @@
-using GoodStuff_Blazor.Client.Pages;
-using GoodStuff_Blazor.Components;
+using GoodStuff_Blazor.Components.Base.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +28,5 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(GoodStuff_Blazor.Client._Imports).Assembly);
-
+    .AddInteractiveWebAssemblyRenderMode();
 app.Run();
