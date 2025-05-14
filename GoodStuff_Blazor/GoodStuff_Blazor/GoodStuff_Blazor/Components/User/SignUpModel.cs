@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GoodStuff_Blazor.Components.User
 {
-    public class SingUpModel
+    public class SignUpModel
     {
         [Required(ErrorMessage = "You have to provide your Name")]
         [MinLength(3)]
