@@ -7,7 +7,6 @@ public partial class SignUp
     [SupplyParameterFromForm]
     private SignUpModel SignUpModel { get; set; } = new SignUpModel();
 
-
     private async Task HandleValidSubmit()
     {
         var a = SignUpModel.Name;
