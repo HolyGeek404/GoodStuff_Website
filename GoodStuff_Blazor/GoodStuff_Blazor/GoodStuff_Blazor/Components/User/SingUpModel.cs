@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace GoodStuff_Blazor.Components.User
 {
     public class SingUpModel
     {
         [Required(ErrorMessage = "You have to provide your Name")]
+        [MinLength(3)]
         public string Name { get; set; }
 
 
@@ -18,10 +20,21 @@ namespace GoodStuff_Blazor.Components.User
 
 
         [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
         [Compare("Password", ErrorMessage = "The passwords does not match.")]
-        private string ConfirmPassword { get; set; }
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+
+        [CheckboxValidation(ErrorMessage = "This term is required")]
+        public bool AcceptTerms { get; set; }
+
+        [CheckboxValidation(ErrorMessage = "This term is required")]
+        public bool AcceptEmailSpam { get; set; }
+
+        [CheckboxValidation(ErrorMessage = "This term is required")]
+        public bool AcceptSellingUserData { get; set; }
     }
 }
