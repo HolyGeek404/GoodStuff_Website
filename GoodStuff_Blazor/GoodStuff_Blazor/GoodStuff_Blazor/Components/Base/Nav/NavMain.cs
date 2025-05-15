@@ -1,4 +1,4 @@
-﻿namespace GoodStuff_Blazor.Components.Nav
+﻿namespace GoodStuff_Blazor.Components.Base.Nav
 {
     public partial class NavMain
     {

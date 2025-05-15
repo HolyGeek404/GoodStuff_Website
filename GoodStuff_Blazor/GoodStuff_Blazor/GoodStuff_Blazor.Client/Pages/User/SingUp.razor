@@ -1,0 +1,81 @@
+﻿@page "/singup"
+
+<div class="alert alert-danger col-3 position-absolute mt-5 hide" hidden id="registrationFailMsg" role="alert">
+    <h4 class="alert-heading">O nie, cos poszlo nie tak!</h4>
+    <p>Prosze sprawdz czy formularz zostal poprawnie wypelniony.</p>
+    <hr>
+    <p class="mb-0">Mamy nadzieje ze nastepnym razem sie uda <i class="fas fa-smile-beam"></i></p>
+</div>
+
+<div class="alert alert-success col-3 position-absolute mt-5" hidden id="registrationSuccessMsg" role="alert">
+    <h4 class="alert-heading">Gratulacje, rejestracja przebiegla poprawnie!</h4>
+    <p>Na maila dostaniesz link aktywujący konto.</p>
+    <hr>
+    <p class="mb-0">Witamy w gronie WebLibrary <i class="fab fa-angellist"></i></p>
+</div>
+
+<div class="container col-lg-6 col-md-10 p-5 h-100">
+    <div class="h-100 shadow rounded justify-content-center col-12 align-items-center">
+        <h4 class="p-4 border-bottom" style="margin-bottom: unset">Rejestracja</h4>
+        <div class="row">
+            <EditForm Model="@singUpModel"></EditForm>
+            <form class="p-2 col-6 border-right" id="registrationForm">
+                <div class="form-group m-2">
+                    <label>Imie</label>
+                    <input type="text" name="name" id="name" class="form-control" required/>
+                    <span class="text-danger " id="nameErrorMsg"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label>Nazwisko</label>
+                    <input type="text" name="surname" id="surname" class="form-control" required/>
+                    <span class="text-danger " id="surnameErrorMsg"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label>Email</label>
+                    <input type="email" name="email" id="email" class="form-control " required/>
+                    <span class="text-danger " id="emailErrorMsg"></span>
+                </div>
+
+                <div class="form-group m-2">
+                    <label>Haslo</label>
+                    <input type="password" name="password" id="password" class="form-control" required/>
+                    <span class="text-danger " id="passwordErrorMsg"></span>
+                    <div class="col-12 ">
+                        <div id="passwordLengthReq" class="text-muted passReq"><i class="fa fa-check-circle fa-xs"></i> 8 znakow</div>
+                        <div id="lettersAndNumbers" class="text-muted passReq"><i class="fa fa-check-circle fa-xs "></i> Duze litery i cyfry</div>
+                        <div id="specialChars" class="text-muted passReq"><i class="fa fa-check-circle fa-xs "></i> Znaki specjalne</div>
+                    </div>
+                </div>
+                <div class="form-group m-2">
+                    <label>Powtorz haslo</label>
+                    <input type="password" name="password2" id="password2" class="form-control " required/>
+                    <span class="text-danger " id="password2ErrorMsg"></span>
+                </div>
+                <span class="btn btn-primary m-2 font-weight-bold" id="registrationFormSubmit">Zaloz konto</span>
+            </form>
+            <div class="col-5 p-3">
+                <h5>Zgody formalne</h5>
+                <div class="form-check p-2 m-1">
+                    <input class="form-check-input" type="checkbox" id="hellContract">
+                    <label class="form-check-label" for="hellContract" id="hellContractMsg">
+                        Oswiadczam ze nie zapoznalem sie z regulaminem strony
+                    </label>
+                </div>
+                <div class="form-check p-2 m-1">
+                    <input class="form-check-input" type="checkbox" id="irritatingEmails">
+                    <label class="form-check-label" for="irritatingEmails" id="irritatingEmailsMsg">
+                        Chce otrzymywac irytujace maile o beznadziejnych promocjach
+                    </label>
+                </div>
+                <div class="form-check p-2 m-1">
+                    <input class="form-check-input" type="checkbox" id="personalDataSell">
+                    <label class="form-check-label" for="personalDataSell" id="personalDataSellMsg">
+                        Zgadzam sie na to by sklep sprzedawal moje dane na prawo i lewo za dobry hajs w celu
+                        zbogacenia sie
+                    </label>
+                </div>
+                <span class="text-danger" id="agreementsErrorMsg"></span>
+            </div>
+        </div>
+    </div>
+</div>
