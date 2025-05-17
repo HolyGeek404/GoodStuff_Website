@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using GoodStuff_Blazor.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace GoodStuff_Blazor.Components.User.Pages;
 

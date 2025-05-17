@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GoodStuff_Blazor.Components.User.Validators;
+namespace GoodStuff_Blazor.Validators;
 
 public class CheckboxValidation : ValidationAttribute
 {

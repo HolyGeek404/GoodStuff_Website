@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GoodStuff_Blazor.Components.User
+namespace GoodStuff_Blazor.Models
 {
     public class SignInModel
     {

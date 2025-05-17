@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using GoodStuff_Blazor.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace GoodStuff_Blazor.Components.User.Pages;
 
@@ -6,6 +7,16 @@ public partial class SignUp
 {
     [SupplyParameterFromForm]
     private SignUpModel SignUpModel { get; set; } = new SignUpModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApiClient.SignUpAsync(new SignUpModel()
+        {
+            Email = "email",
+            Password = "password"
+        });
+        await Task.CompletedTask;
+    }
 
     private async Task HandleValidSubmit()
     {
