@@ -2,6 +2,7 @@ using GoodStuff_Blazor;
 using GoodStuff_Blazor.Components.Base.Pages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,11 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddServices(builder.Configuration);
 
+var azureAd = builder.Configuration.GetSection("AzureAd");
+
+builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]), new DefaultAzureCredential());
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+    .AddMicrosoftIdentityWebApi(azureAd);
 
 builder.Services.AddAuthorization();
 
