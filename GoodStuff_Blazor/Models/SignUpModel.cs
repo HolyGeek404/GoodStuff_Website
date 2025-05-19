@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using GoodStuff_Blazor.Components.User.Validators;
+using GoodStuff_Blazor.Validators;
 
-namespace GoodStuff_Blazor.Components.User
+namespace GoodStuff_Blazor.Models
 {
     public class SignUpModel
     {

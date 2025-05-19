@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace GoodStuff_Blazor.Components.User.Validators;
+namespace GoodStuff_Blazor.Validators;
 
 public class PasswordValidation : ValidationAttribute
 {
