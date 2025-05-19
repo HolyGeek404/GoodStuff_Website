@@ -7,42 +7,6 @@ namespace GoodStuff_Blazor.Api;
 
 public class GoodStuffApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder)
 {
-    public async Task<ApiResult> SignInAsync(SignInModel model)
-    {
-        var apiResult = new ApiResult();
-
-        try
-        {
-            var token = await GetAccessToken();
-            var request = requestMessageBuilder.BuildPost(token, "user/signin", model);
-            var response = await client.SendAsync(request);
-
-            apiResult.Success = response.IsSuccessStatusCode;
-            apiResult.StatusCode = response.StatusCode;
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                apiResult.ErrorMessage = response.StatusCode switch
-                {
-                    HttpStatusCode.Unauthorized => "Invalid email or password",
-                    HttpStatusCode.InternalServerError => "Internal server error",
-                    _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
-                };
-            }
-        }
-        catch (Exception e)
-        {
-            // in the future, this will be replaced with a logger
-            Console.WriteLine($"Couldn't SingIn user {model.Email}. Error: {e.Message}");
-            apiResult.Success = false;
-            apiResult.ErrorMessage = "An error unexpected occurred while signing in";
-            apiResult.StatusCode = HttpStatusCode.InternalServerError;
-        }
-
-        return apiResult;
-    }
-
     public async Task<ApiResult> SignUpAsync(SignUpModel model)
     {
         var apiResult = new ApiResult();
@@ -61,7 +25,7 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
                 var errorContent = await response.Content.ReadAsStringAsync();
                 apiResult.ErrorMessage = response.StatusCode switch
                 {
-                    HttpStatusCode.Unauthorized => "Invalid email or password",
+                    HttpStatusCode.BadRequest => "User already exist",
                     HttpStatusCode.InternalServerError => "Internal server error",
                     _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
                 };
@@ -71,6 +35,42 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
         {
             // in the future, this will be replaced with a logger
             Console.WriteLine($"Couldn't SingIn user {model.Email}. Error: {e.Message}");
+            apiResult.Success = false;
+            apiResult.ErrorMessage = "An error unexpected occurred while signing in";
+            apiResult.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return apiResult;
+    }
+
+    public async Task<ApiResult> SignInAsync(string email, string password)
+    {
+        var apiResult = new ApiResult();
+
+        try
+        {
+            var token = await GetAccessToken();
+            var request = requestMessageBuilder.BuildGet(token, $"user/signin?email={email}&password={password}");
+            var response = await client.SendAsync(request);
+
+            apiResult.Success = response.IsSuccessStatusCode;
+            apiResult.StatusCode = response.StatusCode;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                apiResult.ErrorMessage = response.StatusCode switch
+                {
+                    HttpStatusCode.Unauthorized => "Invalid email or password",
+                    HttpStatusCode.InternalServerError => "Internal server error",
+                    _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            // in the future, this will be replaced with a logger
+            Console.WriteLine($"Couldn't SingIn user {email}. Error: {e.Message}");
             apiResult.Success = false;
             apiResult.ErrorMessage = "An error unexpected occurred while signing in";
             apiResult.StatusCode = HttpStatusCode.InternalServerError;

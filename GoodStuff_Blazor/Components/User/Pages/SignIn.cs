@@ -3,16 +3,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace GoodStuff_Blazor.Components.User.Pages;
 
-public partial class SignIn 
+public partial class SignIn
 {
     [SupplyParameterFromForm]
     private SignInModel SignInModel { get; set; } = new SignInModel();
 
-    private async Task HandleValidSubmit()
+    private async Task SignInAsync()
     {
-        // Handle the form submission
-        await Task.Delay(1000); // Simulate a delay for the API call
-
-        Console.WriteLine($"Email: {SignInModel.Email}, Password: {SignInModel.Password}");
+        var result = await ApiClient.SignInAsync(SignInModel.Email, SignInModel.Password);
+        Console.WriteLine(result.Success ? "User signed in successfully" : $"Error {result.StatusCode} signing in user: {result.ErrorMessage}");
     }
 }
