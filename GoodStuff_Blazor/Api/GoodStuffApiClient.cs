@@ -9,71 +9,75 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
 {
     public async Task<ApiResult> SignInAsync(SignInModel model)
     {
-        ApiResult apiResult;
+        var apiResult = new ApiResult();
+
         try
         {
             var token = await GetAccessToken();
             var request = requestMessageBuilder.BuildPost(token, "user/signin", model);
             var response = await client.SendAsync(request);
 
-            apiResult = response.StatusCode switch
+            apiResult.Success = response.IsSuccessStatusCode;
+            apiResult.StatusCode = response.StatusCode;
+
+            if (!response.IsSuccessStatusCode)
             {
-                HttpStatusCode.Unauthorized => new ApiResult
+                var errorContent = await response.Content.ReadAsStringAsync();
+                apiResult.ErrorMessage = response.StatusCode switch
                 {
-                    Success = false,
-                    ErrorMessage = "Invalid credentials",
-                    StatusCode = response.StatusCode
-                },
-
-                HttpStatusCode.Created => new ApiResult
-                {
-                    Success = true, 
-                    StatusCode = response.StatusCode
-                },
-
-                _ => new ApiResult
-                {
-                    Success = false,
-                    ErrorMessage = "An error unexpected occurred while signing in",
-                    StatusCode = response.StatusCode
-                }
-            };
+                    HttpStatusCode.Unauthorized => "Invalid email or password",
+                    HttpStatusCode.InternalServerError => "Internal server error",
+                    _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
+                };
+            }
         }
         catch (Exception e)
         {
             // in the future, this will be replaced with a logger
             Console.WriteLine($"Couldn't SingIn user {model.Email}. Error: {e.Message}");
-            apiResult = new ApiResult
-            {
-                Success = false,
-                ErrorMessage = "An error unexpected occurred while signing in",
-                StatusCode = HttpStatusCode.InternalServerError
-            };
+            apiResult.Success = false;
+            apiResult.ErrorMessage = "An error unexpected occurred while signing in";
+            apiResult.StatusCode = HttpStatusCode.InternalServerError;
         }
 
         return apiResult;
     }
-    //public async Task<bool> SignUpAsync(SignUpModel model)
-    //{
-    //    try
-    //    {
-    //        var token = await GetAccessToken();
-    //        var request = requestMessageBuilder.BuildPost(token, "user/signup", model);
 
-    //        var response = await client.SendAsync(request);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Console.WriteLine($"Couldn't SingIn user {model.Email}. Error: {e.Message}");
-    //    }
+    public async Task<ApiResult> SignUpAsync(SignUpModel model)
+    {
+        var apiResult = new ApiResult();
 
-    //    return response.StatusCode switch
-    //    {
-    //        System.Net.HttpStatusCode.Conflict => false,
-    //        System.Net.HttpStatusCode.InternalServerError => throw new Exception("Internal server error"),
-    //        _ => response.IsSuccessStatusCode
-    //    };
-    //}
+        try
+        {
+            var token = await GetAccessToken();
+            var request = requestMessageBuilder.BuildPost(token, "user/signup", model);
+            var response = await client.SendAsync(request);
+
+            apiResult.Success = response.IsSuccessStatusCode;
+            apiResult.StatusCode = response.StatusCode;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                apiResult.ErrorMessage = response.StatusCode switch
+                {
+                    HttpStatusCode.Unauthorized => "Invalid email or password",
+                    HttpStatusCode.InternalServerError => "Internal server error",
+                    _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            // in the future, this will be replaced with a logger
+            Console.WriteLine($"Couldn't SingIn user {model.Email}. Error: {e.Message}");
+            apiResult.Success = false;
+            apiResult.ErrorMessage = "An error unexpected occurred while signing in";
+            apiResult.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return apiResult;
+    }
 
     private async Task<string> GetAccessToken()
     {
