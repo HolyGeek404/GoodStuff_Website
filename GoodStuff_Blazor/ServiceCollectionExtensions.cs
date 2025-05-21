@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<GoodStuffApiClient>( client =>
         {
-            var goodStuffApiUrl = configuration.GetSection("ApiUrls")["GoodStuffApi"];
+            var goodStuffApiUrl = GetApiUrl(configuration);
           
             client.BaseAddress = new Uri(goodStuffApiUrl);
             client.DefaultRequestHeaders.Accept.Clear();
@@ -22,5 +22,11 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
 
         return services;
+    }
+
+    private static string GetApiUrl(IConfiguration configuration)
+    {
+        var env = Environment.GetEnvironmentVariable("IsDocker");
+        return env.Equals("false") ? configuration.GetSection("ApiUrls")["GoodStuffApi"] : "http://webapi:8080/";
     }
 }
