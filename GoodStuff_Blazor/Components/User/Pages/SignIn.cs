@@ -11,6 +11,12 @@ public partial class SignIn
     private async Task SignInAsync()
     {
         var result = await ApiClient.SignInAsync(SignInModel.Email, SignInModel.Password);
-        Console.WriteLine(result.Success ? "User signed in successfully" : $"Error {result.StatusCode} signing in user: {result.ErrorMessage}");
+        Console.WriteLine(result.Success
+            ? "User signed in successfully"
+            : $"Error {result.StatusCode} signing in user: {result.ErrorMessage}");
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/user/dashboard");
+        }
     }
 }
