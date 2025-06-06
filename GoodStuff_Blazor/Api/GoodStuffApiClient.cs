@@ -2,6 +2,7 @@
 using GoodStuff_Blazor.Models;
 using GoodStuff_Blazor.Services.Interfaces;
 using Microsoft.Identity.Client;
+using Newtonsoft.Json;
 
 namespace GoodStuff_Blazor.Api;
 
@@ -34,9 +35,9 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
         catch (Exception e)
         {
             // in the future, this will be replaced with a logger
-            Console.WriteLine($"Couldn't SingIn user {model.Email}. Error: {e.Message}");
+            Console.WriteLine($"Couldn't sign up user {model.Email}. Error: {e.Message}");
             apiResult.Success = false;
-            apiResult.ErrorMessage = "An error unexpected occurred while signing in";
+            apiResult.ErrorMessage = "An error unexpected occurred while signing up";
             apiResult.StatusCode = HttpStatusCode.InternalServerError;
         }
 
@@ -73,6 +74,43 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
             Console.WriteLine($"Couldn't SingIn user {email}. Error: {e.Message}");
             apiResult.Success = false;
             apiResult.ErrorMessage = "An error unexpected occurred while signing in";
+            apiResult.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return apiResult;
+    }
+
+    public async Task<ApiResult> GetGpuProducts()
+    {
+        var apiResult = new ApiResult();
+        try
+        {
+            var token = await GetAccessToken();
+            var request = requestMessageBuilder.BuildGet(token, $"product/getallproductsbytype?type=gpu");
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                apiResult.Content = await response.Content.ReadFromJsonAsync<List<GpuModel>>();
+                apiResult.Success = true;
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                apiResult.ErrorMessage = response.StatusCode switch
+                {
+                    HttpStatusCode.BadRequest => "Product type cannot be null or empty.",
+                    HttpStatusCode.NotFound => "No products found for type",
+                    _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
+                };
+            }
+        }
+        catch (Exception e)
+        {
+
+            Console.WriteLine($"Couldn't GetGpuProducts Error: {e.Message}");
+            apiResult.Success = false;
+            apiResult.ErrorMessage = "An error unexpected occurred while retrieving GPU products.";
             apiResult.StatusCode = HttpStatusCode.InternalServerError;
         }
 

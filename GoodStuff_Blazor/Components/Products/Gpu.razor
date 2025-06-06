@@ -1,0 +1,16 @@
+@page "/Products/GPU"
+@using GoodStuff_Blazor.Api
+@inject GoodStuffApiClient ApiClient
+
+
+@if(gpuModels==null)
+{
+    <div><em>Loading...</em></div>
+}
+else
+{
+    foreach(var gpu in gpuModels)
+    {
+        <p>@gpu.Name</p>
+    }
+}
