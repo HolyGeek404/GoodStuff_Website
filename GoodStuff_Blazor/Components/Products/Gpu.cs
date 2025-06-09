@@ -4,14 +4,14 @@ namespace GoodStuff_Blazor.Components.Products;
 
 public partial class Gpu
 {
-    private List<GpuModel> gpuModels { get; set; }
+    private List<GpuModel> gpuModelList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         var result = await ApiClient.GetGpuProducts();
         if (result.Success)
         {
-            gpuModels = (List<GpuModel>)result.Content;
+            gpuModelList = (List<GpuModel>)result.Content;
         }
     }
 }

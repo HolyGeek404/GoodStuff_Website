@@ -3,14 +3,33 @@
 @inject GoodStuffApiClient ApiClient
 
 
-@if(gpuModels==null)
+@if(gpuModelList==null)
 {
     <div><em>Loading...</em></div>
 }
 else
 {
-    foreach(var gpu in gpuModels)
+    <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center" id="products">
+    @foreach (var gpu in gpuModelList)
     {
-        <p>@gpu.Name</p>
+        <a href="/Product/@gpu.Category/@gpu.id">
+            <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height: 400px; width: 450px;">
+                <div class="col-12 p-0 m-1">
+                    <img src="@gpu.ProductImg" width="230" height="200" alt="ProductImg" />
+                </div>
+                <div class="col-12 text p-0 m-0">
+                    <h6>@gpu.Name</h6>
+                </div>
+                <div class="col-12 text mt-3 p-0 m-0 text-left text-black-50">
+                    <span class="d-block text"><b>Recomended PSU:</b> @gpu.RecommendedPSUPower</span>
+                    <span class="d-block text"><b>Memory Bus:</b> @gpu.MemoryBus</span>
+                    <span class="d-block text"><b>Core Ratio:</b> @gpu.CoreRatio</span>
+                </div>
+                <div class="col-12 text-center mt-4 m-1">
+                    <h4>@gpu.Price zl</h4>
+                </div>
+            </div>
+        </a>
     }
+</div>
 }

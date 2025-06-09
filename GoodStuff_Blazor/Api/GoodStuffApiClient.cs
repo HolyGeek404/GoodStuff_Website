@@ -2,7 +2,6 @@
 using GoodStuff_Blazor.Models;
 using GoodStuff_Blazor.Services.Interfaces;
 using Microsoft.Identity.Client;
-using Newtonsoft.Json;
 
 namespace GoodStuff_Blazor.Api;
 
@@ -86,7 +85,7 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
         try
         {
             var token = await GetAccessToken();
-            var request = requestMessageBuilder.BuildGet(token, $"product/getallproductsbytype?type=gpu");
+            var request = requestMessageBuilder.BuildGet(token, $"product/getallproductsbytype?type=a");
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
@@ -96,13 +95,8 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
             }
             else
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                apiResult.ErrorMessage = response.StatusCode switch
-                {
-                    HttpStatusCode.BadRequest => "Product type cannot be null or empty.",
-                    HttpStatusCode.NotFound => "No products found for type",
-                    _ => !string.IsNullOrWhiteSpace(errorContent) ? errorContent : null
-                };
+                apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
+                apiResult.Success = false;   
             }
         }
         catch (Exception e)
