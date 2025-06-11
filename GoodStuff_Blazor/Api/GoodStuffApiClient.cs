@@ -85,7 +85,7 @@ public class GoodStuffApiClient(HttpClient client, IConfiguration configuration,
         try
         {
             var token = await GetAccessToken();
-            var request = requestMessageBuilder.BuildGet(token, $"product/getallproductsbytype?type=a");
+            var request = requestMessageBuilder.BuildGet(token, $"product/getallproductsbytype?type=GPU");
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
