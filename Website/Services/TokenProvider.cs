@@ -3,7 +3,7 @@ using Website.Services.Interfaces;
 
 namespace Website.Services;
 
-public class TokenProvider(IConfigurationManager configuration) : ITokenProvider
+public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
     public async Task<string> GetAccessToken(string scope)
     {
