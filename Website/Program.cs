@@ -11,17 +11,17 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddServices(builder.Configuration);
+
 var azureAd = builder.Configuration.GetSection("AzureAd");
-
-builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]), new DefaultAzureCredential());
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(azureAd);
-
+builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]!), new DefaultAzureCredential());
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(azureAd);
 builder.Services.AddAuthorization();
+
+builder.Services.AddHttpGoodStuffProductApiClient(builder.Configuration);
+builder.Services.AddHttpGoodStuffUserApiClient(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -32,7 +32,6 @@ else
     app.UseHsts();
     app.UseHttpsRedirection();
 }
-
 
 app.UseStaticFiles();
 app.MapStaticAssets();
