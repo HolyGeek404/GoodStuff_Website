@@ -1,0 +1,66 @@
+﻿@page "/sign-up"
+@using Website.Api
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@inject GoodStuffApiClient ApiClient
+
+<PageTitle>GoodStuff - sign Up</PageTitle>
+
+<div class="container p-5 h-100">
+    <div class="h-100 shadow rounded justify-content-center col-12 align-items-center">
+        <h4 class="p-2 border-bottom" style="margin-bottom: unset">sign Up</h4>
+        <EditForm Model="@SignUpModel" OnValidSubmit="SignUpAsync" FormName="SignUpForm" method="post" class="p-2 col-6 border-right">
+            <DataAnnotationsValidator />
+            <div class="form-group m-2">
+                <label for="Name">Name</label>
+                <InputText id="Name" @bind-Value="SignUpModel.Name" class="form-control" />
+                <ValidationMessage For="() => SignUpModel.Name" class="text-danger" />
+            </div>
+            <div class="form-group m-2">
+                <label for="Surname">Surname</label>
+                <InputText id="Surname" @bind-Value="SignUpModel.Surname" class="form-control" />
+                <ValidationMessage For="() => SignUpModel.Surname" class="text-danger" />
+            </div>
+            <div class="form-group m-2">
+                <label for="Email">Email</label>
+                <InputText id="Email" @bind-Value="SignUpModel.Email" class="form-control" />
+                <ValidationMessage For="() => SignUpModel.Email" class="text-danger" />
+            </div>
+            <div class="form-group m-2">
+                <label for="Password">Password</label>
+                <InputText type="password" id="Password" @bind-Value="SignUpModel.Password" class="form-control" />
+                <ValidationMessage For="() => SignUpModel.Password" class="text-danger" />
+            </div>
+            <div class="form-group m-2">
+                <label for="ConfirmPassword">Confirm Password</label>
+                <InputText type="password" id="ConfirmPassword" @bind-Value="SignUpModel.ConfirmPassword" class="form-control" />
+                <ValidationMessage For="() => SignUpModel.ConfirmPassword" class="text-danger" />
+            </div>
+            <div class="p-3">
+                <h5>Accept Terms</h5>
+                <div class="form-check p-2 m-1">
+                    <InputCheckbox @bind-Value="SignUpModel.AcceptTerms" class="form-check-input" id="AcceptTerms" />
+                    <label class="form-check-label" for="AcceptTerms">Oswiadczam ze nie zapoznalem sie z regulaminem strony</label>
+                    <ValidationMessage For="() => SignUpModel.AcceptTerms" class="text-danger" />
+                </div>
+                <div class="form-check p-2 m-1">
+                    <InputCheckbox @bind-Value="SignUpModel.AcceptEmailSpam" class="form-check-input" id="AcceptEmailSpam" />
+                    <label class="form-check-label" for="AcceptEmailSpam" >Chce otrzymywac irytujace maile o beznadziejnych promocjach</label>
+                    <ValidationMessage For="() => SignUpModel.AcceptEmailSpam" class="text-danger" />
+
+                </div>
+                <div class="form-check p-2 m-1">
+                    <InputCheckbox @bind-Value="SignUpModel.AcceptSellingUserData" class="form-check-input" id="AcceptSellingUserData" />
+                    <label class="form-check-label" for="AcceptSellingUserData">
+                        Zgadzam sie na to by sklep sprzedawal moje dane na prawo i lewo za dobry hajs w celu
+                        zbogacenia sie
+                    </label>
+                    <ValidationMessage For="() => SignUpModel.AcceptSellingUserData" class="text-danger" />
+                </div>
+                <span class="text-danger" id="agreementsErrorMsg"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary m-2 font-weight-bold" id="registrationFormSubmit">Create account</button>
+        </EditForm>
+    </div>
+</div>
