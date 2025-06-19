@@ -20,8 +20,11 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - User authentication and registration
   - Product catalog display
   - Shopping cart
-  - Integration with User and Product APIs
-
+  - Integration with User, Order and Product APIs
+- **Azure:**
+  - **Key Vault:** Stores Client Secret for client credential authorization type.
+  - **App Registry:** Contains basic app's setup and identity in the cloud.
+  - **App Roles:** Used for authenticate to the APIs. 
 ---
 
 ### 2. ⚙️ [GoodStuff_UserApi](https://github.com/HolyGeek404/GoodStuff_UserApi)
