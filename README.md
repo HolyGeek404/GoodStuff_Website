@@ -8,12 +8,13 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
 ## 🔎 Repositories Overview
 
 ### 1. 🌐 [GoodStuff_Website](https://github.com/HolyGeek404/GoodStuff_Website)
-**Main Website Frontend**
+**Main Website**
 
 - **Description:**  
   The GoodStuff Website is the main frontend for the IT shop. It is built using Blazor, providing a modern, interactive user interface for customers to browse, register, and purchase products.
 - **Architecture**
   - Components
+  - Domain models
   - SOLID services with business logic
   - Builder DP (for Http Request message)
 - **Technologies:**
@@ -34,17 +35,25 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
 ---
 
 ### 2. ⚙️ [GoodStuff_UserApi](https://github.com/HolyGeek404/GoodStuff_UserApi)
-**User API Backend**
+**User API**
 
 - **Description:**  
-  The User API manages user data and authentication for the GoodStuff IT shop. It provides endpoints for user registration, login, profile management, and user roles.
-- **Technologies:**  
-  - ASP.NET Core WebApi (C#)
+  The User API manages user data and authentication for the GoodStuff IT shop. It provides endpoints for user registration, login and profile management.
+- **Architecture:**
+  - Controllers
+  - SOLID services
+  - CQRS with MediatR (for validating request and managing domain logic)
+  - Domain models
+- **Technologies:**
+  - .Net 9 
+  - ASP.NET Core WebApi
   - Docker (for deployment)
 - **Features:**  
   - Secure user authentication (JWT)
   - User profile management
   - Role-based access control
+- **Azure**
+  - **Key Vault:** Stores Client Secrect and connection string to the database. 
 
 ---
 
