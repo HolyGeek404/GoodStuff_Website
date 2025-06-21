@@ -12,10 +12,16 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
 
 - **Description:**  
   The GoodStuff Website is the main frontend for the IT shop. It is built using Blazor, providing a modern, interactive user interface for customers to browse, register, and purchase products.
-- **Technologies:**  
-  - Blazor (C#)
-  - HTML, CSS
+- **Architecture**
+  - Components
+  - SOLID services with business logic
+  - Builder DP (for Http Request message)
+- **Technologies:**
+  - .Net 9 
+  - Blazor
+  - Bootstrap 4
   - Docker (for deployment)
+  - JWT Token (for auth)
 - **Features:**  
   - User authentication and registration
   - Product catalog display
