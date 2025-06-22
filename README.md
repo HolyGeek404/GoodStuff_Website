@@ -95,7 +95,7 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
 
 ---
 
-### 4. ⚙️ [GoodStuff_ProductApi](https://github.com/HolyGeek404/GoodStuff_OrderApi)
+### 4. ⚙️ [GoodStuff_OrderApi](https://github.com/HolyGeek404/GoodStuff_OrderApi)
 **Order Api**
 
 - **Description:**  
@@ -120,7 +120,7 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - **Key Vault:** Stores Client Secrect and connection string to the database.
   - **App Registry:** Contains basic app's setup and identity in the cloud.
   - **App Roles:** Used for authorize incoming requests.
-  - **Cosmos NoSql Database:** Stores products's data.
+  - **SQL Database:** Stores order's data.
 
 ---
 
