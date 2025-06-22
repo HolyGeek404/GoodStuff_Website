@@ -53,7 +53,11 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - User profile management
   - Role-based access control
 - **Azure**
-  - **Key Vault:** Stores Client Secrect and connection string to the database. 
+  - **Key Vault:** Stores Client Secrect and connection string to the database.
+  - **App Registry:** Contains basic app's setup and identity in the cloud.
+  - **App Roles:** Used for authorize incoming requests.
+  - **SQL Database:** Stores User's data.
+  - **Event Grid & Functions:** Sends email with confirmation link after sign up.
 
 ---
 
