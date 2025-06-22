@@ -27,18 +27,19 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - User authentication and registration
   - Product catalog display
   - Shopping cart
-  - Integration with User, Order and Product APIs
+  - Integration with User, Order and Product Api's
 - **Azure:**
   - **Key Vault:** Stores Client Secret for client credential authorization type.
   - **App Registry:** Contains basic app's setup and identity in the cloud.
-  - **App Roles:** Used for authenticate to the APIs. 
+  - **App Roles:** Used for authenticate to the Api's. 
+
 ---
 
 ### 2. ⚙️ [GoodStuff_UserApi](https://github.com/HolyGeek404/GoodStuff_UserApi)
-**User API**
+**User Api**
 
 - **Description:**  
-  The User API manages user data and authentication for the GoodStuff IT shop. It provides endpoints for user registration, login and profile management.
+  The User Api manages user data and authentication for the GoodStuff IT shop. It provides endpoints for user registration, login and profile management.
 - **Architecture:**
   - Controllers
   - SOLID services
@@ -60,15 +61,16 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - **App Registry:** Contains basic app's setup and identity in the cloud.
   - **App Roles:** Used for authorize incoming requests.
   - **SQL Database:** Stores User's data.
-  - **Event Grid & Functions:** Sends email with confirmation link after sign up.
+  - **Event Grid:** Added event for newly signed up Users.
+  - **Functions:** Sends email with confirmation link after sign up.
 
 ---
 
 ### 3. ⚙️ [GoodStuff_ProductApi](https://github.com/HolyGeek404/GoodStuff_ProductApi)
-**Product API Backend**
+**Product Api**
 
 - **Description:**  
-  The Product API handles all product-related operations. CRUD for Admin and basic operations like dispaly group of products or single one and filtering.
+  The Product Api handles all product-related operations. CRUD for Admin and basic operations like dispaly group of products or single one and filtering.
 - **Architecture:**
   - Controllers
   - SOLID services
@@ -90,6 +92,36 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - **App Registry:** Contains basic app's setup and identity in the cloud.
   - **App Roles:** Used for authorize incoming requests.
   - **Cosmos NoSql Database:** Stores products's data.
+
+---
+
+### 4. ⚙️ [GoodStuff_ProductApi](https://github.com/HolyGeek404/GoodStuff_OrderApi)
+**Order Api**
+
+- **Description:**  
+  The Order Api handles all order-related operations. Allows authenticated users to place a new order. New orders's reqests are put on the queue and then are inserted into database by Event Handler.
+- **Architecture:**
+  - Controllers
+  - SOLID services
+  - CQRS with MediatR (for validating request and managing domain logic)
+  - Domain models
+- **Technologies:**
+  - .Net 9
+  - SOLID
+  - REST 
+  - ASP.NET Core WebApi
+  - Swagger (for local development)
+  - Docker (for deployment)
+- **Features:**  
+  - Async order creation (for authenticated users)
+  - Email notifications (for each order's status) 
+  - Role-based access control
+- **Azure**
+  - **Key Vault:** Stores Client Secrect and connection string to the database.
+  - **App Registry:** Contains basic app's setup and identity in the cloud.
+  - **App Roles:** Used for authorize incoming requests.
+  - **Cosmos NoSql Database:** Stores products's data.
+
 ---
 
 ## 📜 Architecture Diagram
