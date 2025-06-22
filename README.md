@@ -45,8 +45,11 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
   - CQRS with MediatR (for validating request and managing domain logic)
   - Domain models
 - **Technologies:**
-  - .Net 9 
+  - .Net 9
+  - SOLID
+  - REST 
   - ASP.NET Core WebApi
+  - Swagger (for local development)
   - Docker (for deployment)
 - **Features:**  
   - Secure user authentication (JWT)
@@ -65,14 +68,28 @@ Built with Blazor, ASP.NET WebApi and Azure Cloud.
 **Product API Backend**
 
 - **Description:**  
-  The Product API handles all product-related operations, including product listing, creation, updating, and deletion. It serves product data to the frontend and other services.
-- **Technologies:**  
-  - ASP.NET Core WebApi (C#)
+  The Product API handles all product-related operations. CRUD for Admin and basic operations like dispaly group of products or single one and filtering.
+- **Architecture:**
+  - Controllers
+  - SOLID services
+  - CQRS with MediatR (for validating request and managing domain logic)
+  - Domain models
+- **Technologies:**
+  - .Net 9
+  - SOLID
+  - REST 
+  - ASP.NET Core WebApi
+  - Swagger (for local development)
+  - Docker (for deployment)
 - **Features:**  
-  - CRUD operations for products
-  - Product search and filtering
-  - Integration with the main website frontend
-
+  - Complex product filtering
+  - CRUD of products (for Admins)
+  - Role-based access control
+- **Azure**
+  - **Key Vault:** Stores Client Secrect and connection string to the database.
+  - **App Registry:** Contains basic app's setup and identity in the cloud.
+  - **App Roles:** Used for authorize incoming requests.
+  - **Cosmos NoSql Database:** Stores products's data.
 ---
 
 ## 📜 Architecture Diagram
