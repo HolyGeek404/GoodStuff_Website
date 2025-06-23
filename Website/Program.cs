@@ -6,17 +6,15 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddServices(builder.Configuration);
+builder.Logging.AddLoggingConfig();
 
 var azureAd = builder.Configuration.GetSection("AzureAd");
 builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]!), new DefaultAzureCredential());
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(azureAd);
 builder.Services.AddAuthorization();
-
 builder.Services.AddHttpGoodStuffProductApiClient(builder.Configuration);
 builder.Services.AddHttpGoodStuffUserApiClient(builder.Configuration);
 

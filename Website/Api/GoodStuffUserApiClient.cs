@@ -4,7 +4,7 @@ using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class GoodStuffUserApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder)
+public class GoodStuffUserApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder, ILogger<GoodStuffUserApiClient> logger)
 {
     private readonly string _scope = configuration.GetSection("GoodStuffUserApi")["Scope"]!;
 
@@ -29,12 +29,13 @@ public class GoodStuffUserApiClient(HttpClient client, IConfiguration configurat
             {
                 apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
                 apiResult.Success = false;
+                logger.LogError($"Couldn't SignUp. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
+
             }
         }
         catch (Exception e)
         {
-            // in the future, this will be replaced with a logger
-            Console.WriteLine($"Couldn't sign up user {model.Email}. Error: {e.Message}");
+            logger.LogError(e, $"Couldn't sign up user {model.Email}. Error: {e.Message}");
             apiResult.Success = false;
             apiResult.ErrorMessage = "An error unexpected occurred while signing up";
             apiResult.StatusCode = HttpStatusCode.InternalServerError;
@@ -64,12 +65,12 @@ public class GoodStuffUserApiClient(HttpClient client, IConfiguration configurat
             {
                 apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
                 apiResult.Success = false;
+                logger.LogError($"Couldn't SignIn. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
             }
         }
         catch (Exception e)
         {
-            // in the future, this will be replaced with a logger
-            Console.WriteLine($"Couldn't SingIn user {email}. Error: {e.Message}");
+            logger.LogError(e, $"Couldn't sign iun user {email}. Error: {e.Message}");
             apiResult.Success = false;
             apiResult.ErrorMessage = "An error unexpected occurred while signing in";
             apiResult.StatusCode = HttpStatusCode.InternalServerError;
