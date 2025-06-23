@@ -4,7 +4,7 @@ using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class GoodStuffProductApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder)
+public class GoodStuffProductApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder, ILogger<GoodStuffProductApiClient> logger)
 {
     private readonly string _scope = configuration.GetSection("GoodStuffProductApi")["Scope"]!;
 
@@ -25,12 +25,13 @@ public class GoodStuffProductApiClient(HttpClient client, IConfiguration configu
             {
                 apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
                 apiResult.Success = false;
+                logger.LogError($"Couldn't GetGpuProducts. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
             }
         }
         catch (Exception e)
         {
 
-            Console.WriteLine($"Couldn't GetGpuProducts Error: {e.Message}");
+            logger.LogError(e,$"Couldn't GetGpuProducts Error: {e.Message}");
             apiResult.Success = false;
             apiResult.ErrorMessage = "An error unexpected occurred while retrieving GPU products.";
             apiResult.StatusCode = HttpStatusCode.InternalServerError;
