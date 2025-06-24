@@ -17,6 +17,11 @@ public class GoodStuffProductApiClient(HttpClient client, IConfiguration configu
         return await GetProduct<CpuModel>("CPU");
     }
 
+    public async Task<ApiResult> GetCoolerProducts()
+    {
+        return await GetProduct<CpuModel>("COOLER");
+    }
+
     private async Task<ApiResult> GetProduct<TProduct>(string type)
     {
         var apiResult = new ApiResult();

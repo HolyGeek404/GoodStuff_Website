@@ -11,7 +11,7 @@ public partial class Gpu
         var result = await ApiClient.GetGpuProducts();
         if (result.Success)
         {
-            gpuModelList = (List<GpuModel>)result.Content;
+            gpuModelList = (List<GpuModel>)result.Content!;
         }
     }
 }
