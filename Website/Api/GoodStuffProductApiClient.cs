@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Website.Models;
+﻿using Website.Models;
 using Website.Services.Interfaces;
 
 namespace Website.Api;
@@ -10,31 +9,38 @@ public class GoodStuffProductApiClient(HttpClient client, IConfiguration configu
 
     public async Task<ApiResult> GetGpuProducts()
     {
+        return await GetProduct<GpuModel>("GPU");
+    }
+
+    public async Task<ApiResult> GetCpuProducts()
+    {
+        return await GetProduct<CpuModel>("CPU");
+    }
+
+    private async Task<ApiResult> GetProduct<TProduct>(string type)
+    {
         var apiResult = new ApiResult();
         try
         {
-            var request = await requestMessageBuilder.BuildGet(_scope, $"Product/GetAllProductsByType?type=GPU");
+            var request = await requestMessageBuilder.BuildGet(_scope, $"Product/GetAllProductsByType?type={type}");
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
-                apiResult.Content = await response.Content.ReadFromJsonAsync<List<GpuModel>>();
+                apiResult.Content = await response.Content.ReadFromJsonAsync<List<TProduct>>();
                 apiResult.Success = true;
             }
             else
             {
                 apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
                 apiResult.Success = false;
-                logger.LogError($"Couldn't GetGpuProducts. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
+                logger.LogError($"Couldn't get products. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
             }
         }
         catch (Exception e)
         {
-
-            logger.LogError(e,$"Couldn't GetGpuProducts Error: {e.Message}");
-            apiResult.Success = false;
-            apiResult.ErrorMessage = "An error unexpected occurred while retrieving GPU products.";
-            apiResult.StatusCode = HttpStatusCode.InternalServerError;
+            logger.LogError(e, $"Couldn't GetGpuProducts Error: {e.Message}");
+            throw;
         }
 
         return apiResult;
