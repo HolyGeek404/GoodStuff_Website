@@ -1,4 +1,5 @@
 ﻿using Website.Models;
+using Website.Models.Products;
 using Website.Services.Interfaces;
 
 namespace Website.Api;

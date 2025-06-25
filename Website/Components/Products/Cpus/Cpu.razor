@@ -1,18 +1,17 @@
-@page "/Products/GPU"
+﻿@page "/Products/CPU"
 @using Website.Api
-@inject GoodStuffProductApiClient ApiClient
 
 
-@if(gpuModelList==null)
+@if(cpuModelList==null)
 {
     <div><em>Loading...</em></div>
 }
 else
 {
     <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center" id="products">
-    @foreach (var gpu in gpuModelList)
+    @foreach (var gpu in cpuModelList)
     {
-        <a href="/Product/@gpu.Category/@gpu.id">
+        <a href="/Product/@gpu.Category/@gpu.ProductId">
             <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height: 400px; width: 450px;">
                 <div class="col-12 p-0 m-1">
                     <img src="@gpu.ProductImg" width="230" height="200" alt="ProductImg" />
@@ -21,9 +20,9 @@ else
                     <h6>@gpu.Name</h6>
                 </div>
                 <div class="col-12 text mt-3 p-0 m-0 text-left text-black-50">
-                    <span class="d-block text"><b>Recomended PSU:</b> @gpu.RecommendedPSUPower</span>
-                    <span class="d-block text"><b>Memory Bus:</b> @gpu.MemoryBus</span>
-                    <span class="d-block text"><b>Core Ratio:</b> @gpu.CoreRatio</span>
+                    <span class="d-block text"><b>Socket:</b> @gpu.Socket</span>
+                    <span class="d-block text"><b>Architecture:</b> @gpu.Architecture</span>
+                    <span class="d-block text"><b>TDP:</b> @gpu.TDP</span>
                 </div>
                 <div class="col-12 text-center mt-4 m-1">
                     <h4>@gpu.Price zl</h4>

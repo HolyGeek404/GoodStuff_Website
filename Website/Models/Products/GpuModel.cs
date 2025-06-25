@@ -1,10 +1,10 @@
-namespace Website.Models;
+namespace Website.Models.Products;
 
 public class GpuModel
 {
-   public string id { get; set; }
+    public int ProductId { get; set; }
     public string Name { get; set; } = string.Empty;
-    public int? Price { get; set; }
+    public int Price { get; set; }
     public string Team { get; set; } = string.Empty;
     public string GpuProcessorLine { get; set; } = string.Empty;
     public string PCIeCategory { get; set; } = string.Empty;
