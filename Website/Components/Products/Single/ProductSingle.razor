@@ -1,0 +1,70 @@
+﻿@page "/Product/{Category}/{Id}"
+@using Website.Services
+@if (Model == null)
+{
+    <div><em>Loading...</em></div>
+}
+else
+{
+    <div class="col-12">
+        <div class="row d-flex justify-content-center">
+            <div class="alert alert-success position-absolute" hidden id="addingSuccessMsg" role="alert">
+                <h5 class="alert-heading">Dodano produkt do koszyka</h5>
+            </div>
+
+            <div class="alert alert-danger col-3 position-absolute mt-5" hidden id="addingFailMsg" role="alert">
+                <h4 class="alert-heading">O nie, cos poszlo nie tak!</h4>
+                <p>Nie udalo sie dodac produktu do koszyka. Sorki <i class="fa-light fa-face-pensive"></i></p>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="container col-12 m-5 d-flex flex-column flex-lg-row flex-wrap justify-content-center">
+                <div class="col-lg-6 col-sm-12 mx-auto float-left ">
+                    <div class="col-12">
+                        <h3>@Model["Name"]</h3>
+                    </div>
+                    <div class="col-12 text-center">
+                        <img class="col-9" src="@Model["ProductImg"]" alt="productImg" />
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-12  mx-auto float-left text-center">
+                    <div class="col-12 d-flex justify-content-center">
+                        <input type="hidden" id="ProductId" value="@Model["ProductId"]" />
+                        <input type="hidden" id="Type" value="@Model["Category"]" />
+                        @* @if (!string.IsNullOrEmpty(Context.Session.GetString("UserId")))
+                    {
+                        <span id="AddToCart" class="rounded border-0 m-1 bg-success add-to-cart p-1 float-right text-white">Dodaj do koszyka</span>
+                        @:<input type="hidden" id="UserId" value="@Context.Session.GetString("UserId")"/>
+                    }
+                    else
+                    {
+                        @:<a href="@Url.ActionLink("Login", "User", new { redirectUrl = @Model.RedirectUrl })"><div class="rounded border-0 m-1 bg-success add-to-cart float-right p-1 text-white">Dodaj do koszyka</div></a>
+                    } *@
+                        <span class="m-1 float-right">
+                            <b>Ilość sztuk: </b>
+                            <input id="Quantity" type="number" name="Quantity" value="1" min="1" class="col-3" />
+                        </span>
+                    </div>
+                    <table class="table-striped table-sm table-bordered table col-12">
+                        <tbody>
+                            @{
+                                Model.Remove("Category");
+                                Model.Remove("ProductId");
+                                Model.Remove("ProductImg");
+                                Model.Remove("Price");
+                                foreach (var kv in Model)
+                                {
+                                    <tr>
+                                        <td>@kv.Key</td>
+                                        <td>@kv.Value</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
