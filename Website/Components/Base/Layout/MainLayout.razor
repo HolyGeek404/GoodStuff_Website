@@ -2,12 +2,10 @@
 @using Website.Components.Base.Nav
 @inherits LayoutComponentBase
 
-<div class="">
-	<NavMain />
-
-	<main class="col-12">
-		@Body
-	</main>
-
-	<Footer/>
+<div class="d-flex flex-column" style="min-height: 100vh">
+    <NavMain />
+    <main class="flex-fill">
+        @Body
+    </main>
+    <Footer />
 </div>
