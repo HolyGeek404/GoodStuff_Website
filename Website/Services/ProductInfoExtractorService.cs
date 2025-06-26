@@ -5,7 +5,8 @@ public static class ProductInfoExtractorService
     private static readonly Dictionary<string, string[]> CategoryProperties = new()
     {
         { "GPU", new[] { "RecommendedPSUPower", "MemoryBus", "CoreRatio" } },
-        { "CPU", new[] { "Architecture", "TDP", "Socket" } }
+        { "CPU", new[] { "Architecture", "TDP", "Socket" } },
+        { "COOLER", new[] { "Fans", "RPMControll", "Compatibility", "HeatPipes" } },
     };
 
     public static Dictionary<string, string> ExtractBasicInfo(Dictionary<string, string> model, string category)

@@ -15,7 +15,6 @@ public partial class ProductSingle
     public string Category { get; set; }
 
     private Dictionary<string, string>? Model { get; set; }
-    private string? ErrorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,14 +23,5 @@ public partial class ProductSingle
         {
             Model = list[0];
         }
-        else
-        {
-            ErrorMessage = result.ErrorMessage ?? "Product not found.";
-        }
     }
-
-    private static readonly HashSet<string> ExcludedProperties =
-    [
-        "ProductId", "Name", "ProductImg", "Category"
-    ];
 }
