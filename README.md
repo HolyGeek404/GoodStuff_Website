@@ -149,36 +149,98 @@ dotnet build
 dotnet run
 ```
 
-Or, using Docker (if provided):
+For Docker:
 
-```bash
-docker build -t goodstuff-website .
-docker run -p 8080:80 goodstuff-website
+Use this ```docker-compose.yml``` for running all the apps locally.<br>
+Download repos in this folder composition to get this file works properly.<br>
+Contact with [HolyGeek404](https://github.com/HolyGeek404) to gets the access to Azure resources.
+```
+Repos
+├── GoodStuff_Websiter
+│   └── Dockerfile
+├── GoodStuff_UserApi
+│   └── Dockerfile
+├── GoodStuff_ProductApi
+│   └── Dockerfile
+├── GoodStuff_OrderApi
+│   └── Dockerfile
+└── docker-compose.yml
 ```
 
-Repeat for UserApi and ProductApi.
+```bash
+version: '3.8'
+services:
+  website:
+    image: gs-website
+    build:
+      context: ./GoodStuff_Website
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7001"
+    depends_on:
+      - userapi
+      - productapi
+      - orderapi
+    environment:
+      IsDocker: "true"
+      ASPNETCORE_URLS: "http://+:7001"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AZURE_TENANT_ID: "###"
+      AZURE_CLIENT_ID: "###"
+      AZURE_CLIENT_SECRET: "###"
 
-### 3. Configuration
+  userapi:
+    image: gs-userapi
+    build:
+      context: ./GoodStuff_UserApi
+      dockerfile: Dockerfile
+    ports:
+      - "7002:7002"
+    environment:
+      ASPNETCORE_URLS: "http://+:7002"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AZURE_TENANT_ID: "###"
+      AZURE_CLIENT_ID: "###"
+      AZURE_CLIENT_SECRET: "###"
 
-- Update API endpoints in the website frontend to point to the running UserApi and ProductApi services.
-- Set environment variables or configuration files as needed (see individual repository READMEs for details).
+  productapi:
+    image: gs-productapi
+    build:
+      context: ./GoodStuff_ProductApi
+      dockerfile: Dockerfile
+    ports:
+      - "7003:7003"
+    environment:
+      ASPNETCORE_URLS: "http://+:7003"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AZURE_TENANT_ID: "###"
+      AZURE_CLIENT_ID: "###"
+      AZURE_CLIENT_SECRET: "###"
 
----
+  orderapi:
+    image: gs-orderapi
+    build:
+      context: ./GoodStuff_OrderApi
+      dockerfile: Dockerfile
+    ports:
+      - "7004:7004"
+    environment:
+      ASPNETCORE_URLS: "http://+:7004"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      AZURE_TENANT_ID: "###"
+      AZURE_CLIENT_ID: "###"
+      AZURE_CLIENT_SECRET: "###"
+```
 
-## 🎯 Contributing
-
-Contributions are welcome! Please see the individual repositories for guidelines on contributions, issues, and pull requests.
 
 ## 📖 License
 
 This project is licensed under the MIT License.
 
----
+
 
 ## 👨🏻‍💻 Authors
 
 - [HolyGeek404](https://github.com/HolyGeek404)
 
----
 
-**Happy coding!**
