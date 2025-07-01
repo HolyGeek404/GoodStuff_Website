@@ -18,24 +18,44 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient<GoodStuffProductApiClient>(client =>
-         {
-             var apiUrl = configuration.GetSection("GoodStuffProductApi")["Url"]!;
-             client.BaseAddress = new Uri(apiUrl);
-             client.DefaultRequestHeaders.Accept.Clear();
-             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-         });
+        {
+            string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
+            string apiUrl;
+            if (!string.IsNullOrEmpty(isDocker) && isDocker.Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                apiUrl = configuration.GetSection("DockerUrls")["ProductApiBaseUrl"]!;
+            }
+            else
+            {
+                apiUrl = configuration.GetSection("GoodStuffProductApi")["Url"]!;
+            }
+
+            client.BaseAddress = new Uri(apiUrl);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        });
 
         return services;
     }
     public static IServiceCollection AddHttpGoodStuffUserApiClient(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient<GoodStuffUserApiClient>(client =>
-         {
-             var apiUrl = configuration.GetSection("GoodStuffUserApi")["Url"]!;
-             client.BaseAddress = new Uri(apiUrl);
-             client.DefaultRequestHeaders.Accept.Clear();
-             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-         });
+        {
+            string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
+            string apiUrl;
+            if (!string.IsNullOrEmpty(isDocker) && isDocker.Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                apiUrl = configuration.GetSection("DockerUrls")["UserApiBaseUrl"]!;
+            }
+            else
+            {
+                apiUrl = configuration.GetSection("GoodStuffUserApi")["Url"]!;
+            }
+
+            client.BaseAddress = new Uri(apiUrl);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        });
 
         return services;
     }
