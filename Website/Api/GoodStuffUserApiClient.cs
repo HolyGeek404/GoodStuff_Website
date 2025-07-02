@@ -1,5 +1,6 @@
 using System.Net;
 using Website.Models;
+using Website.Models.User;
 using Website.Services.Interfaces;
 
 namespace Website.Api;

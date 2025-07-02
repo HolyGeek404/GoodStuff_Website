@@ -10,6 +10,8 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddIntera
 
 builder.Services.AddServices(builder.Configuration);
 builder.Logging.AddLoggingConfig();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
 
 var azureAd = builder.Configuration.GetSection("AzureAd");
 builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]!), new DefaultAzureCredential());

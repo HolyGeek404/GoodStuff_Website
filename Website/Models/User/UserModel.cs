@@ -1,4 +1,4 @@
-namespace Website.Models;
+namespace Website.Models.User;
 
 public class UserModel
 {
