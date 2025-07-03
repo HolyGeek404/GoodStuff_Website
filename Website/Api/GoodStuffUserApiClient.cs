@@ -5,7 +5,11 @@ using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class GoodStuffUserApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder, ILogger<GoodStuffUserApiClient> logger)
+public class GoodStuffUserApiClient(HttpClient client,
+    IUserSessionService userSession,
+    IConfiguration configuration,
+    IRequestMessageBuilder requestMessageBuilder,
+    ILogger<GoodStuffUserApiClient> logger)
 {
     private readonly string _scope = configuration.GetSection("GoodStuffUserApi")["Scope"]!;
 
@@ -61,6 +65,8 @@ public class GoodStuffUserApiClient(HttpClient client, IConfiguration configurat
             {
                 apiResult.Content = await response.Content.ReadFromJsonAsync<UserModel>();
                 apiResult.Success = true;
+
+                var result = await userSession.CreateSession((UserModel)apiResult.Content!);
             }
             else
             {

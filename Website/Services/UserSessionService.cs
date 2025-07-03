@@ -1,12 +1,13 @@
 using System.Security.Cryptography;
 using Microsoft.Extensions.Caching.Memory;
 using Website.Models.User;
+using Website.Services.Interfaces;
 
 namespace Website.Services;
 
 public class UserSessionService(IMemoryCache cache,
                                 IHttpContextAccessor httpContextAccessor,
-                                ILogger<UserSessionService> logger)
+                                ILogger<UserSessionService> logger) : IUserSessionService
 {
     private const int SessionTimeoutMinutes = 30;
 
@@ -56,7 +57,33 @@ public class UserSessionService(IMemoryCache cache,
         }
     }
 
+    public async Task<UserSession?> GetUserSessionAsync()
+    {
+        try
+        {
+            var sessionId = GetSessionIdFromCookie();
+            if (sessionId == null) return null;
+
+            var cachedKey = GetCacheKey(sessionId);
+            if (cache.TryGetValue(cachedKey, out UserSession? userSession))
+            {
+                userSession.LastActivity = DateTime.UtcNow;
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"Error during getting session");
+            throw;
+        }
+    }
+
     #region Private
+    private string? GetSessionIdFromCookie()
+    {
+        return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];
+    }
     private string GetCacheKey(string sessionId)
     {
         return $"user_session_{sessionId}";
