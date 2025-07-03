@@ -1,16 +1,17 @@
 using System.Security.Cryptography;
 using Microsoft.Extensions.Caching.Memory;
 using Website.Models.User;
+using Website.Services.Interfaces;
 
 namespace Website.Services;
 
 public class UserSessionService(IMemoryCache cache,
                                 IHttpContextAccessor httpContextAccessor,
-                                ILogger<UserSessionService> logger)
+                                ILogger<UserSessionService> logger) : IUserSessionService
 {
     private const int SessionTimeoutMinutes = 30;
 
-    public async Task<bool> CreateSession(UserModel userModel)
+    public bool CreateSession(UserModel userModel)
     {
         logger.LogInformation($"Creating session for user {userModel.Email}.");
 
@@ -55,8 +56,85 @@ public class UserSessionService(IMemoryCache cache,
             throw;
         }
     }
+    public UserSession? GetUserSession()
+    {
+        try
+        {
+            var sessionId = GetSessionIdFromCookie();
+            if (sessionId == null) return null;
+
+            var cachedKey = GetCacheKey(sessionId);
+            if (cache.TryGetValue(cachedKey, out UserSession? userSession))
+            {
+                userSession.LastActivity = DateTime.UtcNow;
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"Error during getting session");
+            throw;
+        }
+    }
+    public bool Validate()
+    {
+        try
+        {
+            var session = GetUserSession();
+            if (session == null) return false;
+
+            var sessionAge = DateTime.UtcNow - session.LastActivity;
+            if (sessionAge.TotalMinutes > SessionTimeoutMinutes)
+            {
+                ClearUserSession();
+                return false;
+            }
+
+            var currentIp = GetClientIpAddress();
+            if (currentIp != session.IpAddress)
+            {
+                ClearUserSession();
+                return false;
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"Couldn't validate session because: {ex}");
+            throw;
+        }
+    }
+
+    // TODO add LogOut
 
     #region Private
+    private void ClearUserSession()
+    {
+        try
+        {
+            var sessionId = GetSessionIdFromCookie();
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                cache.Remove(sessionId);
+            }
+
+            var httpContext = httpContextAccessor.HttpContext;
+            httpContext?.Response.Cookies.Delete("UserSessionId");
+
+            logger.LogInformation("User session cleared");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"Couldn't clear user session because: {ex}");
+            throw;
+        }
+    }
+    private string? GetSessionIdFromCookie()
+    {
+        return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];
+    }
     private string GetCacheKey(string sessionId)
     {
         return $"user_session_{sessionId}";

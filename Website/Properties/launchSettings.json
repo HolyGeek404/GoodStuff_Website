@@ -15,7 +15,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "IsDocker": "true"
+        "IsDocker": "false"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7001"

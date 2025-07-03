@@ -14,6 +14,7 @@ public partial class SignIn
         Console.WriteLine(result.Success
             ? "User signed in successfully"
             : $"Error {result.StatusCode} signing in user: {result.ErrorMessage}");
+            
         if (result.Success)
         {
             NavigationManager.NavigateTo("/user/dashboard");
