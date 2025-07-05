@@ -26,8 +26,8 @@ public partial class UserDashboard
         }
     }
 
-    public void LogOut()
-    {
-        sessionService
-    }
+    // public void LogOut()
+    // {
+    //     sessionService
+    // }
 }

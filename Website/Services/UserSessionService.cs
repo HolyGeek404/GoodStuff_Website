@@ -66,10 +66,10 @@ public class UserSessionService(IMemoryCache cache,
             var cachedKey = GetCacheKey(sessionId);
             if (cache.TryGetValue(cachedKey, out UserSession? userSession))
             {
-                userSession.LastActivity = DateTime.UtcNow;
+                userSession!.LastActivity = DateTime.UtcNow;
             }
-
-            return null;
+            
+            return userSession;
         }
         catch (Exception ex)
         {
@@ -108,28 +108,6 @@ public class UserSessionService(IMemoryCache cache,
     }
 
     // TODO add LogOut
-
-    public async Task<UserSession?> GetUserSessionAsync()
-    {
-        try
-        {
-            var sessionId = GetSessionIdFromCookie();
-            if (sessionId == null) return null;
-
-            var cachedKey = GetCacheKey(sessionId);
-            if (cache.TryGetValue(cachedKey, out UserSession? userSession))
-            {
-                userSession.LastActivity = DateTime.UtcNow;
-            }
-
-            return null;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, $"Error during getting session");
-            throw;
-        }
-    }
 
     #region Private
     private void ClearUserSession()
