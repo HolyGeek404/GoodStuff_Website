@@ -1,3 +1,43 @@
 ﻿@page "/user/dashboard"
+@rendermode InteractiveServer
 
-<h3>UserDashboard</h3>
+<div class="d-flex m-5 align-items-center  justify-content-center">
+    <div class="col-9 ">
+        <div class="col-3 border-right float-left">
+            <div class="col-12  m-3 hello">
+                <span class="text-secondary">Witaj</span><br />
+                <h5> @userSession.UserData.Name</h5>
+                @* @if (Context.Session.GetString("Type").Equals("Admin"))
+                    {
+                        <a href="@Url.ActionLink("Admin", "User")">
+                            <span class="btn btn-sm btn-outline-danger font-weight-bold">Admin Panel</span>
+                        </a>
+                    }
+                    @if (Context.Session.GetString("Type").Equals("Warehouse"))
+                    {
+                        <span class="btn btn-sm btn-outline-warning font-weight-bold">Warehouse</span>
+                    } *@
+                <button @onclick="SignOut" class="btn btn-sm btn-primary font-weight-bold">Sign Out</button>
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @errorMessage
+                    </div>
+                }
+            </div>
+            <div class="col-12 m-2 categories">
+                <span class="d-block p-2 rounded  order">
+                    <i class="fas fa-boxes"></i>
+                    <span id="callDisplayOrders">Zamówienia</span>
+                </span>
+                <span class="d-block p-2 settings">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                    <span id="callDisplaySettings">Ustawienia</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-9 p-4 float-left" id="content-container">
+           
+        </div>
+    </div>
+</div>

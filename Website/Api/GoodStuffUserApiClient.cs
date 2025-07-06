@@ -1,10 +1,15 @@
 using System.Net;
 using Website.Models;
+using Website.Models.User;
 using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class GoodStuffUserApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder, ILogger<GoodStuffUserApiClient> logger)
+public class GoodStuffUserApiClient(HttpClient client,
+    IUserSessionService userSession,
+    IConfiguration configuration,
+    IRequestMessageBuilder requestMessageBuilder,
+    ILogger<GoodStuffUserApiClient> logger)
 {
     private readonly string _scope = configuration.GetSection("GoodStuffUserApi")["Scope"]!;
 
@@ -59,7 +64,7 @@ public class GoodStuffUserApiClient(HttpClient client, IConfiguration configurat
             if (response.IsSuccessStatusCode)
             {
                 apiResult.Content = await response.Content.ReadFromJsonAsync<UserModel>();
-                apiResult.Success = true;
+                apiResult.Success = userSession.CreateSession((UserModel)apiResult.Content!);
             }
             else
             {

@@ -1,15 +1,17 @@
 using Website;
-using Website.Components.Base.Pages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Azure.Identity;
+using Website.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddInteractiveWebAssemblyComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddServices(builder.Configuration);
 builder.Logging.AddLoggingConfig();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
 
 var azureAd = builder.Configuration.GetSection("AzureAd");
 builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]!), new DefaultAzureCredential());
@@ -32,10 +34,9 @@ else
 }
 
 app.UseStaticFiles();
-app.MapStaticAssets();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode();
+app.MapStaticAssets();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
 app.Run();

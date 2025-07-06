@@ -1,4 +1,4 @@
-﻿namespace Website.Components.Base.Nav
+﻿namespace Website.Components.Nav
 {
     public partial class NavMain
     {
