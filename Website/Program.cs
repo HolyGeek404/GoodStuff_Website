@@ -1,8 +1,8 @@
 using Website;
-using Website.Components.Base.Pages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Azure.Identity;
+using Website.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +34,9 @@ else
 }
 
 app.UseStaticFiles();
-app.MapStaticAssets();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapStaticAssets();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
 app.Run();

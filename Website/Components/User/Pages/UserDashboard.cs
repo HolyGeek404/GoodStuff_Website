@@ -27,7 +27,7 @@ public partial class UserDashboard
         }
     }
 
-    private async Task SignOut()
+    private void SignOut()
     {
         try
         {

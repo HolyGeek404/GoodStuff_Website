@@ -130,9 +130,6 @@ public class UserSessionService(IMemoryCache cache,
             cache.Remove(sessionId);
         }
 
-        var httpContext = httpContextAccessor.HttpContext;
-        httpContext?.Response.Cookies.Delete("UserSessionId");
-
         logger.LogInformation("User session cleared");
     }
 
