@@ -7,4 +7,5 @@ public interface IUserSessionService
     bool CreateSession(UserModel userModel);
     UserSession? GetUserSession();
     bool Validate();
+    void SignOut();
 }

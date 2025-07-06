@@ -4,9 +4,9 @@
     <div class="col-9 ">
         <div class="col-3 border-right float-left">
             <div class="col-12  m-3 hello">
-                <span class="text-secondary">Witaj</span><br/>
-                <h5> @userSession.UserData.Name</h5> 
-                    @* @if (Context.Session.GetString("Type").Equals("Admin"))
+                <span class="text-secondary">Witaj</span><br />
+                <h5> @userSession.UserData.Name</h5>
+                @* @if (Context.Session.GetString("Type").Equals("Admin"))
                     {
                         <a href="@Url.ActionLink("Admin", "User")">
                             <span class="btn btn-sm btn-outline-danger font-weight-bold">Admin Panel</span>
@@ -16,7 +16,13 @@
                     {
                         <span class="btn btn-sm btn-outline-warning font-weight-bold">Warehouse</span>
                     } *@
-                @* <a href="@Url.ActionLink("LogOut", "UserApi")"><span class="btn btn-sm btn-primary font-weight-bold">Wyloguj</span></a> *@
+                <button @onclick="SignOut" class="btn btn-sm btn-primary font-weight-bold">Sign Out</button>
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @errorMessage
+                    </div>
+                }
             </div>
             <div class="col-12 m-2 categories">
                 <span class="d-block p-2 rounded  order">

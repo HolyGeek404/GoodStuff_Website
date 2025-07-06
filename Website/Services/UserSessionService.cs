@@ -107,29 +107,33 @@ public class UserSessionService(IMemoryCache cache,
         }
     }
 
-    // TODO add LogOut
+    public void SignOut()
+    {
+        try
+        {
+            ClearUserSession();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"Couldn't sign out user because: {ex}");
+            throw;
+        }
+    }
+
 
     #region Private
     private void ClearUserSession()
     {
-        try
+        var sessionId = GetSessionIdFromCookie();
+        if (!string.IsNullOrEmpty(sessionId))
         {
-            var sessionId = GetSessionIdFromCookie();
-            if (!string.IsNullOrEmpty(sessionId))
-            {
-                cache.Remove(sessionId);
-            }
-
-            var httpContext = httpContextAccessor.HttpContext;
-            httpContext?.Response.Cookies.Delete("UserSessionId");
-
-            logger.LogInformation("User session cleared");
+            cache.Remove(sessionId);
         }
-        catch (Exception ex)
-        {
-            logger.LogError($"Couldn't clear user session because: {ex}");
-            throw;
-        }
+
+        var httpContext = httpContextAccessor.HttpContext;
+        httpContext?.Response.Cookies.Delete("UserSessionId");
+
+        logger.LogInformation("User session cleared");
     }
 
     private string? GetSessionIdFromCookie()

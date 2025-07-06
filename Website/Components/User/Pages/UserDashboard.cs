@@ -13,6 +13,7 @@ public partial class UserDashboard
     private IUserSessionService sessionService { get; set; }
 
     private UserSession userSession { get; set; }
+    private string errorMessage { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -26,8 +27,16 @@ public partial class UserDashboard
         }
     }
 
-    // public void LogOut()
-    // {
-    //     sessionService
-    // }
+    private async Task SignOut()
+    {
+        try
+        {
+            sessionService.SignOut();
+            navigation.NavigateTo("/sign-in");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Couldn't sign out because: {ex}";
+        }
+    }
 }
