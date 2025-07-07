@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
+        services.AddTransient<IFilterService, FilterService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
         return services;
