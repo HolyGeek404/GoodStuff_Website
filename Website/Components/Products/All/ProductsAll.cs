@@ -1,6 +1,7 @@
 using Website.Api;
 using Microsoft.AspNetCore.Components;
 using Website.Services.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Website.Components.Products.All;
 
@@ -8,8 +9,9 @@ public partial class ProductsAll : ComponentBase
 {
     [Inject]
     private GoodStuffProductApiClient ApiClient { get; set; }
-
     [Inject]
+    private IMemoryCache cache { get; set; }
+
     private IFilterService filterService { get; set; }
 
     [Parameter]
@@ -20,11 +22,12 @@ public partial class ProductsAll : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await ApiClient.GetAllProductsByType(Category);
-        if (result.Success)
-        {
-            Model = (List<Dictionary<string, string>>)result.Content!;
-            Filters = filterService.CreateFilters(Model, Category);
-        }
+        
+        
+    }
+
+    private async Task Filter()
+    {
+
     }
 }

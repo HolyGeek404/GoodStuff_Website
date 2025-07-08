@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Website.Api;
 using Website.Services;
+using Website.Services.FIlters;
 using Website.Services.Interfaces;
 
 namespace Website;
@@ -11,7 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IFilterService, FilterService>();
+        services.AddTransient<IFilterService, BaseFilterService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
         return services;

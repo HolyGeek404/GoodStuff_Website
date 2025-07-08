@@ -1,8 +1,6 @@
-using Website.Services.Interfaces;
+namespace Website.Services.FIlters;
 
-namespace Website.Services;
-
-public class FilterService : IFilterService
+public class BaseFilterService
 {
     public Dictionary<string, List<string>> CreateFilters(List<Dictionary<string, string>> model, string category)
     {

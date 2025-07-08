@@ -1,4 +1,4 @@
-namespace Website.Services;
+namespace Website.Services.FIlters;
 
 public static class FilterCategories
 {
