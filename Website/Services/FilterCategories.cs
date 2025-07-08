@@ -1,12 +1,10 @@
-using System;
-
 namespace Website.Services;
 
 public static class FilterCategories
 {
     private static readonly List<string> GpuFilters =
     [
-        "Manufacture","AmdGpuProcessorNames","NvidiaGpuProcessorNames","MemorySizes","MemoryTypes","TeamList"
+        "Manufacturer","GpuProcessorName","MemorySize","MemoryType","Team"
     ];
     private static readonly List<string> CpuFilters =
     [
@@ -24,7 +22,7 @@ public static class FilterCategories
             "GPU" => GpuFilters,
             "CPU" => CpuFilters,
             "Cooler" => CoolerFilters,
-            _ => new List<string>()
+            _ => []
         };
     }
 }

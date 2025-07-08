@@ -21,7 +21,7 @@ public class FilterService : IFilterService
                 }
             }
 
-            result[filter] = [.. values];
+            result[filter] = [.. values.OrderBy(v => v)];
         }
 
         return result;
