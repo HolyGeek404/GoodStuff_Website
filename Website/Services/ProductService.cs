@@ -1,9 +1,12 @@
 using Microsoft.Extensions.Caching.Memory;
 using Website.Api;
+using Website.Factories.Interfaces;
 
 namespace Website.Services;
 
-public class ProductService(ProductApiClient productApiClient, IMemoryCache cache)
+public class ProductService(ProductApiClient productApiClient,
+                            IMemoryCache cache,
+                            IFilterServiceFactory filterServiceFactory)
 {
     public async Task<List<Dictionary<string, string>>> GetModel(string category)
     {
@@ -20,7 +23,6 @@ public class ProductService(ProductApiClient productApiClient, IMemoryCache cach
                 };
                 cache.Set("GpuProducts", result.Content, cacheOptions);
                 return (List<Dictionary<string, string>>)result.Content!;
-                // Filters = filterService.CreateFilters(Model, Category);
             }
         }
         else
@@ -31,8 +33,13 @@ public class ProductService(ProductApiClient productApiClient, IMemoryCache cach
         return [];
     }
 
-    public List<Dictionary<string, string>> Filter()
+    public Dictionary<string, List<string>> GetFilters(List<Dictionary<string, string>> model, string category)
     {
+       return filterServiceFactory.Get(category)!.CreateFilters(model,category);
+    }
 
+    public List<Dictionary<string, string>> Filter(string selectedFilters, string category)
+    {
+        return filterServiceFactory.Get(category)!.Filter(selectedFilters);
     }
 }
