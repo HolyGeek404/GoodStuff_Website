@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<GoodStuffProductApiClient>(client =>
+        services.AddHttpClient<ProductApiClient>(client =>
         {
             string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;
@@ -42,7 +42,7 @@ public static class ServiceCollectionExtensions
     }
     public static IServiceCollection AddHttpGoodStuffUserApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<GoodStuffUserApiClient>(client =>
+        services.AddHttpClient<UserApiClient>(client =>
         {
             string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;

@@ -3,7 +3,7 @@ using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class GoodStuffProductApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder, ILogger<GoodStuffProductApiClient> logger)
+public class ProductApiClient(HttpClient client, IConfiguration configuration, IRequestMessageBuilder requestMessageBuilder, ILogger<ProductApiClient> logger)
 {
     private readonly string _scope = configuration.GetSection("GoodStuffProductApi")["Scope"]!;
 

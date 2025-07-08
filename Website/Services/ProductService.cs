@@ -3,7 +3,7 @@ using Website.Api;
 
 namespace Website.Services;
 
-public class ProductService(GoodStuffProductApiClient productApiClient, IMemoryCache cache)
+public class ProductService(ProductApiClient productApiClient, IMemoryCache cache)
 {
     public async Task<List<Dictionary<string, string>>> GetModel(string category)
     {
@@ -18,7 +18,7 @@ public class ProductService(GoodStuffProductApiClient productApiClient, IMemoryC
                     SlidingExpiration = TimeSpan.FromMinutes(1),
                     Priority = CacheItemPriority.Normal
                 };
-                cache.Set("GpuProducts",result.Content, cacheOptions);
+                cache.Set("GpuProducts", result.Content, cacheOptions);
                 return (List<Dictionary<string, string>>)result.Content!;
                 // Filters = filterService.CreateFilters(Model, Category);
             }
@@ -29,5 +29,10 @@ public class ProductService(GoodStuffProductApiClient productApiClient, IMemoryC
         }
 
         return [];
+    }
+
+    public List<Dictionary<string, string>> Filter()
+    {
+
     }
 }

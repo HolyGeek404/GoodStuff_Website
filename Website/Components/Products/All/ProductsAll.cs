@@ -8,7 +8,7 @@ namespace Website.Components.Products.All;
 public partial class ProductsAll : ComponentBase
 {
     [Inject]
-    private GoodStuffProductApiClient ApiClient { get; set; }
+    private ProductApiClient ApiClient { get; set; }
     [Inject]
     private IMemoryCache cache { get; set; }
 

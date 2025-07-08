@@ -5,11 +5,11 @@ using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class GoodStuffUserApiClient(HttpClient client,
+public class UserApiClient(HttpClient client,
     IUserSessionService userSession,
     IConfiguration configuration,
     IRequestMessageBuilder requestMessageBuilder,
-    ILogger<GoodStuffUserApiClient> logger)
+    ILogger<UserApiClient> logger)
 {
     private readonly string _scope = configuration.GetSection("GoodStuffUserApi")["Scope"]!;
 
