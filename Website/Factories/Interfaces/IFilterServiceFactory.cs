@@ -4,5 +4,5 @@ namespace Website.Factories.Interfaces;
 
 public interface IFilterServiceFactory
 {
-    IFilterService? Get(string category);
+    IProductFilterService? Get(string category);
 }

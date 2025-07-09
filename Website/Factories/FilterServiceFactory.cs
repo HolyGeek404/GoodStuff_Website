@@ -6,7 +6,7 @@ namespace Website.Factories;
 
 public class FilterServiceFactory() : IFilterServiceFactory
 {
-    public IFilterService? Get(string category)
+    public IProductFilterService? Get(string category)
     {
         return category.ToLower() switch
         {

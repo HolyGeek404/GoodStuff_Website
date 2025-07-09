@@ -1,16 +1,15 @@
 using Microsoft.Extensions.Caching.Memory;
 using Website.Api;
-using Website.Factories.Interfaces;
+using Website.Services.Interfaces;
 
 namespace Website.Services;
 
 public class ProductService(ProductApiClient productApiClient,
-                            IMemoryCache cache,
-                            IFilterServiceFactory filterServiceFactory)
+                            IMemoryCache cache) : IProductService
 {
     public async Task<List<Dictionary<string, string>>> GetModel(string category)
     {
-        if (!cache.TryGetValue("GpuProducts", out List<Dictionary<string, string>>? products))
+        if (!cache.TryGetValue($"{category}Products", out List<Dictionary<string, string>>? products))
         {
             var result = await productApiClient.GetAllProductsByType(category);
             if (result.Success)
@@ -21,7 +20,7 @@ public class ProductService(ProductApiClient productApiClient,
                     SlidingExpiration = TimeSpan.FromMinutes(1),
                     Priority = CacheItemPriority.Normal
                 };
-                cache.Set("GpuProducts", result.Content, cacheOptions);
+                cache.Set($"{category}GpuProducts", result.Content, cacheOptions);
                 return (List<Dictionary<string, string>>)result.Content!;
             }
         }
@@ -31,15 +30,5 @@ public class ProductService(ProductApiClient productApiClient,
         }
 
         return [];
-    }
-
-    public Dictionary<string, List<string>> GetFilters(List<Dictionary<string, string>> model, string category)
-    {
-       return filterServiceFactory.Get(category)!.CreateFilters(model,category);
-    }
-
-    public List<Dictionary<string, string>> Filter(string selectedFilters, string category)
-    {
-        return filterServiceFactory.Get(category)!.Filter(selectedFilters);
     }
 }

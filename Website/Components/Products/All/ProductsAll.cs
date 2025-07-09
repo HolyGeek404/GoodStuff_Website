@@ -1,22 +1,26 @@
 using Microsoft.AspNetCore.Components;
+using Website.Services.Interfaces;
 
 namespace Website.Components.Products.All;
 
 public partial class ProductsAll : ComponentBase
 {
-    [Parameter]
-    public string Category { get; set; }
+    [Inject] IProductService productService { get; set; }
+    [Inject] IProductFilterService productFilterService { get; set; }
+    [Parameter] public string Category { get; set; }
+
+    private IProductFilterService filterService { get; set; }
     public List<Dictionary<string, string>> Model { get; set; }
     public Dictionary<string, List<string>> Filters { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        
-        
+        Model = await productService.GetModel(Category);
+        Filters = productFilterService.GetFilters(Model, Category);
     }
 
-    private async Task Filter()
+    private async Task Filter(string selectedFilters)
     {
-
+        var filteredProducts = productFilterService.Filter(Model,selectedFilters, Category);
     }
 }

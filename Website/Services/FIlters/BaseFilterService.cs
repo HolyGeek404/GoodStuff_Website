@@ -2,7 +2,7 @@ namespace Website.Services.FIlters;
 
 public class BaseFilterService
 {
-    public Dictionary<string, List<string>> CreateFilters(List<Dictionary<string, string>> model, string category)
+    public Dictionary<string, List<string>> GetFilters(List<Dictionary<string, string>> model, string category)
     {
         var filters = FilterCategories.Get(category);
         var result = new Dictionary<string, List<string>>();
