@@ -20,7 +20,7 @@ public partial class ProductsAll : ComponentBase
         Filters = productFilterService.GetFilters(Model, Category);
     }
 
-    private async Task Filter()
+    private void Filter()
     {
         var filteredProducts = productFilterService.Filter(Model,selectedFilters, Category);
     }

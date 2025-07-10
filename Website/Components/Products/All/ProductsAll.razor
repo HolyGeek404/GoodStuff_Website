@@ -1,64 +1,69 @@
 @page "/Products/{Category}"
 @using Website.Api
 @using Website.Services
- 
-@if(Model==null)
+
+@if (Model == null)
 {
     <div><em>Loading...</em></div>
 }
 else
 {
     <div class="col-2 border-top rounded border-right p-0 m-0 float-left">
-        <EditForm Model="@Model" FormName="FilterForm" OnSubmit="Filter">
+        <form id="filterForm">
             <div class="p-2">
                 <span class="h6 d-block">Cena</span>
-                <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center" /> - <input name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center" />
+                <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center" /> - <input
+                    name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center" />
             </div>
-            @foreach (var filter in Filters)
-            {
-                <fieldset>
-                    <div class="p-2">
-                        <span class="h6 d-block">@filter.Key</span>
-                        @foreach (var value in filter.Value)
-                        {
-                            <label class="d-block m-0">
-                                <input type="checkbox" class="filter-data" name="@filter.Key" value="@value" data-filter-type="@filter.Key" />
-                                <span class="p-1">@value</span>
-                            </label>
-                        }
-                    </div>
-                </fieldset>
+            @{
+                @foreach (var valuesOfParam in Filters)
+                {
+                    <fieldset>
+                        <div class="p-2">
+                            <span class="h6 d-block">@valuesOfParam.Key</span>
+
+                            @foreach (var idk in valuesOfParam.Value)
+                            {
+                                <label class="d-block m-0">
+                                    <input type="checkbox" class="filter-data" name="@valuesOfParam.Key" value="@idk"
+                                        data-filter-type="@valuesOfParam.Key" /><span class="p-1">@idk</span>
+                                </label>
+                            }
+
+                        </div>
+                    </fieldset>
+
+                }
             }
-            <div class="col-12 d-flex align-items-center justify-content-center"></div>
-            <button type="submit" class="d-block btn-primary col-7 rounded Filter">Filter</button>
-            <i class="fa-solid ml-2 fa-circle-xmark clearFilters fa-xl text-danger" style="cursor: pointer"></i>
-        </EditForm>
+        </form>
+            <button class="col-2 p-0 m-0 border rounded" @onclick="Filter">Filter</button>
+
     </div>
     <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center float-left" id="products">
-    @foreach (var product in Model)
-    {
-        <a href="/Product/@product["Category"]/@product["ProductId"]">
-            <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height: 400px; width: 450px;">
-                <div class="col-12 p-0 m-1">
-                    <img src="@product["ProductImg"]" width="230" height="200" alt="ProductImg" />
+        @foreach (var product in Model)
+        {
+            <a href="/Product/@product["Category"]/@product["ProductId"]">
+                <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height: 400px; width: 450px;">
+                    <div class="col-12 p-0 m-1">
+                        <img src="@product["ProductImg"]" width="230" height="200" alt="ProductImg" />
+                    </div>
+                    <div class="col-12 text p-0 m-0">
+                        <h6>@product["Name"]</h6>
+                    </div>
+                    <div class="col-12 text mt-3 p-0 m-0 text-left text-black-50">
+                        @{
+                            var info = ProductInfoExtractorService.ExtractBasicInfo(product, product["Category"].ToString());
+                            foreach (var kv in info)
+                            {
+                                <span class="d-block text"><b>@kv.Key:</b> @kv.Value</span>
+                            }
+                        }
+                    </div>
+                    <div class="col-12 text-center mt-4 m-1">
+                        <h4>@product["Price"] zl</h4>
+                    </div>
                 </div>
-                <div class="col-12 text p-0 m-0">
-                    <h6>@product["Name"]</h6>
-                </div>
-                <div class="col-12 text mt-3 p-0 m-0 text-left text-black-50">
-                    @{
-                    var info = ProductInfoExtractorService.ExtractBasicInfo(product, product["Category"].ToString());
-                    foreach (var kv in info)
-                    {
-                        <span class="d-block text"><b>@kv.Key:</b> @kv.Value</span>
-                    }
-                }
-                </div>
-                <div class="col-12 text-center mt-4 m-1">
-                    <h4>@product["Price"] zl</h4>
-                </div>
-            </div>
-        </a>
-    }
-</div>
+            </a>
+        }
+    </div>
 }
