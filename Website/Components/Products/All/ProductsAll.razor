@@ -9,35 +9,27 @@
 else
 {
     <div class="col-2 border-top rounded border-right p-0 m-0 float-left">
-        <form id="filterForm">
-            <div class="p-2">
-                <span class="h6 d-block">Cena</span>
-                <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center" /> - <input
-                    name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center" />
-            </div>
-            @{
-                @foreach (var valuesOfParam in Filters)
-                {
-                    <fieldset>
-                        <div class="p-2">
-                            <span class="h6 d-block">@valuesOfParam.Key</span>
 
-                            @foreach (var idk in valuesOfParam.Value)
-                            {
-                                <label class="d-block m-0">
-                                    <input type="checkbox" class="filter-data" name="@valuesOfParam.Key" value="@idk"
-                                        data-filter-type="@valuesOfParam.Key" /><span class="p-1">@idk</span>
-                                </label>
-                            }
+        <div class="p-2">
+            <span class="h6 d-block">Cena</span>
+            <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center" /> - 
+            <input name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center" />
+        </div>
+        @foreach (var filter in Filters)
+        {
+            <fieldset>
+                <div class="p-2">
+                    <span class="h6 d-block">@filter.Key</span>
 
-                        </div>
-                    </fieldset>
-
-                }
-            }
-        </form>
-            <button class="col-2 p-0 m-0 border rounded" @onclick="Filter">Filter</button>
-
+                    @foreach (var param in filter.Value)
+                    {
+                        <label class="d-block m-0">
+                            <input type="checkbox" @onchange="(e => UpdateFilters(filter.Key, param,e))"/><span class="p-1">@param</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+        }
     </div>
     <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center float-left" id="products">
         @foreach (var product in Model)
