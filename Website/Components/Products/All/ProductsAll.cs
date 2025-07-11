@@ -10,7 +10,6 @@ public partial class ProductsAll : ComponentBase
     [Parameter] public string Category { get; set; }
     public Dictionary<string, List<string>> selectedFilters = [];
 
-    private IProductFilterService filterService { get; set; }
     public List<Dictionary<string, string>> Model { get; set; }
     public Dictionary<string, List<string>> Filters { get; set; }
 
@@ -34,6 +33,10 @@ public partial class ProductsAll : ComponentBase
             else
             {
                 filterList.Remove(value);
+                if (filterList.Count == 0)
+                {
+                    selectedFilters.Remove(type);
+                }
             }
         }
         else
@@ -44,6 +47,6 @@ public partial class ProductsAll : ComponentBase
 
     private void Filter()
     {
-        // var filteredProducts = productFilterService.Filter(Model,selectedFilters, Category);
+        var filteredProducts = productFilterService.Filter(Model,selectedFilters, Category);
     }
 }

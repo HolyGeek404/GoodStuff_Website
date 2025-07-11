@@ -30,6 +30,10 @@ else
                 </div>
             </fieldset>
         }
+        <div class="col-12 d-flex align-items-center justify-content-center">
+            <button @onclick="Filter" class="d-block btn-primary col-7 rounded">Filtruj</button>
+            <i class="fa-solid ml-2 fa-circle-xmark clearFilters fa-xl text-danger" style="cursor: pointer"></i>
+        </div>
     </div>
     <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center float-left" id="products">
         @foreach (var product in Model)
