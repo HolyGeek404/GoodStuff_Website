@@ -1,6 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using Website.Api;
+using Website.Factories;
+using Website.Factories.Interfaces;
 using Website.Services;
+using Website.Services.FIlters;
 using Website.Services.Interfaces;
 
 namespace Website;
@@ -11,7 +14,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IFilterService, FilterService>();
+        services.AddTransient<IFilterServiceFactory, FilterServiceFactory>();
+        services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<IProductFilterService, ProductFilterService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
         return services;
@@ -19,7 +24,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<GoodStuffProductApiClient>(client =>
+        services.AddHttpClient<ProductApiClient>(client =>
         {
             string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;
@@ -41,7 +46,7 @@ public static class ServiceCollectionExtensions
     }
     public static IServiceCollection AddHttpGoodStuffUserApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<GoodStuffUserApiClient>(client =>
+        services.AddHttpClient<UserApiClient>(client =>
         {
             string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;

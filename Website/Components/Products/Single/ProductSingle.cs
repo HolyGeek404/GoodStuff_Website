@@ -6,7 +6,7 @@ namespace Website.Components.Products.Single;
 public partial class ProductSingle
 {
     [Inject]
-    public GoodStuffProductApiClient ApiClient { get; set; }
+    public ProductApiClient ApiClient { get; set; }
 
     [Parameter]
     public string Id { get; set; }
