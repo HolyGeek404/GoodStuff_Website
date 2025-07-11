@@ -8,14 +8,16 @@ public partial class ProductsAll : ComponentBase
     [Inject] IProductService productService { get; set; }
     [Inject] IProductFilterService productFilterService { get; set; }
     [Parameter] public string Category { get; set; }
-    public Dictionary<string, List<string>> selectedFilters = [];
 
+    public Dictionary<string, List<string>> selectedFilters = [];
     public List<Dictionary<string, string>> Model { get; set; }
+    public List<Dictionary<string, string>> MatchedProducts { get; set; }
     public Dictionary<string, List<string>> Filters { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Model = await productService.GetModel(Category);
+        MatchedProducts = Model;
         Filters = productFilterService.GetFilters(Model, Category);
     }
 
@@ -47,6 +49,12 @@ public partial class ProductsAll : ComponentBase
 
     private void Filter()
     {
-        var filteredProducts = productFilterService.Filter(Model,selectedFilters, Category);
+        MatchedProducts = productFilterService.Filter(Model, selectedFilters, Category);
+    }
+
+    private void ClearFilters()
+    {
+        selectedFilters.Clear();
+        Filters = productFilterService.GetFilters(Model, Category);
     }
 }
