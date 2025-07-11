@@ -13,7 +13,7 @@ public partial class ProductsAll : ComponentBase
     public List<Dictionary<string, string>> Model { get; set; }
     public List<Dictionary<string, string>> MatchedProducts { get; set; }
     public Dictionary<string, List<string>> Filters { get; set; }
-
+    public bool AreFiltersCleared = false;
     protected override async Task OnInitializedAsync()
     {
         Model = await productService.GetModel(Category);
@@ -55,6 +55,9 @@ public partial class ProductsAll : ComponentBase
     private void ClearFilters()
     {
         selectedFilters.Clear();
+        // its stupid, i know but it works
+        AreFiltersCleared = !AreFiltersCleared;
         Filters = productFilterService.GetFilters(Model, Category);
+        MatchedProducts = Model;
     }
 }
