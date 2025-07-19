@@ -398,3 +398,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/.idea/.idea.GoodStuff_Website/.idea/indexLayout.xml
+/.idea/.idea.GoodStuff_Website/.idea/projectSettingsUpdater.xml
+/.idea/.idea.GoodStuff_Website/.idea/material_theme_project_new.xml
+/.fleet/run.json
+/.idea/.idea.GoodStuff_Website/.idea/vcs.xml
+/.idea/.idea.GoodStuff_Website/.idea/workspace.xml

@@ -73,7 +73,7 @@ public class UserSessionService(IMemoryCache cache,
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Error during getting session");
+            logger.LogError(ex, "Error during getting session");
             throw;
         }
     }
