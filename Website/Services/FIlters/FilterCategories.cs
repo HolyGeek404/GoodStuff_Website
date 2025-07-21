@@ -8,7 +8,7 @@ public static class FilterCategories
     ];
     private static readonly List<string> CpuFilters =
     [
-        "SocketList","ArchitectureList","UnlockedMultiplier","TeamList"
+        "Socket","Architecture","UnlockedMultipler","Team"
     ];
     private static readonly List<string> CoolerFilters =
     [
