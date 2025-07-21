@@ -1,9 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Website.Api;
-using Website.Factories;
-using Website.Factories.Interfaces;
 using Website.Services;
-using Website.Services.FIlters;
+using Website.Services.Filters;
 using Website.Services.Interfaces;
 
 namespace Website;
@@ -14,7 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IFilterServiceFactory, FilterServiceFactory>();
+        services.AddTransient<IFilterService, FilterService>();
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
@@ -26,7 +24,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddHttpClient<ProductApiClient>(client =>
         {
-            string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
+            var isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;
             if (!string.IsNullOrEmpty(isDocker) && isDocker.Equals("true", StringComparison.OrdinalIgnoreCase))
             {
