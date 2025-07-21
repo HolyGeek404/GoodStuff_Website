@@ -5,15 +5,15 @@ namespace Website.Components.Products.All;
 
 public partial class ProductsAll : ComponentBase
 {
-    [Inject] IProductService ProductService { get; set; }
-    [Inject] IProductFilterService ProductFilterService { get; set; }
+    [Inject] private IProductService ProductService { get; set; }
+    [Inject] private IProductFilterService ProductFilterService { get; set; }
     [Parameter] public string Category { get; set; }
 
-    public Dictionary<string, List<string>> SelectedFilters = [];
-    public List<Dictionary<string, string>> Model { get; set; }
-    public List<Dictionary<string, string>> MatchedProducts { get; set; }
-    public Dictionary<string, List<string>> Filters { get; set; }
-    public bool AreFiltersCleared = false;
+    private readonly Dictionary<string, List<string>> _selectedFilters = [];
+    private List<Dictionary<string, string>> Model { get; set; }
+    private List<Dictionary<string, string>> MatchedProducts { get; set; }
+    private Dictionary<string, List<string>> Filters { get; set; }
+    private bool _areFiltersClear;
     protected override async Task OnParametersSetAsync()
     {
         Model = await ProductService.GetModel(Category);
@@ -23,9 +23,9 @@ public partial class ProductsAll : ComponentBase
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)
     {
-        if (SelectedFilters.TryGetValue(type, out var filterList))
+        if (_selectedFilters.TryGetValue(type, out var filterList))
         {
-            if ((bool)e.Value!)
+            if (e.Value != null && (bool)e.Value)
             {
                 if (!filterList.Contains(value))
                 {
@@ -37,26 +37,25 @@ public partial class ProductsAll : ComponentBase
                 filterList.Remove(value);
                 if (filterList.Count == 0)
                 {
-                    SelectedFilters.Remove(type);
+                    _selectedFilters.Remove(type);
                 }
             }
         }
         else
         {
-            SelectedFilters.Add(type, [value]);
+            _selectedFilters.Add(type, [value]);
         }
     }
 
     private void Filter()
     {
-        MatchedProducts = ProductFilterService.Filter(Model, SelectedFilters, Category);
+        MatchedProducts = ProductFilterService.Filter(Model, _selectedFilters, Category);
     }
 
     private void ClearFilters()
     {
-        SelectedFilters.Clear();
-        // its stupid, i know but it works
-        AreFiltersCleared = !AreFiltersCleared;
+        _selectedFilters.Clear();
+        _areFiltersClear = !_areFiltersClear;
         Filters = ProductFilterService.GetFilters(Model, Category);
         MatchedProducts = Model;
     }
