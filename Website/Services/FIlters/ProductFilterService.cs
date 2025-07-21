@@ -1,16 +1,15 @@
-using Website.Factories.Interfaces;
 using Website.Services.Interfaces;
 
 namespace Website.Services.Filters;
 
 
-public class ProductFilterService(IFilterServiceFactory filterServiceFactory, ILogger<ProductFilterService> logger) : IProductFilterService
+public class ProductFilterService(IFilterService filterService, ILogger<ProductFilterService> logger) : IProductFilterService
 {
     public Dictionary<string, List<string>> GetFilters(List<Dictionary<string, string>> model, string category)
     {
         try
         {
-            return filterServiceFactory.Get(category)!.GetFilters(model, category);
+            return filterService.GetFilters(model, category);
         }
         catch (Exception ex)
         {
@@ -23,7 +22,7 @@ public class ProductFilterService(IFilterServiceFactory filterServiceFactory, IL
     {
         try
         {
-            return filterServiceFactory.Get(category)!.Filter(model, selectedFilters, category);
+            return filterService.Filter(model, selectedFilters, category);
         }
         catch (Exception ex)
         {

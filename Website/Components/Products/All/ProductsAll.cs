@@ -14,7 +14,7 @@ public partial class ProductsAll : ComponentBase
     public List<Dictionary<string, string>> MatchedProducts { get; set; }
     public Dictionary<string, List<string>> Filters { get; set; }
     public bool AreFiltersCleared = false;
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         Model = await ProductService.GetModel(Category);
         MatchedProducts = Model;
