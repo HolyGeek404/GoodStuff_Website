@@ -1,5 +1,5 @@
 using Website.Factories.Interfaces;
-using Website.Services.FIlters;
+using Website.Services.Filters;
 using Website.Services.Interfaces;
 
 namespace Website.Factories;

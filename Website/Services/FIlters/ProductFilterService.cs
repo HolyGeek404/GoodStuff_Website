@@ -1,7 +1,7 @@
 using Website.Factories.Interfaces;
 using Website.Services.Interfaces;
 
-namespace Website.Services.FIlters;
+namespace Website.Services.Filters;
 
 
 public class ProductFilterService(IFilterServiceFactory filterServiceFactory, ILogger<ProductFilterService> logger) : IProductFilterService

@@ -3,7 +3,7 @@ using Website.Api;
 using Website.Factories;
 using Website.Factories.Interfaces;
 using Website.Services;
-using Website.Services.FIlters;
+using Website.Services.Filters;
 using Website.Services.Interfaces;
 
 namespace Website;

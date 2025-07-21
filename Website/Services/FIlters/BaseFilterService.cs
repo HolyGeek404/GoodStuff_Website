@@ -1,4 +1,4 @@
-namespace Website.Services.FIlters;
+namespace Website.Services.Filters;
 
 public class BaseFilterService
 {

@@ -1,6 +1,6 @@
 using Website.Services.Interfaces;
 
-namespace Website.Services.FIlters;
+namespace Website.Services.Filters;
 
 public class GpuFilterService : BaseFilterService, IProductFilterService
 {
