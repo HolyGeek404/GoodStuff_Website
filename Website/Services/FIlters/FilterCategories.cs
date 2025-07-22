@@ -12,7 +12,7 @@ public static class FilterCategories
     ];
     private static readonly List<string> CoolerFilters =
     [
-        "Manufactures","CoolerTypes"
+        "Fans","RPMControll","Compatibility","HeatPipes"
     ];
     
     public static List<string> Get(string category)
@@ -21,7 +21,7 @@ public static class FilterCategories
         {
             "GPU" => GpuFilters,
             "CPU" => CpuFilters,
-            "Cooler" => CoolerFilters,
+            "COOLER" => CoolerFilters,
             _ => []
         };
     }
