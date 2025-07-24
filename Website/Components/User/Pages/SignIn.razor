@@ -9,20 +9,19 @@
             {
                 <div class="alert alert-danger">@_errorMessage</div>
             }
-            <EditForm Model="@SignInModel" FormName="SignInForm" OnValidSubmit="SignInAsync" method="post" class="p-2 col-6 border-right float-left">
-                <DataAnnotationsValidator/>
+            <form action="/user/signin" method="post" class="p-2 col-6 border-right float-left">
                 <div class="form-group m-2">
                     <label>Email</label>
-                    <InputText @bind-Value="SignInModel.Email" id="Email" class="form-control"/>
-                    <ValidationMessage For="() => SignInModel.Email" class="text-danger"/>
+                    <input name="Email" type="email" class="form-control" required />
                 </div>
+
                 <div class="form-group m-2">
                     <label>Password</label>
-                    <InputText @bind-Value="SignInModel.Password" id="Password" class="form-control"/>
-                    <ValidationMessage For="() => SignInModel.Password" class="text-danger"/>
+                    <input name="Password" type="password" class="form-control" required />
                 </div>
+
                 <button type="submit" class="btn btn-primary m-2 font-weight-bold">Sign In</button>
-            </EditForm>
+            </form>
             <div class="col-6 float-left">
                 <h4>Don't have account yet?</h4>
                 <h5>It's good time to Sign Up!</h5>

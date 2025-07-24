@@ -17,14 +17,14 @@ public partial class UserDashboard
 
     protected override void OnInitialized()
     {
-        // if (SessionService.Validate())
-        // {
-        //     UserSession = SessionService.GetUserSession()!;
-        // }
-        // else
-        // {
-        //     Navigation.NavigateTo("/sign-in");
-        // }
+        if (SessionService.Validate())
+        {
+            UserSession = SessionService.GetUserSession()!;
+        }
+        else
+        {
+            Navigation.NavigateTo("/sign-in");
+        }
     }
 
     private void SignOut()

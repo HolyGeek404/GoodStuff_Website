@@ -13,13 +13,13 @@ public partial class SignIn
     {
         var result = await Client.PostAsJsonAsync($"https://localhost:7001/user/signin", SignInModel);
         
-        if (result.IsSuccessStatusCode)
-        {
-            Navigation.NavigateTo("/user/dashboard");
-        }
-        else
-        {
-            _errorMessage = "Something went wrong";
-        }
+        // if (result.IsSuccessStatusCode)
+        // {
+        //     Navigation.NavigateTo("/user/dashboard");
+        // }
+        // else
+        // {
+        //     _errorMessage = "Something went wrong";
+        // }
     }
 }

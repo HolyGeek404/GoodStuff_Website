@@ -13,7 +13,7 @@ public class UserController(
 {
     [HttpPost]
     [Route("signin")]
-    public async Task<IActionResult> SignIn([FromBody] SignInModel model)
+    public async Task<IActionResult> SignIn([FromForm] SignInModel model)
     {
         logger.LogInformation($"Creating session for user {model.Email}.");
         try
@@ -35,7 +35,7 @@ public class UserController(
             Response.Cookies.Append("UserSessionId", sessionId, cookieOptions);
             logger.LogInformation($"Created session for user {userModel.Email}.");
                 
-            return Ok(new { Success = true });
+            return Redirect("/user/dashboard");
         }
         catch (Exception ex)
         {
