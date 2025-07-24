@@ -6,7 +6,6 @@ using Website.Services.Interfaces;
 namespace Website.Api;
 
 public class UserApiClient(HttpClient client,
-    IUserSessionService userSession,
     IConfiguration configuration,
     IRequestMessageBuilder requestMessageBuilder,
     ILogger<UserApiClient> logger)
@@ -64,7 +63,7 @@ public class UserApiClient(HttpClient client,
             if (response.IsSuccessStatusCode)
             {
                 apiResult.Content = await response.Content.ReadFromJsonAsync<UserModel>();
-                apiResult.Success = userSession.CreateSession((UserModel)apiResult.Content!);
+                apiResult.Success = response.IsSuccessStatusCode;
             }
             else
             {

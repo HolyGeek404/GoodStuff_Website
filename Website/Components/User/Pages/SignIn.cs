@@ -1,23 +1,25 @@
-﻿using Website.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Website.Models.User;
 
 namespace Website.Components.User.Pages;
 
 public partial class SignIn
 {
-    [SupplyParameterFromForm]
-    private SignInModel SignInModel { get; set; } = new SignInModel();
-
+    [Inject] private HttpClient Client { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+    [SupplyParameterFromForm] private SignInModel SignInModel { get; set; } = new();
+    private string? _errorMessage;
     private async Task SignInAsync()
     {
-        var result = await ApiClient.SignInAsync(SignInModel.Email, SignInModel.Password);
-        Console.WriteLine(result.Success
-            ? "User signed in successfully"
-            : $"Error {result.StatusCode} signing in user: {result.ErrorMessage}");
-            
-        if (result.Success)
+        var result = await Client.PostAsJsonAsync($"https://localhost:7001/user/signin", SignInModel);
+        
+        if (result.IsSuccessStatusCode)
         {
-            NavigationManager.NavigateTo("/user/dashboard");
+            Navigation.NavigateTo("/user/dashboard");
+        }
+        else
+        {
+            _errorMessage = "Something went wrong";
         }
     }
 }

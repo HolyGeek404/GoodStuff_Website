@@ -10,14 +10,8 @@ public class UserSessionService(IMemoryCache cache,
                                 ILogger<UserSessionService> logger) : IUserSessionService
 {
     private const int SessionTimeoutMinutes = 30;
-
-    public bool CreateSession(UserModel userModel)
+    public string CreateSession(UserModel userModel)
     {
-        logger.LogInformation($"Creating session for user {userModel.Email}.");
-
-        var httpContext = httpContextAccessor.HttpContext;
-        if (httpContext == null) return false;
-
         try
         {
             var sessionId = GenerateSecureSessionId();
@@ -36,19 +30,7 @@ public class UserSessionService(IMemoryCache cache,
             };
 
             cache.Set(GetCacheKey(sessionId), userSession, cacheOptions);
-
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                MaxAge = TimeSpan.FromMinutes(SessionTimeoutMinutes)
-            };
-
-            httpContext.Response.Cookies.Append("UserSessionId", sessionId, cookieOptions);
-            logger.LogInformation($"Created session for user {userModel.Email}.");
-
-            return true;
+            return sessionId;
         }
         catch (Exception ex)
         {

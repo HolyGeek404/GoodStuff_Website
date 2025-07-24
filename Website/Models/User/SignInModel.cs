@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Website.Models
+namespace Website.Models.User
 {
     public class SignInModel
     {

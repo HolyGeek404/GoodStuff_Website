@@ -7,7 +7,7 @@ using Website.Components;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-
+builder.Services.AddControllers();
 builder.Services.AddServices(builder.Configuration);
 builder.Logging.AddLoggingConfig();
 builder.Services.AddMemoryCache();
@@ -17,7 +17,8 @@ var azureAd = builder.Configuration.GetSection("AzureAd");
 builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]), new DefaultAzureCredential());
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(azureAd);
 builder.Services.AddAuthorization();
-builder.Services.AddHttpGoodStuffProductApiClient(builder.Configuration);
+builder.Services.AddHttpClient();
+builder.Services.AddHttpGoodStuffProductApiClient(builder.Configuration);   
 builder.Services.AddHttpGoodStuffUserApiClient(builder.Configuration);
 
 var app = builder.Build();
@@ -33,9 +34,9 @@ else
     app.UseHttpsRedirection();
 }
 
+app.MapControllers();
 app.UseStaticFiles();
 app.UseAntiforgery();
-
 app.MapStaticAssets();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
