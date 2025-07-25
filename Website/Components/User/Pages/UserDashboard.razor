@@ -5,7 +5,7 @@
         <div class="col-3 border-right float-left">
             <div class="col-12  m-3 hello">
                 <span class="text-secondary">Witaj</span><br />
-                <h5> @userSession.UserData.Name</h5>
+                <h5> @UserSession.UserData.Name</h5>
                 @* @if (Context.Session.GetString("Type").Equals("Admin"))
                     {
                         <a href="@Url.ActionLink("Admin", "User")">
@@ -16,13 +16,15 @@
                     {
                         <span class="btn btn-sm btn-outline-warning font-weight-bold">Warehouse</span>
                     } *@
-                <button @onclick="SignOut" class="btn btn-sm btn-primary font-weight-bold">Sign Out</button>
-                @if (!string.IsNullOrEmpty(errorMessage))
-                {
-                    <div class="alert alert-danger">
-                        @errorMessage
-                    </div>
-                }
+                <form action="/user/signout" method="get">
+                    <button type="submit" class="btn btn-sm btn-primary font-weight-bold">Sign Out</button>
+                </form>
+                @* @if (!string.IsNullOrEmpty(ErrorMessage)) *@
+                @* { *@
+                @*     <div class="alert alert-danger"> *@
+                @*         @ErrorMessage *@
+                @*     </div> *@
+                @* } *@
             </div>
             <div class="col-12 m-2 categories">
                 <span class="d-block p-2 rounded  order">
