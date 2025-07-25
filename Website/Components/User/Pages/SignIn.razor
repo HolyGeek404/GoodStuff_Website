@@ -5,10 +5,6 @@
     <div class="h-100 shadow rounded justify-content-center col-12 align-items-center">
         <h4 class="py-3 border-bottom">Sign In</h4>
         <div class="row">
-            @if (!string.IsNullOrEmpty(_errorMessage))
-            {
-                <div class="alert alert-danger">@_errorMessage</div>
-            }
             <form action="/user/signin" method="post" class="p-2 col-6 border-right float-left">
                 <div class="form-group m-2">
                     <label>Email</label>

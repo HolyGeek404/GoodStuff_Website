@@ -69,18 +69,18 @@ public class UserSessionService(IMemoryCache cache,
             var sessionAge = DateTime.UtcNow - session.LastActivity;
             if (sessionAge.TotalMinutes > SessionTimeoutMinutes)
             {
-                ClearUserSession();
+                var sessionId = GetSessionIdFromCookie();
+                ClearUserCachedData(sessionId);
                 return false;
             }
 
             var currentIp = GetClientIpAddress();
-            if (currentIp != session.IpAddress)
+            if (currentIp == session.IpAddress) return true;
             {
-                ClearUserSession();
+                var sessionId = GetSessionIdFromCookie();
+                ClearUserCachedData(sessionId);
                 return false;
             }
-
-            return true;
         }
         catch (Exception ex)
         {
@@ -88,33 +88,17 @@ public class UserSessionService(IMemoryCache cache,
             throw;
         }
     }
-
-    public void SignOut()
+    
+    public void ClearUserCachedData(string sessionId)
     {
-        try
-        {
-            ClearUserSession();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, $"Couldn't sign out user because: {ex}");
-            throw;
-        }
-    }
-
-
-    #region Private
-    private void ClearUserSession()
-    {
-        var sessionId = GetSessionIdFromCookie();
         if (!string.IsNullOrEmpty(sessionId))
         {
             cache.Remove(sessionId);
         }
-
         logger.LogInformation("User session cleared");
     }
-
+    
+    #region Private
     private string? GetSessionIdFromCookie()
     {
         return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];

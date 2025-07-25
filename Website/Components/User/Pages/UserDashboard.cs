@@ -26,17 +26,4 @@ public partial class UserDashboard
             Navigation.NavigateTo("/sign-in");
         }
     }
-
-    private void SignOut()
-    {
-        try
-        {
-            SessionService.SignOut();
-            Navigation.NavigateTo("/sign-in");
-        }
-        catch (Exception ex)
-        {
-            ErrorMessage = $"Couldn't sign out because: {ex}";
-        }
-    }
 }

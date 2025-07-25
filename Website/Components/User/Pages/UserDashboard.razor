@@ -16,7 +16,9 @@
                     {
                         <span class="btn btn-sm btn-outline-warning font-weight-bold">Warehouse</span>
                     } *@
-                <button @onclick="SignOut" class="btn btn-sm btn-primary font-weight-bold">Sign Out</button>
+                <form action="/user/signout" method="get">
+                    <button type="submit" class="btn btn-sm btn-primary font-weight-bold">Sign Out</button>
+                </form>
                 @* @if (!string.IsNullOrEmpty(ErrorMessage)) *@
                 @* { *@
                 @*     <div class="alert alert-danger"> *@

@@ -43,4 +43,22 @@ public class UserController(
             return BadRequest();
         }
     }
+
+    [HttpGet]
+    [Route("{signout}")]
+    public IActionResult SignOut()
+    {
+        try
+        {
+            var sessionId = Request.Cookies["UserSessionId"];
+            userSessionService.ClearUserCachedData(sessionId);
+            Response.Cookies.Delete("UserSessionId");
+            return Redirect("/");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"Error signing out user {Request.Cookies["UserSessionId"]}");
+            return BadRequest();
+        }
+    }
 }

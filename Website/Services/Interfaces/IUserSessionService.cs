@@ -7,5 +7,5 @@ public interface IUserSessionService
     string CreateSession(UserModel userModel);
     UserSession? GetUserSession();
     bool Validate();
-    void SignOut();
+    void ClearUserCachedData(string sessionId);
 }
