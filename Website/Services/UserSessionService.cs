@@ -93,21 +93,21 @@ public class UserSessionService(IMemoryCache cache,
     {
         if (!string.IsNullOrEmpty(sessionId))
         {
-            cache.Remove(sessionId);
+            cache.Remove(GetCacheKey(sessionId));
         }
         logger.LogInformation("User session cleared");
     }
     
     #region Private
-    private string? GetSessionIdFromCookie()
+    private string GetSessionIdFromCookie()
     {
         return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];
     }
-    private string GetCacheKey(string sessionId)
+    private static string GetCacheKey(string sessionId)
     {
         return $"user_session_{sessionId}";
     }
-    private string GenerateSecureSessionId()
+    private static string GenerateSecureSessionId()
     {
         using var rng = RandomNumberGenerator.Create();
         var bytes = new byte[32];
