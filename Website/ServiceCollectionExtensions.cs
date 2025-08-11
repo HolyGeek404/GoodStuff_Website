@@ -3,6 +3,7 @@ using Autofac;
 using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Services;
+using Website.Services.Factories;
 using Website.Services.Filters;
 using Website.Services.Interfaces;
 using Website.Services.Product;
@@ -16,7 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
         services.AddTransient<IFilterService, FilterService>();
-        services.AddTransient<IProductService, ProductService>();
+        // services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
         services.AddTransient<IProductDeserializerFactory, ProductDeserializerFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
@@ -24,6 +25,8 @@ public static class ServiceCollectionExtensions
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
             containerBuilder.RegisterType<GpuProductDeserializer>().Keyed<IProductDeserializer>("GPU");
+            containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
+            
             containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
         });
         

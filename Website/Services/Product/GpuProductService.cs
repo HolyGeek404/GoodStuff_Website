@@ -4,7 +4,9 @@ using Website.Api;
 
 namespace Website.Services.Product;
 
-public class GpuProductService(BaseProductApiClient baseProductApiClient, IMemoryCache cache)
+public class GpuProductService(
+    BaseProductApiClient baseProductApiClient,
+    IMemoryCache cache)
     : ProductService<Gpu>(baseProductApiClient, cache)
 {
     private readonly BaseProductApiClient _baseProductApiClient = baseProductApiClient;

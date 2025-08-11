@@ -1,0 +1,26 @@
+using GoodStuff_DomainModels.Models.Products;
+using Website.Models;
+using Website.Services.Interfaces;
+
+namespace Website.Api;
+
+public class GpuProductApiClient(
+    HttpClient client,
+    IConfiguration configuration,
+    IRequestMessageBuilder requestMessageBuilder,
+    ILogger<BaseProductApiClient> logger) :  BaseProductApiClient(client, configuration, logger)
+{
+    public override async Task<ApiResult> GetAllProductsByType(string type)
+    {
+        var request = await requestMessageBuilder.BuildGet(Scope, $"Product/GetAllProductsByType?type={type}");
+        var response = await Send<List<Gpu>>(request);
+        return response;
+    }
+
+    public override async Task<ApiResult> GetSingleProductById(string type, string id)
+    {
+        var request = await requestMessageBuilder.BuildGet(Scope, $"Product/GetProductById?type={type}&id={id}");
+        var response = await Send<Gpu>(request);
+        return response;
+    }
+}
