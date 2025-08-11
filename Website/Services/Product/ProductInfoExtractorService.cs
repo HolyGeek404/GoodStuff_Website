@@ -1,4 +1,4 @@
-namespace Website.Services;
+namespace Website.Services.Product;
 
 public static class ProductInfoExtractorService
 {
