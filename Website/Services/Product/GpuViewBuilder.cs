@@ -3,9 +3,9 @@ using GoodStuff_DomainModels.Models.Products;
 
 namespace Website.Services.Product;
 
-public class GpuViewBuilder
+public class GpuViewBuilder : BaseViewBuilder<Gpu>
 {
-    public string BuildPreview(List<Gpu> gpuList)
+    public override string BuildPreview(List<Gpu> gpuList)
     {
         var view = new StringBuilder();
        
@@ -34,7 +34,8 @@ public class GpuViewBuilder
         return view.ToString();
     }
 
-    private void BuildFull(List<Gpu> gpu)
+    public override string BuildFull(List<Gpu> gpu)
     {
+        return "";
     }
 }

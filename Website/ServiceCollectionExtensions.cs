@@ -1,28 +1,38 @@
 ﻿using System.Net.Http.Headers;
+using Autofac;
+using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Services;
 using Website.Services.Filters;
 using Website.Services.Interfaces;
+using Website.Services.Product;
 
 namespace Website;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
         services.AddTransient<IFilterService, FilterService>();
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
+        services.AddTransient<IProductDeserializerFactory, ProductDeserializerFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
+        builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+        {
+            containerBuilder.RegisterType<GpuProductDeserializer>().Keyed<IProductDeserializer>("GPU");
+            containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
+        });
+        
         return services;
     }
 
     public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<ProductApiClient>(client =>
+        services.AddHttpClient<BaseProductApiClient>(client =>
         {
             var isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;
