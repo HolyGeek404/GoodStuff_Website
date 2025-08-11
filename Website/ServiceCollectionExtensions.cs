@@ -17,8 +17,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
         services.AddTransient<IFilterService, FilterService>();
-        // services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
+        services.AddTransient<IGpuProductService, GpuProductService>();
         services.AddTransient<IProductDeserializerFactory, ProductDeserializerFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
@@ -27,7 +28,8 @@ public static class ServiceCollectionExtensions
             containerBuilder.RegisterType<GpuProductDeserializer>().Keyed<IProductDeserializer>("GPU");
             containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
             
-            containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
+            containerBuilder.RegisterType<GpuProductApiClient>().Keyed<BaseProductApiClient>("GPU");
+            containerBuilder.RegisterType<CpuProductApiClient>().Keyed<BaseProductApiClient>("CPU");
         });
         
         return services;
@@ -35,7 +37,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<BaseProductApiClient>(client =>
+            services.AddHttpClient("ProductClient",client =>
         {
             var isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;

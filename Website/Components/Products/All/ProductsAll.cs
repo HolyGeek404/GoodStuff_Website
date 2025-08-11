@@ -6,7 +6,7 @@ namespace Website.Components.Products.All;
 
 public partial class ProductsAll : ComponentBase
 {
-    [Inject] private IProductService ProductService { get; set; }
+    [Inject] private IGpuProductService ProductService { get; set; }
     [Inject] private IProductFilterService ProductFilterService { get; set; }
     [Parameter] public string Category { get; set; }
     private GpuViewBuilder viewBuilder = new GpuViewBuilder();
@@ -17,7 +17,7 @@ public partial class ProductsAll : ComponentBase
     private bool _areFiltersClear;
     protected override async Task OnParametersSetAsync()
     {
-        Model = await ProductService.GetModel(Category);
+        var a = await ProductService.GetModel(Category);
         MatchedProducts = Model;
         Filters = ProductFilterService.GetFilters(Model, Category);
     }

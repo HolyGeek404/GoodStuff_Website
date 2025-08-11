@@ -1,23 +1,29 @@
 using GoodStuff_DomainModels.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
 using Website.Api;
+using Website.Services.Factories;
 
 namespace Website.Services.Product;
 
-public class GpuProductService(
-    BaseProductApiClient baseProductApiClient,
-    IMemoryCache cache)
-    : ProductService<Gpu>(baseProductApiClient, cache)
+public interface IGpuProductService
 {
-    private readonly BaseProductApiClient _baseProductApiClient = baseProductApiClient;
+    Task<List<Gpu>> GetModel(string category);
+}
+
+public class GpuProductService(
+    IProductApiClientFactory  productApiClientFactory,
+    IMemoryCache cache)
+    : ProductService<Gpu>(cache), IGpuProductService
+{
+    private BaseProductApiClient ApiClient { get; set; }
     private readonly IMemoryCache _cache = cache;
 
     public override async Task<List<Gpu>> GetModel(string category)
     {
-        if (_cache.TryGetValue($"{category}Products", out List<Gpu> products)) 
+        if (_cache.TryGetValue("GpuProducts", out List<Gpu> products)) 
             return products ?? [];
-        
-        var result = await _baseProductApiClient.GetAllProductsByType(category);
+        ApiClient = productApiClientFactory.Get(category);
+        var result = await ApiClient.GetAllProductsByType(category);
         if (!result.Success) 
             return [];
         
@@ -27,7 +33,7 @@ public class GpuProductService(
             SlidingExpiration = TimeSpan.FromMinutes(1),
             Priority = CacheItemPriority.Normal
         };
-        _cache.Set($"{category}GpuProducts", result.Content, cacheOptions);
+        _cache.Set("GpuProducts", result.Content, cacheOptions);
         return (List<Gpu>)result.Content!;
     }
 }
