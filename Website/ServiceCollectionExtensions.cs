@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Headers;
 using Autofac;
-using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Services;
 using Website.Services.Factories;
@@ -19,8 +18,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IFilterService, FilterService>();
         services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
-        services.AddTransient<IGpuProductService, GpuProductService>();
         services.AddTransient<IProductDeserializerFactory, ProductDeserializerFactory>();
+        services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -30,6 +29,9 @@ public static class ServiceCollectionExtensions
             
             containerBuilder.RegisterType<GpuProductApiClient>().Keyed<BaseProductApiClient>("GPU");
             containerBuilder.RegisterType<CpuProductApiClient>().Keyed<BaseProductApiClient>("CPU");
+            
+            containerBuilder.RegisterType<CpuProductService>().Keyed<IProductService>("CPU");
+            containerBuilder.RegisterType<GpuProductService>().Keyed<IProductService>("GPU");
         });
         
         return services;

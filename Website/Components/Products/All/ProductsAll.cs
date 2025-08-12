@@ -1,25 +1,23 @@
+using GoodStuff_DomainModels.Models.Products;
 using Microsoft.AspNetCore.Components;
-using Website.Services.Interfaces;
+using Website.Services.Factories;
 using Website.Services.Product;
 
 namespace Website.Components.Products.All;
 
 public partial class ProductsAll : ComponentBase
 {
-    [Inject] private IGpuProductService ProductService { get; set; }
-    [Inject] private IProductFilterService ProductFilterService { get; set; }
+    [Inject] private IProductServiceFactory  ProductServiceFactory { get; set; }
     [Parameter] public string Category { get; set; }
-    private GpuViewBuilder viewBuilder = new GpuViewBuilder();
     private readonly Dictionary<string, List<string>> _selectedFilters = [];
-    private List<Dictionary<string, string>> Model { get; set; }
-    private List<Dictionary<string, string>> MatchedProducts { get; set; }
-    private Dictionary<string, List<string>> Filters { get; set; }
     private bool _areFiltersClear;
+    private MarkupString Preview { get; set; }
     protected override async Task OnParametersSetAsync()
     {
-        var a = await ProductService.GetModel(Category);
-        MatchedProducts = Model;
-        Filters = ProductFilterService.GetFilters(Model, Category);
+      var service =  ProductServiceFactory.Get(Category);
+      var products = await service.GetModel(Category);
+      var viewBuilder = new GpuViewBuilder();
+      Preview = (MarkupString)viewBuilder.BuildPreview((List<Gpu>) products);
     }
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)
@@ -48,16 +46,16 @@ public partial class ProductsAll : ComponentBase
         }
     }
 
-    private void Filter()
-    {
-        MatchedProducts = ProductFilterService.Filter(Model, _selectedFilters, Category);
-    }
-
-    private void ClearFilters()
-    {
-        _selectedFilters.Clear();
-        _areFiltersClear = !_areFiltersClear;
-        Filters = ProductFilterService.GetFilters(Model, Category);
-        MatchedProducts = Model;
-    }
+    // private void Filter()
+    // {
+    //     MatchedProducts = ProductFilterService.Filter(Model, _selectedFilters, Category);
+    // }
+    //
+    // private void ClearFilters()
+    // {
+    //     _selectedFilters.Clear();
+    //     _areFiltersClear = !_areFiltersClear;
+    //     Filters = ProductFilterService.GetFilters(Model, Category);
+    //     MatchedProducts = Model;
+    // }
 }

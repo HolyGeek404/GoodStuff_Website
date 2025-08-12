@@ -4,14 +4,14 @@ using Website.Services.Interfaces;
 
 namespace Website.Services.Product;
 
-public class GpuProductService(
+public class CpuProductService(
     IProductApiClientFactory productApiClientFactory,
     IMemoryCache cache)
     : BaseProductService(cache,productApiClientFactory), IProductService
 {
     public async Task<object> GetModel(string category)
     {
-        var products = await GetProducts<Gpu>(category);
+        var products = await GetProducts<Cpu>(category);
         return products;
     }
 }

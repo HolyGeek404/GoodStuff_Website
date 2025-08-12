@@ -8,7 +8,8 @@ public class GpuProductApiClient(
     IHttpClientFactory clientFactory,
     IConfiguration configuration,
     IRequestMessageBuilder requestMessageBuilder,
-    ILogger<GpuProductApiClient> logger) :  BaseProductApiClient(clientFactory.CreateClient("ProductClient"), configuration, logger), IProductApiClient
+    ILogger<GpuProductApiClient> logger) 
+    : BaseProductApiClient(clientFactory.CreateClient("ProductClient"), configuration, logger), IProductApiClient
 {
     
     public override async Task<ApiResult> GetAllProductsByType(string type)
