@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using Autofac;
-using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Services;
+using Website.Services.Factories;
 using Website.Services.Filters;
 using Website.Services.Interfaces;
 using Website.Services.Product;
@@ -16,15 +16,22 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
         services.AddTransient<IFilterService, FilterService>();
-        services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
         services.AddTransient<IProductDeserializerFactory, ProductDeserializerFactory>();
+        services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
             containerBuilder.RegisterType<GpuProductDeserializer>().Keyed<IProductDeserializer>("GPU");
             containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
+            
+            containerBuilder.RegisterType<GpuProductApiClient>().Keyed<BaseProductApiClient>("GPU");
+            containerBuilder.RegisterType<CpuProductApiClient>().Keyed<BaseProductApiClient>("CPU");
+            
+            containerBuilder.RegisterType<CpuProductService>().Keyed<IProductService>("CPU");
+            containerBuilder.RegisterType<GpuProductService>().Keyed<IProductService>("GPU");
         });
         
         return services;
@@ -32,7 +39,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<BaseProductApiClient>(client =>
+            services.AddHttpClient("ProductClient",client =>
         {
             var isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;

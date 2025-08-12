@@ -1,7 +1,8 @@
 using Autofac.Features.Indexed;
 using Website.Services.Interfaces;
+using Website.Services.Product;
 
-namespace Website.Services.Product;
+namespace Website.Services.Factories;
 
 public class ProductDeserializerFactory(IIndex<string, IProductDeserializer> deserializers) : IProductDeserializerFactory
 {
