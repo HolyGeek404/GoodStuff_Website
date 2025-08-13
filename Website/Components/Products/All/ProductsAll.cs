@@ -1,23 +1,26 @@
 using GoodStuff_DomainModels.Models.Products;
 using Microsoft.AspNetCore.Components;
 using Website.Services.Factories;
+using Website.Services.Interfaces;
 using Website.Services.Product;
 
 namespace Website.Components.Products.All;
 
 public partial class ProductsAll : ComponentBase
 {
-    [Inject] private IProductServiceFactory  ProductServiceFactory { get; set; }
+    [Inject] private IProductServiceFactory ProductServiceFactory { get; set; }
     [Parameter] public string Category { get; set; }
+    private IProductService ProductService { get; set; }
     private readonly Dictionary<string, List<string>> _selectedFilters = [];
     private bool _areFiltersClear;
     private MarkupString Preview { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
-      var service =  ProductServiceFactory.Get(Category);
-      var products = await service.GetModel(Category);
-      var viewBuilder = new GpuViewBuilder();
-      Preview = (MarkupString)viewBuilder.BuildPreview((List<Gpu>) products);
+        ProductService = ProductServiceFactory.Get(Category);
+        var products = await ProductService.GetModel(Category);
+        var viewBuilder = new GpuViewBuilder();
+        Preview = viewBuilder.BuildPreview((IEnumerable<Gpu>)products);
     }
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)
