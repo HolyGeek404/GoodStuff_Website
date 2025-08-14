@@ -1,4 +1,6 @@
-namespace Website.Services.Filters;
+using Website.Services.Interfaces;
+
+namespace Website.Services.FIlters;
 
 public class FilterService : IFilterService
 {

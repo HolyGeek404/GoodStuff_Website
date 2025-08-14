@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Website.Validators;
 
-namespace Website.Models
+namespace Website.Models.User
 {
     public class SignUpModel
     {

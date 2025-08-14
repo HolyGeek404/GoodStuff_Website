@@ -1,7 +1,7 @@
 using Microsoft.Identity.Client;
 using Website.Services.Interfaces;
 
-namespace Website.Services;
+namespace Website.Services.Other;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {

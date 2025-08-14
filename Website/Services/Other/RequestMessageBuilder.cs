@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Website.Services.Interfaces;
 
-namespace Website.Services;
+namespace Website.Services.Other;
 
 public class RequestMessageBuilder(ITokenProvider tokenProvider) : IRequestMessageBuilder
 {

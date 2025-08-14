@@ -1,6 +1,6 @@
 using Website.Services.Interfaces;
 
-namespace Website.Services.Filters;
+namespace Website.Services.FIlters;
 
 
 public class ProductFilterService(IFilterService filterService, ILogger<ProductFilterService> logger) : IProductFilterService

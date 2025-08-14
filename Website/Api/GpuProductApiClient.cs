@@ -11,18 +11,16 @@ public class GpuProductApiClient(
     ILogger<GpuProductApiClient> logger) 
     : BaseProductApiClient(clientFactory.CreateClient("ProductClient"), configuration, logger), IProductApiClient
 {
-    
     public override async Task<ApiResult> GetAllProductsByType(string type)
     {
         var request = await requestMessageBuilder.BuildGet(Scope, $"Product/GetAllProductsByType?type={type}");
-        var response = await Send<List<Gpu>>(request);
+        var response = await Send<List<GpuModel>>(request);
         return response;
     }
-
     public override async Task<ApiResult> GetSingleProductById(string type, string id)
     {
         var request = await requestMessageBuilder.BuildGet(Scope, $"Product/GetProductById?type={type}&id={id}");
-        var response = await Send<Gpu>(request);
+        var response = await Send<GpuModel>(request);
         return response;
     }
 }

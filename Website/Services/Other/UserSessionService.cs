@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Website.Models.User;
 using Website.Services.Interfaces;
 
-namespace Website.Services;
+namespace Website.Services.Other;
 
 public class UserSessionService(IMemoryCache cache,
                                 IHttpContextAccessor httpContextAccessor,

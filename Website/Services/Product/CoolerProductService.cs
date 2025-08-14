@@ -1,19 +1,17 @@
 // using GoodStuff_DomainModels.Models.Products;
-// using Microsoft.AspNetCore.Components;
 // using Microsoft.Extensions.Caching.Memory;
 // using Website.Services.Interfaces;
 //
 // namespace Website.Services.Product;
 //
-// public class CpuProductService(
+// public class CoolerProductService(
 //     IProductApiClientFactory productApiClientFactory,
-//     IViewBuilderFactory viewBuilderFactory,
 //     IMemoryCache cache)
-//     : ProductService<CpuModel>(cache,productApiClientFactory,viewBuilderFactory), IProductService
+//     : ProductService<CoolerModel>(cache,productApiClientFactory), IProductService
 // {
-//     public async Task<MarkupString> BuildPreview(string category)
+//     public async Task<object> GetProductsByType(string category)
 //     {
-//         var products = await BuildProductsPreview(category);
+//         var products = await GetProducts(category);
 //         return products;
 //     }
 //     public async Task<object> GetProductById(string category, string id)
