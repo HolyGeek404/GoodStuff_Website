@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Components;
+
 namespace Website.Services.Interfaces;
 
 public interface IProductService
 {
-    Task<object> GetModel(string category);
+    Task<MarkupString> BuildPreview();
+    // Task<object> GetProductById(string category, string id);
 }

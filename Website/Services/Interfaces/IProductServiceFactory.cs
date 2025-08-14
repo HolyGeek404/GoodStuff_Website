@@ -1,6 +1,4 @@
-using Website.Services.Interfaces;
-
-namespace Website.Services.Factories;
+namespace Website.Services.Interfaces;
 
 public interface IProductServiceFactory
 {

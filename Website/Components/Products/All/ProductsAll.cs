@@ -1,8 +1,5 @@
-using GoodStuff_DomainModels.Models.Products;
 using Microsoft.AspNetCore.Components;
-using Website.Services.Factories;
 using Website.Services.Interfaces;
-using Website.Services.Product;
 
 namespace Website.Components.Products.All;
 
@@ -18,9 +15,7 @@ public partial class ProductsAll : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         ProductService = ProductServiceFactory.Get(Category);
-        var products = await ProductService.GetModel(Category);
-        var viewBuilder = new GpuViewBuilder();
-        Preview = viewBuilder.BuildPreview((IEnumerable<Gpu>)products);
+        Preview = await ProductService.BuildPreview();
     }
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)

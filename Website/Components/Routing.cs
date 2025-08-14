@@ -1,4 +1,4 @@
-﻿namespace Website.Components.Base;
+﻿namespace Website.Components;
 
 public static class Routing
 {

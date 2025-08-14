@@ -5,22 +5,22 @@ using Website.Services.Interfaces;
 namespace Website.Api;
 
 public class CpuProductApiClient(
-    HttpClient client,
+    IHttpClientFactory clientFactory,
     IConfiguration configuration,
     IRequestMessageBuilder requestMessageBuilder,
-    ILogger<BaseProductApiClient> logger) :  BaseProductApiClient(client, configuration, logger), IProductApiClient
+    ILogger<CpuProductApiClient> logger) :  BaseProductApiClient(clientFactory.CreateClient("ProductClient"), configuration, logger), IProductApiClient
 {
     public override async Task<ApiResult> GetAllProductsByType(string type)
     {
         var request = await requestMessageBuilder.BuildGet(Scope, $"Product/GetAllProductsByType?type={type}");
-        var response = await Send<List<Cpu>>(request);
+        var response = await Send<List<CpuModel>>(request);
         return response;
     }
 
     public override async Task<ApiResult> GetSingleProductById(string type, string id)
     {
         var request = await requestMessageBuilder.BuildGet(Scope, $"Product/GetProductById?type={type}&id={id}");
-        var response = await Send<Cpu>(request);
+        var response = await Send<CpuModel>(request);
         return response;
     }
 }

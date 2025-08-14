@@ -1,5 +1,5 @@
-﻿using Website.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Website.Models.User;
 
 namespace Website.Components.User.Pages;
 

@@ -1,11 +1,13 @@
 ﻿using System.Net.Http.Headers;
 using Autofac;
+using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
-using Website.Services;
 using Website.Services.Factories;
-using Website.Services.Filters;
+using Website.Services.FIlters;
 using Website.Services.Interfaces;
+using Website.Services.Other;
 using Website.Services.Product;
+using Website.Services.Product.ViewBuilder;
 
 namespace Website;
 
@@ -18,20 +20,30 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IFilterService, FilterService>();
         services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
-        services.AddTransient<IProductDeserializerFactory, ProductDeserializerFactory>();
         services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
+        services.AddTransient<IViewBuilderFactory, ViewBuilderFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
-            containerBuilder.RegisterType<GpuProductDeserializer>().Keyed<IProductDeserializer>("GPU");
-            containerBuilder.RegisterType<CpuProductDeserializer>().Keyed<IProductDeserializer>("CPU");
-            
             containerBuilder.RegisterType<GpuProductApiClient>().Keyed<BaseProductApiClient>("GPU");
             containerBuilder.RegisterType<CpuProductApiClient>().Keyed<BaseProductApiClient>("CPU");
             
-            containerBuilder.RegisterType<CpuProductService>().Keyed<IProductService>("CPU");
-            containerBuilder.RegisterType<GpuProductService>().Keyed<IProductService>("GPU");
+            containerBuilder.RegisterType<ProductService<CpuModel>>()
+                .WithParameter("category","CPU")
+                .Keyed<IProductService>("CPU");
+            
+            containerBuilder.RegisterType<ProductService<GpuModel>>()
+                .WithParameter("category","GPU")
+                .Keyed<IProductService>("GPU");
+            
+            containerBuilder.RegisterType<ProductService<CoolerModel>>()
+                .WithParameter("category","COOLER")
+                .Keyed<IProductService>("COOLER");
+            
+            containerBuilder.RegisterType<CpuBaseViewBuilder>().Keyed<IViewBuilder>("CPU");
+            containerBuilder.RegisterType<GpuBaseViewBuilder>().Keyed<IViewBuilder>("GPU");
+            containerBuilder.RegisterType<CoolerBaseViewBuilder>().Keyed<IViewBuilder>("COOLER");
         });
         
         return services;
