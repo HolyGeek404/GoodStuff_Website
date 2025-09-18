@@ -2,7 +2,7 @@ using Autofac.Features.Indexed;
 using Website.Services.Interfaces;
 using Website.Services.Product.ViewBuilder;
 
-namespace Website.Services.Factories;
+namespace Website.Factories;
 
 public class ViewBuilderFactory(IIndex<string, IViewBuilder> viewBuilders) : IViewBuilderFactory
 {

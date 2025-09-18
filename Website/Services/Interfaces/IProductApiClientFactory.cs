@@ -4,5 +4,5 @@ namespace Website.Services.Interfaces;
 
 public interface IProductApiClientFactory
 {
-    BaseProductApiClient Get(string type);
+    IProductApiClient Get(string type);
 }

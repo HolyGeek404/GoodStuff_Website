@@ -2,7 +2,7 @@
 using Autofac;
 using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
-using Website.Services.Factories;
+using Website.Factories;
 using Website.Services.FIlters;
 using Website.Services.Interfaces;
 using Website.Services.Other;
@@ -26,8 +26,9 @@ public static class ServiceCollectionExtensions
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
-            containerBuilder.RegisterType<GpuProductApiClient>().Keyed<BaseProductApiClient>("GPU");
-            containerBuilder.RegisterType<CpuProductApiClient>().Keyed<BaseProductApiClient>("CPU");
+            containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>("GPU");
+            containerBuilder.RegisterType<ProductApiClient<CpuModel>>().Keyed<IProductApiClient>("CPU");
+            containerBuilder.RegisterType<ProductApiClient<CoolerModel>>().Keyed<IProductApiClient>("COOLER");
             
             containerBuilder.RegisterType<ProductService<CpuModel>>()
                 .WithParameter("category","CPU")

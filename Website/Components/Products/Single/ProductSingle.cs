@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Components;
-using Website.Api;
 
 namespace Website.Components.Products.Single;
 
 public partial class ProductSingle
 {
     [Inject]
-    public BaseProductApiClient ApiClient { get; set; }
+    // public ProductApiClient<> ApiClient { get; set; }
 
     [Parameter]
     public string Id { get; set; }
@@ -18,10 +17,10 @@ public partial class ProductSingle
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await ApiClient.GetSingleProductById(Category, Id);
-        if (result.Success && result.Content is List<Dictionary<string, string>> list && list.Count > 0)
-        {
-            Model = list[0];
-        }
+        // var result = await ApiClient.GetSingleProductById(Category, Id);
+        // if (result.Success && result.Content is List<Dictionary<string, string>> list && list.Count > 0)
+        // {
+        //     Model = list[0];
+        // }
     }
 }

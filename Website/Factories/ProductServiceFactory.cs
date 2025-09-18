@@ -1,7 +1,7 @@
 using Autofac.Features.Indexed;
 using Website.Services.Interfaces;
 
-namespace Website.Services.Factories;
+namespace Website.Factories;
 
 public class ProductServiceFactory(IIndex<string, IProductService> productServiceCollection) : IProductServiceFactory
 {
