@@ -1,5 +1,4 @@
 using Autofac.Features.Indexed;
-using Website.Api;
 using Website.Services.Interfaces;
 
 namespace Website.Factories;

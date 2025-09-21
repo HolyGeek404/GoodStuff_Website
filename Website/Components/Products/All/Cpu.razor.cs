@@ -5,6 +5,5 @@ namespace Website.Components.Products.All;
 
 public partial class Cpu : ComponentBase
 {
-    [Parameter]
-    public CpuModel Model { get; set; }
+    [Parameter] public CpuModel Model { get; set; }
 }

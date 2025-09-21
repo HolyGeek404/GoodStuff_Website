@@ -10,10 +10,12 @@ public partial class BaseProduct : ComponentBase
     [Parameter] public string Category { get; set; }
     [Inject] private IComponentResolver ComponentResolver { get; set; }
     public Type ProductType { get; set; }
+
     protected override void OnParametersSet()
     {
         ProductType = ComponentResolver.Resolve(Category);
     }
+
     private static Dictionary<string, object> GetParameters(BaseProductModel product)
     {
         return new Dictionary<string, object>

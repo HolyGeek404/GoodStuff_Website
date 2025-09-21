@@ -6,11 +6,9 @@ namespace Website.Components.User.Pages;
 
 public partial class UserDashboard
 {
-    [Inject]
-    private NavigationManager Navigation { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
 
-    [Inject]
-    private IUserSessionService SessionService { get; set; }
+    [Inject] private IUserSessionService SessionService { get; set; }
 
     private UserSession UserSession { get; set; }
     private string? ErrorMessage { get; set; } = string.Empty;
@@ -18,12 +16,8 @@ public partial class UserDashboard
     protected override void OnInitialized()
     {
         if (SessionService.Validate())
-        {
             UserSession = SessionService.GetUserSession()!;
-        }
         else
-        {
             Navigation.NavigateTo("/sign-in");
-        }
     }
 }

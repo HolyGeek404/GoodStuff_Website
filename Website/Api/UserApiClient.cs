@@ -5,7 +5,8 @@ using Website.Services.Interfaces;
 
 namespace Website.Api;
 
-public class UserApiClient(HttpClient client,
+public class UserApiClient(
+    HttpClient client,
     IConfiguration configuration,
     IRequestMessageBuilder requestMessageBuilder,
     ILogger<UserApiClient> logger)
@@ -33,8 +34,8 @@ public class UserApiClient(HttpClient client,
             {
                 apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
                 apiResult.Success = false;
-                logger.LogError($"Couldn't SignUp. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
-
+                logger.LogError(
+                    $"Couldn't SignUp. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
             }
         }
         catch (Exception e)
@@ -54,7 +55,8 @@ public class UserApiClient(HttpClient client,
 
         try
         {
-            var request = await requestMessageBuilder.BuildGet(_scope, $"user/signin?email={email}&password={password}");
+            var request =
+                await requestMessageBuilder.BuildGet(_scope, $"user/signin?email={email}&password={password}");
             var response = await client.SendAsync(request);
 
             apiResult.Success = response.IsSuccessStatusCode;
@@ -69,7 +71,8 @@ public class UserApiClient(HttpClient client,
             {
                 apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
                 apiResult.Success = false;
-                logger.LogError($"Couldn't SignIn. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
+                logger.LogError(
+                    $"Couldn't SignIn. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
             }
         }
         catch (Exception e)

@@ -2,7 +2,7 @@ using GoodStuff_DomainModels.Models.Products;
 
 namespace Website.Services.Interfaces;
 
-public interface IProductService 
+public interface IProductService
 {
     Task<IEnumerable<BaseProductModel>> GetProducts();
 }

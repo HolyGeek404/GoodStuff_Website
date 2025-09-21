@@ -5,6 +5,5 @@ namespace Website.Components.Products.All;
 
 public partial class Gpu : ComponentBase
 {
-    [Parameter]
-    public GpuModel Model { get; set; }
+    [Parameter] public GpuModel Model { get; set; }
 }

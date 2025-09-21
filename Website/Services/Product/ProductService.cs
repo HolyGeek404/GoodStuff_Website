@@ -27,10 +27,7 @@ public class ProductService<TProduct>(
     {
         var productsInCache = CheckProductsInCache();
         var searchedProduct = productsInCache.FirstOrDefault(x => x.ProductId == id);
-        if (searchedProduct != null)
-        {
-            return searchedProduct;
-        }
+        if (searchedProduct != null) return searchedProduct;
 
         searchedProduct = await GetProductById(id);
         return searchedProduct;

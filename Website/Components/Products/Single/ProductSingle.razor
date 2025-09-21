@@ -24,13 +24,13 @@ else
                         <h3>@Model["Name"]</h3>
                     </div>
                     <div class="col-12 text-center">
-                        <img class="col-9" src="@Model["ProductImg"]" alt="productImg" />
+                        <img class="col-9" src="@Model["ProductImg"]" alt="productImg"/>
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12  mx-auto float-left text-center">
                     <div class="col-12 d-flex justify-content-center">
-                        <input type="hidden" id="ProductId" value="@Model["ProductId"]" />
-                        <input type="hidden" id="Type" value="@Model["Category"]" />
+                        <input type="hidden" id="ProductId" value="@Model["ProductId"]"/>
+                        <input type="hidden" id="Type" value="@Model["Category"]"/>
                         @* @if (!string.IsNullOrEmpty(Context.Session.GetString("UserId")))
                     {
                         <span id="AddToCart" class="rounded border-0 m-1 bg-success add-to-cart p-1 float-right text-white">Dodaj do koszyka</span>
@@ -42,24 +42,24 @@ else
                     } *@
                         <span class="m-1 float-right">
                             <b>Ilość sztuk: </b>
-                            <input id="Quantity" type="number" name="Quantity" value="1" min="1" class="col-3" />
+                            <input id="Quantity" type="number" name="Quantity" value="1" min="1" class="col-3"/>
                         </span>
                     </div>
                     <table class="table-striped table-sm table-bordered table col-12">
                         <tbody>
-                            @{
-                                Model.Remove("Category");
-                                Model.Remove("ProductId");
-                                Model.Remove("ProductImg");
-                                Model.Remove("Price");
-                                foreach (var kv in Model)
-                                {
-                                    <tr>
-                                        <td>@kv.Key</td>
-                                        <td>@kv.Value</td>
-                                    </tr>
-                                }
+                        @{
+                            Model.Remove("Category");
+                            Model.Remove("ProductId");
+                            Model.Remove("ProductImg");
+                            Model.Remove("Price");
+                            foreach (var kv in Model)
+                            {
+                                <tr>
+                                    <td>@kv.Key</td>
+                                    <td>@kv.Value</td>
+                                </tr>
                             }
+                        }
                         </tbody>
                     </table>
                 </div>

@@ -2,8 +2,8 @@ using Website.Services.Interfaces;
 
 namespace Website.Services.FIlters;
 
-
-public class ProductFilterService(IFilterService filterService, ILogger<ProductFilterService> logger) : IProductFilterService
+public class ProductFilterService(IFilterService filterService, ILogger<ProductFilterService> logger)
+    : IProductFilterService
 {
     public Dictionary<string, List<string>> GetFilters(List<Dictionary<string, string>> model, string category)
     {
@@ -18,7 +18,8 @@ public class ProductFilterService(IFilterService filterService, ILogger<ProductF
         }
     }
 
-    public List<Dictionary<string, string>> Filter(List<Dictionary<string, string>> model, Dictionary<string, List<string>> selectedFilters, string category)
+    public List<Dictionary<string, string>> Filter(List<Dictionary<string, string>> model,
+        Dictionary<string, List<string>> selectedFilters, string category)
     {
         try
         {

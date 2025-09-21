@@ -6,12 +6,10 @@ public partial class ProductSingle
 {
     [Inject]
     // public ProductApiClient<> ApiClient { get; set; }
-
     [Parameter]
     public string Id { get; set; }
 
-    [Parameter]
-    public string Category { get; set; }
+    [Parameter] public string Category { get; set; }
 
     private Dictionary<string, string>? Model { get; set; }
 

@@ -2726,7 +2726,7 @@
             var _ret = _loop(i, len);
 
             if (_ret === "continue")
-                }
+        }
 
         return createdDocument.body.innerHTML;
     }
