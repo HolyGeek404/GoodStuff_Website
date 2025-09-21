@@ -1,3 +1,4 @@
+using GoodStuff_DomainModels.Models.Products;
 using Microsoft.AspNetCore.Components;
 using Website.Services.Interfaces;
 
@@ -10,12 +11,12 @@ public partial class ProductsAll : ComponentBase
     private IProductService ProductService { get; set; }
     private readonly Dictionary<string, List<string>> _selectedFilters = [];
     private bool _areFiltersClear;
-    private MarkupString Preview { get; set; }
+    private IEnumerable<BaseProductModel> _productList { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         ProductService = ProductServiceFactory.Get(Category);
-        Preview = await ProductService.BuildPreview();
+        _productList = await ProductService.GetProducts();
     }
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)

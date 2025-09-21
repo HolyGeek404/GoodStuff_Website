@@ -1,5 +1,4 @@
 using GoodStuff_DomainModels.Models.Products;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Caching.Memory;
 using Website.Services.Interfaces;
 
@@ -8,22 +7,13 @@ namespace Website.Services.Product;
 public class ProductService<TProduct>(
     string category,
     IMemoryCache cache,
-    IProductApiClientFactory productApiClientFactory,
-    IViewBuilderFactory viewBuilderFactory)
+    IProductApiClientFactory productApiClientFactory)
     : IProductService
     where TProduct : BaseProductModel
 {
-    public async Task<MarkupString> BuildPreview()
-    {
-        var products = await GetProducts();
-        var viewBuilder = viewBuilderFactory.Get(category);
-        var preview = viewBuilder.BuildPreview(products);
-        return preview;
-    }
-
     #region Product
 
-    private async Task<IEnumerable<TProduct>> GetProducts()
+    public async Task<IEnumerable<BaseProductModel>> GetProducts()
     {
         var products = CheckProductsInCache();
         if (products != null) return products;

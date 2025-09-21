@@ -1,11 +1,11 @@
 @page "/Products/{Category}"
 
-@* @if (Products == null) *@
-@* { *@
-@*     <div><em>Loading...</em></div> *@
-@* } *@
-@* else *@
-@* { *@
+@if (_productList == null)
+{
+    <div><em>Loading...</em></div>
+}
+else
+{
     <div @key="_areFiltersClear" class="col-2 border-top rounded border-right p-0 m-0 float-left">
 
         <div class="p-2">
@@ -34,6 +34,6 @@
         @* </div> *@
     </div>
     <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center float-left" id="products">
-        @Preview
+        <BaseProduct ProductModelList="_productList"></BaseProduct>
     </div>
-@* } *@
+}
