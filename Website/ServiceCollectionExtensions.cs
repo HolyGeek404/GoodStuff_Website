@@ -23,7 +23,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
         services.AddTransient<IViewBuilderFactory, ViewBuilderFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
-
+        services.AddSingleton<IComponentResolver, ComponentResolver>();
+        
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
             containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>("GPU");
