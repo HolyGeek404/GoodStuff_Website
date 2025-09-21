@@ -5,11 +5,13 @@ using Website.Services.Interfaces;
 
 namespace Website.Services.Other;
 
-public class UserSessionService(IMemoryCache cache,
-                                IHttpContextAccessor httpContextAccessor,
-                                ILogger<UserSessionService> logger) : IUserSessionService
+public class UserSessionService(
+    IMemoryCache cache,
+    IHttpContextAccessor httpContextAccessor,
+    ILogger<UserSessionService> logger) : IUserSessionService
 {
     private const int SessionTimeoutMinutes = 30;
+
     public string CreateSession(UserModel userModel)
     {
         try
@@ -38,6 +40,7 @@ public class UserSessionService(IMemoryCache cache,
             throw;
         }
     }
+
     public UserSession? GetUserSession()
     {
         try
@@ -46,11 +49,8 @@ public class UserSessionService(IMemoryCache cache,
             if (sessionId == null) return null;
 
             var cachedKey = GetCacheKey(sessionId);
-            if (cache.TryGetValue(cachedKey, out UserSession? userSession))
-            {
-                userSession!.LastActivity = DateTime.UtcNow;
-            }
-            
+            if (cache.TryGetValue(cachedKey, out UserSession? userSession)) userSession!.LastActivity = DateTime.UtcNow;
+
             return userSession;
         }
         catch (Exception ex)
@@ -59,6 +59,7 @@ public class UserSessionService(IMemoryCache cache,
             throw;
         }
     }
+
     public bool Validate()
     {
         try
@@ -88,25 +89,25 @@ public class UserSessionService(IMemoryCache cache,
             throw;
         }
     }
-    
+
     public void ClearUserCachedData(string sessionId)
     {
-        if (!string.IsNullOrEmpty(sessionId))
-        {
-            cache.Remove(GetCacheKey(sessionId));
-        }
+        if (!string.IsNullOrEmpty(sessionId)) cache.Remove(GetCacheKey(sessionId));
         logger.LogInformation("User session cleared");
     }
-    
+
     #region Private
+
     private string GetSessionIdFromCookie()
     {
         return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];
     }
+
     private static string GetCacheKey(string sessionId)
     {
         return $"user_session_{sessionId}";
     }
+
     private static string GenerateSecureSessionId()
     {
         using var rng = RandomNumberGenerator.Create();
@@ -114,17 +115,16 @@ public class UserSessionService(IMemoryCache cache,
         rng.GetBytes(bytes);
         return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_").Replace("=", "");
     }
+
     private string GetClientIpAddress()
     {
         if (httpContextAccessor == null) return "unknown";
 
         var forwardedFor = httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
-        if (!string.IsNullOrEmpty(forwardedFor))
-        {
-            return forwardedFor.Split(',')[0].Trim();
-        }
+        if (!string.IsNullOrEmpty(forwardedFor)) return forwardedFor.Split(',')[0].Trim();
 
         return httpContextAccessor.HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
     }
+
     #endregion
 }

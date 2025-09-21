@@ -1,8 +1,8 @@
 using Autofac.Extensions.DependencyInjection;
-using Website;
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
-using Azure.Identity;
+using Website;
 using Website.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,7 @@ builder.Configuration.AddAzureKeyVault(new Uri(azureAd["KvUrl"]), new DefaultAzu
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(azureAd);
 builder.Services.AddAuthorization();
 builder.Services.AddHttpClient();
-builder.Services.AddHttpGoodStuffProductApiClient(builder.Configuration);   
+builder.Services.AddHttpGoodStuffProductApiClient(builder.Configuration);
 builder.Services.AddHttpGoodStuffUserApiClient(builder.Configuration);
 
 var app = builder.Build();
@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error", true);
     app.UseHsts();
     app.UseHttpsRedirection();
 }

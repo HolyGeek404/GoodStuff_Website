@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Components;
+using GoodStuff_DomainModels.Models.Products;
 
 namespace Website.Services.Interfaces;
 
 public interface IProductService
 {
-    Task<MarkupString> BuildPreview();
-    // Task<object> GetProductById(string category, string id);
+    Task<IEnumerable<BaseProductModel>> GetProducts();
 }

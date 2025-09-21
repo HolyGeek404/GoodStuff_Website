@@ -14,19 +14,17 @@ public class FilterService : IFilterService
             var values = new HashSet<string>();
 
             foreach (var product in model)
-            {
                 if (product.TryGetValue(filter, out var value) && !string.IsNullOrEmpty(value))
-                {
                     values.Add(value);
-                }
-            }
 
             result[filter] = [.. values.OrderBy(v => v)];
         }
 
         return result;
     }
-    public List<Dictionary<string, string>> Filter(List<Dictionary<string, string>> model, Dictionary<string, List<string>> selectedFilters, string category)
+
+    public List<Dictionary<string, string>> Filter(List<Dictionary<string, string>> model,
+        Dictionary<string, List<string>> selectedFilters, string category)
     {
         if (selectedFilters.Count == 0)
             return model;
@@ -34,12 +32,8 @@ public class FilterService : IFilterService
         var availableFilters = FilterCategories.Get(category);
 
         foreach (var filter in availableFilters)
-        {
             if (selectedFilters.TryGetValue(filter, out var filterValues))
-            {
                 model = model.Where(x => filterValues.Contains(x[filter])).ToList();
-            }
-        }
 
         return model;
     }

@@ -1,3 +1,4 @@
+using GoodStuff_DomainModels.Models.Products;
 using Microsoft.AspNetCore.Components;
 using Website.Services.Interfaces;
 
@@ -5,17 +6,17 @@ namespace Website.Components.Products.All;
 
 public partial class ProductsAll : ComponentBase
 {
+    private readonly Dictionary<string, List<string>> _selectedFilters = [];
+    private bool _areFiltersClear;
     [Inject] private IProductServiceFactory ProductServiceFactory { get; set; }
     [Parameter] public string Category { get; set; }
     private IProductService ProductService { get; set; }
-    private readonly Dictionary<string, List<string>> _selectedFilters = [];
-    private bool _areFiltersClear;
-    private MarkupString Preview { get; set; }
+    private IEnumerable<BaseProductModel> _productList { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         ProductService = ProductServiceFactory.Get(Category);
-        Preview = await ProductService.BuildPreview();
+        _productList = await ProductService.GetProducts();
     }
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)
@@ -24,18 +25,12 @@ public partial class ProductsAll : ComponentBase
         {
             if (e.Value != null && (bool)e.Value)
             {
-                if (!filterList.Contains(value))
-                {
-                    filterList.Add(value);
-                }
+                if (!filterList.Contains(value)) filterList.Add(value);
             }
             else
             {
                 filterList.Remove(value);
-                if (filterList.Count == 0)
-                {
-                    _selectedFilters.Remove(type);
-                }
+                if (filterList.Count == 0) _selectedFilters.Remove(type);
             }
         }
         else

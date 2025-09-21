@@ -7,7 +7,6 @@ using Website.Services.FIlters;
 using Website.Services.Interfaces;
 using Website.Services.Other;
 using Website.Services.Product;
-using Website.Services.Product.ViewBuilder;
 
 namespace Website;
 
@@ -21,49 +20,42 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
         services.AddTransient<IProductFilterService, ProductFilterService>();
         services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
-        services.AddTransient<IViewBuilderFactory, ViewBuilderFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
+        services.AddSingleton<IComponentResolver, ComponentResolver>();
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
             containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>("GPU");
             containerBuilder.RegisterType<ProductApiClient<CpuModel>>().Keyed<IProductApiClient>("CPU");
             containerBuilder.RegisterType<ProductApiClient<CoolerModel>>().Keyed<IProductApiClient>("COOLER");
-            
+
             containerBuilder.RegisterType<ProductService<CpuModel>>()
-                .WithParameter("category","CPU")
+                .WithParameter("category", "CPU")
                 .Keyed<IProductService>("CPU");
-            
+
             containerBuilder.RegisterType<ProductService<GpuModel>>()
-                .WithParameter("category","GPU")
+                .WithParameter("category", "GPU")
                 .Keyed<IProductService>("GPU");
-            
+
             containerBuilder.RegisterType<ProductService<CoolerModel>>()
-                .WithParameter("category","COOLER")
+                .WithParameter("category", "COOLER")
                 .Keyed<IProductService>("COOLER");
-            
-            containerBuilder.RegisterType<CpuBaseViewBuilder>().Keyed<IViewBuilder>("CPU");
-            containerBuilder.RegisterType<GpuBaseViewBuilder>().Keyed<IViewBuilder>("GPU");
-            containerBuilder.RegisterType<CoolerBaseViewBuilder>().Keyed<IViewBuilder>("COOLER");
         });
-        
+
         return services;
     }
 
-    public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services,
+        IConfiguration configuration)
     {
-            services.AddHttpClient("ProductClient",client =>
+        services.AddHttpClient("ProductClient", client =>
         {
             var isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;
             if (!string.IsNullOrEmpty(isDocker) && isDocker.Equals("true", StringComparison.OrdinalIgnoreCase))
-            {
                 apiUrl = configuration.GetSection("DockerUrls")["ProductApiBaseUrl"]!;
-            }
             else
-            {
                 apiUrl = configuration.GetSection("GoodStuffProductApi")["Url"]!;
-            }
 
             client.BaseAddress = new Uri(apiUrl);
             client.DefaultRequestHeaders.Accept.Clear();
@@ -72,20 +64,18 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    public static IServiceCollection AddHttpGoodStuffUserApiClient(this IServiceCollection services, IConfiguration configuration)
+
+    public static IServiceCollection AddHttpGoodStuffUserApiClient(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddHttpClient<UserApiClient>(client =>
         {
-            string isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
+            var isDocker = Environment.GetEnvironmentVariable("IsDocker")!;
             string apiUrl;
             if (!string.IsNullOrEmpty(isDocker) && isDocker.Equals("true", StringComparison.OrdinalIgnoreCase))
-            {
                 apiUrl = configuration.GetSection("DockerUrls")["UserApiBaseUrl"]!;
-            }
             else
-            {
                 apiUrl = configuration.GetSection("GoodStuffUserApi")["Url"]!;
-            }
 
             client.BaseAddress = new Uri(apiUrl);
             client.DefaultRequestHeaders.Accept.Clear();
@@ -94,6 +84,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
     public static ILoggingBuilder AddLoggingConfig(this ILoggingBuilder loggingBuilder)
     {
         loggingBuilder.ClearProviders();

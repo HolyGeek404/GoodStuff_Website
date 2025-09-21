@@ -9,7 +9,7 @@ namespace Website.Components.User.Controllers;
 public class UserController(
     UserApiClient userApiClient,
     IUserSessionService userSessionService,
-    ILogger<UserController> logger): ControllerBase
+    ILogger<UserController> logger) : ControllerBase
 {
     [HttpPost]
     [Route("signin")]
@@ -21,10 +21,10 @@ public class UserController(
             var result = await userApiClient.SignInAsync(model.Email, model.Password);
             var userModel = (UserModel)result.Content;
             if (!result.Success) return BadRequest();
-        
-            var sessionId= userSessionService.CreateSession(userModel);
+
+            var sessionId = userSessionService.CreateSession(userModel);
             if (string.IsNullOrEmpty(sessionId)) return BadRequest();
-        
+
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
@@ -34,12 +34,12 @@ public class UserController(
             };
             Response.Cookies.Append("UserSessionId", sessionId, cookieOptions);
             logger.LogInformation($"Created session for user {userModel.Email}.");
-                
+
             return Redirect("/user/dashboard");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex,$"Error signing in user {model.Email}. Error: {ex.Message}");
+            logger.LogError(ex, $"Error signing in user {model.Email}. Error: {ex.Message}");
             return BadRequest();
         }
     }
