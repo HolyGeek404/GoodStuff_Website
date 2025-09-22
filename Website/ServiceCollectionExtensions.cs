@@ -7,7 +7,6 @@ using Website.Services.Filters;
 using Website.Services.Interfaces;
 using Website.Services.Other;
 using Website.Services.Product;
-using IProductFilterService = Website.Services.Interfaces.IProductFilterService;
 
 namespace Website;
 
@@ -17,11 +16,11 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
-        services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
-        services.AddTransient<IProductFilterServiceFactory, ProductFilterServiceFactory>();
-        services.AddScoped<IUserSessionService, UserSessionService>();
-        services.AddSingleton<IComponentResolver, ComponentResolver>();
+        services.AddScoped<IProductApiClientFactory, ProductApiClientFactory>();
+        services.AddScoped<IProductServiceFactory, ProductServiceFactory>();
+        services.AddSingleton<IProductFilterServiceFactory, ProductFilterServiceFactory>();
+        services.AddTransient<IUserSessionService, UserSessionService>();
+        services.AddTransient<IComponentResolver, ComponentResolver>();
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {

@@ -13,7 +13,7 @@ public class CpuFilterService : IProductFilterService
         var sockets = selectedFilters.GetValueOrDefault("Socket")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var architectures = selectedFilters.GetValueOrDefault("Architecture")
             ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var unlockedMultipler = selectedFilters.GetValueOrDefault("UnlockedMultipler")
+        var unlockedMultiplayer = selectedFilters.GetValueOrDefault("UnlockedMultiplayer")
             ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var teams = selectedFilters.GetValueOrDefault("Team")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         decimal? minPrice = null;
@@ -30,8 +30,8 @@ public class CpuFilterService : IProductFilterService
         var filtered = cpus.Where(cpu =>
             (sockets == null || sockets.Count == 0 || sockets.Contains(cpu.Socket)) &&
             (architectures == null || architectures.Count == 0 || architectures.Contains(cpu.Architecture)) &&
-            (unlockedMultipler == null || unlockedMultipler.Count == 0 ||
-             unlockedMultipler.Contains(cpu.UnlockedMultiplayer.ToString())) &&
+            (unlockedMultiplayer == null || unlockedMultiplayer.Count == 0 ||
+             unlockedMultiplayer.Contains(cpu.UnlockedMultiplayer.ToString())) &&
             (teams == null || teams.Count == 0 || teams.Contains(cpu.Team)) &&
             (!minPrice.HasValue || int.Parse(cpu.Price) >= minPrice.Value) &&
             (!maxPrice.HasValue || int.Parse(cpu.Price) <= maxPrice.Value));
@@ -56,7 +56,7 @@ public class CpuFilterService : IProductFilterService
         {
             ["Socket"] = ExtractFilters(g => g.Socket),
             ["Architecture"] = ExtractFilters(g => g.Architecture),
-            ["UnlockedMultipler"] = ExtractFilters(g => g.UnlockedMultiplayer.ToString()),
+            ["UnlockedMultiplayer"] = ExtractFilters(g => g.UnlockedMultiplayer.ToString()),
             ["Team"] = ExtractFilters(g => g.Team)
         };
     }
