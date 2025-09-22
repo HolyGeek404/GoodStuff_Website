@@ -1,9 +1,9 @@
+using GoodStuff_DomainModels.Models.Products;
+
 namespace Website.Services.Interfaces;
 
 public interface IProductFilterService
 {
-    Dictionary<string, List<string>> GetFilters(List<Dictionary<string, string>> model, string category);
-
-    public List<Dictionary<string, string>> Filter(List<Dictionary<string, string>> model,
-        Dictionary<string, List<string>> selectedFilters, string category);
+    List<BaseProductModel> Filter(IEnumerable<BaseProductModel> productList, Dictionary<string, List<string>> selectedFilters);
+    Dictionary<string, List<string>> GetFilters(IEnumerable<BaseProductModel> products);
 }

@@ -3,10 +3,11 @@ using Autofac;
 using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Factories;
-using Website.Services.FIlters;
+using Website.Services.Filters;
 using Website.Services.Interfaces;
 using Website.Services.Other;
 using Website.Services.Product;
+using IProductFilterService = Website.Services.Interfaces.IProductFilterService;
 
 namespace Website;
 
@@ -16,10 +17,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IFilterService, FilterService>();
         services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
-        services.AddTransient<IProductFilterService, ProductFilterService>();
         services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
+        services.AddTransient<IProductFilterServiceFactory, ProductFilterServiceFactory>();
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddSingleton<IComponentResolver, ComponentResolver>();
 
@@ -40,6 +40,10 @@ public static class ServiceCollectionExtensions
             containerBuilder.RegisterType<ProductService<CoolerModel>>()
                 .WithParameter("category", "COOLER")
                 .Keyed<IProductService>("COOLER");
+            
+            containerBuilder.RegisterType<CpuFilterService>().Keyed<IProductFilterService>("CPU");
+            containerBuilder.RegisterType<GpuFilterService>().Keyed<IProductFilterService>("GPU");
+            containerBuilder.RegisterType<CoolerFilterService>().Keyed<IProductFilterService>("COOLER");
         });
 
         return services;

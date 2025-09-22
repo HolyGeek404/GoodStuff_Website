@@ -11,12 +11,15 @@ public partial class ProductsAll : ComponentBase
     [Inject] private IProductServiceFactory ProductServiceFactory { get; set; }
     [Parameter] public string Category { get; set; }
     private IProductService ProductService { get; set; }
-    private IEnumerable<BaseProductModel> _productList { get; set; }
+    private IEnumerable<BaseProductModel> ProductList { get; set; }
+    private Dictionary<string, List<string>> AvailableFilters { get; set; }
+    
 
     protected override async Task OnParametersSetAsync()
     {
         ProductService = ProductServiceFactory.Get(Category);
-        _productList = await ProductService.GetProducts();
+        ProductList = await ProductService.GetProducts();
+        AvailableFilters = ProductService.GetFilters(ProductList);
     }
 
     private void UpdateFilters(string type, string value, ChangeEventArgs e)
@@ -39,16 +42,15 @@ public partial class ProductsAll : ComponentBase
         }
     }
 
-    // private void Filter()
-    // {
-    //     MatchedProducts = ProductFilterService.Filter(Model, _selectedFilters, Category);
-    // }
-    //
-    // private void ClearFilters()
-    // {
-    //     _selectedFilters.Clear();
-    //     _areFiltersClear = !_areFiltersClear;
-    //     Filters = ProductFilterService.GetFilters(Model, Category);
-    //     MatchedProducts = Model;
-    // }
+    private void Filter()
+    {
+        ProductList = ProductService.FilterProducts(ProductList, _selectedFilters);
+    }
+    
+    private async Task ClearFilters()
+    {
+        _selectedFilters.Clear();
+        _areFiltersClear = !_areFiltersClear;
+        ProductList = await ProductService.GetProducts();
+    }
 }
