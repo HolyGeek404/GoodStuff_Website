@@ -1,6 +1,6 @@
 @page "/Products/{Category}"
 
-@if (_productList == null)
+@if (ProductList == null)
 {
     <div><em>Loading...</em></div>
 }
@@ -13,27 +13,29 @@ else
             <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center"/> -
             <input name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center"/>
         </div>
-        @* @foreach (var filter in Filters) *@
-        @* { *@
-        @*     <fieldset> *@
-        @*         <div class="p-2"> *@
-        @*             <span class="h6 d-block">@filter.Key</span> *@
-        @* *@
-        @*             @foreach (var param in filter.Value) *@
-        @*             { *@
-        @*                 <label class="d-block m-0"> *@
-        @*                     <input type="checkbox" @onchange="(e => UpdateFilters(filter.Key, param,e))"/><span class="p-1">@param</span> *@
-        @*                 </label> *@
-        @*             } *@
-        @*         </div> *@
-        @*     </fieldset> *@
-        @* } *@
-        @* <div class="col-12 d-flex align-items-center justify-content-center"> *@
-        @*     <button @onclick="Filter" class="d-block btn-primary col-7 rounded">Filtruj</button> *@
-        @*     <i @onclick="ClearFilters" class="fa-solid ml-2 fa-circle-xmark clearFilters fa-xl text-danger" style="cursor: pointer"></i> *@
-        @* </div> *@
+        @foreach (var filter in AvailableFilters)
+        {
+            <fieldset>
+                <div class="p-2">
+                    <span class="h6 d-block">@filter.Key</span>
+
+                    @foreach (var param in filter.Value)
+                    {
+                        <label class="d-block m-0">
+                            <input type="checkbox" @onchange="e => UpdateFilters(filter.Key, param,e)"/><span
+                                class="p-1">@param</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+        }
+        <div class="col-12 d-flex align-items-center justify-content-center">
+            <button @onclick="Filter" class="d-block btn-primary col-7 rounded">Filtruj</button>
+            <i @onclick="ClearFilters" class="fa-solid ml-2 fa-circle-xmark clearFilters fa-xl text-danger"
+               style="cursor: pointer"></i>
+        </div>
     </div>
     <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center float-left" id="products">
-        <BaseProduct Category="@Category" ProductModelList="@_productList"></BaseProduct>
+        <BaseProduct Category="@Category" ProductModelList="@ProductList"></BaseProduct>
     </div>
 }

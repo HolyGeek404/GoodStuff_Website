@@ -1,5 +1,6 @@
 using GoodStuff_DomainModels.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
+using Website.Factories;
 using Website.Services.Interfaces;
 
 namespace Website.Services.Product;
@@ -7,7 +8,8 @@ namespace Website.Services.Product;
 public class ProductService<TProduct>(
     string category,
     IMemoryCache cache,
-    IProductApiClientFactory productApiClientFactory)
+    IProductApiClientFactory productApiClientFactory,
+    IProductFilterServiceFactory productFilterServiceFactory)
     : IProductService
     where TProduct : BaseProductModel
 {
@@ -31,6 +33,25 @@ public class ProductService<TProduct>(
 
         searchedProduct = await GetProductById(id);
         return searchedProduct;
+    }
+
+    #endregion
+
+    #region Filter
+
+    public IEnumerable<BaseProductModel> FilterProducts(IEnumerable<BaseProductModel> products,
+        Dictionary<string, List<string>> selectedFilters)
+    {
+        var filterService = productFilterServiceFactory.Get(category);
+        var filteredProducts = filterService.Filter(products, selectedFilters);
+        return filteredProducts;
+    }
+
+    public Dictionary<string, List<string>> GetFilters(IEnumerable<BaseProductModel> productList)
+    {
+        var filterService = productFilterServiceFactory.Get(category);
+        var filters = filterService.GetFilters(productList);
+        return filters;
     }
 
     #endregion

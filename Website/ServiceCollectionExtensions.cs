@@ -3,7 +3,7 @@ using Autofac;
 using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Factories;
-using Website.Services.FIlters;
+using Website.Services.Filters;
 using Website.Services.Interfaces;
 using Website.Services.Other;
 using Website.Services.Product;
@@ -16,12 +16,11 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IFilterService, FilterService>();
-        services.AddTransient<IProductApiClientFactory, ProductApiClientFactory>();
-        services.AddTransient<IProductFilterService, ProductFilterService>();
-        services.AddTransient<IProductServiceFactory, ProductServiceFactory>();
-        services.AddScoped<IUserSessionService, UserSessionService>();
-        services.AddSingleton<IComponentResolver, ComponentResolver>();
+        services.AddScoped<IProductApiClientFactory, ProductApiClientFactory>();
+        services.AddScoped<IProductServiceFactory, ProductServiceFactory>();
+        services.AddSingleton<IProductFilterServiceFactory, ProductFilterServiceFactory>();
+        services.AddTransient<IUserSessionService, UserSessionService>();
+        services.AddTransient<IComponentResolver, ComponentResolver>();
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
@@ -40,6 +39,10 @@ public static class ServiceCollectionExtensions
             containerBuilder.RegisterType<ProductService<CoolerModel>>()
                 .WithParameter("category", "COOLER")
                 .Keyed<IProductService>("COOLER");
+
+            containerBuilder.RegisterType<CpuFilterService>().Keyed<IProductFilterService>("CPU");
+            containerBuilder.RegisterType<GpuFilterService>().Keyed<IProductFilterService>("GPU");
+            containerBuilder.RegisterType<CoolerFilterService>().Keyed<IProductFilterService>("COOLER");
         });
 
         return services;

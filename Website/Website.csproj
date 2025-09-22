@@ -24,4 +24,10 @@
         <Content Include="Properties\launchSettings.json"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="GoodStuff_DomainModels">
+        <HintPath>..\..\..\.nuget\packages\goodstuff_domainmodels\1.0.4\lib\net9.0\GoodStuff_DomainModels.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
