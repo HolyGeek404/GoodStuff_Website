@@ -36,9 +36,11 @@ public class ProductService<TProduct>(
     }
 
     #endregion
-    
+
     #region Filter
-    public IEnumerable<BaseProductModel> FilterProducts(IEnumerable<BaseProductModel> products, Dictionary<string, List<string>> selectedFilters)
+
+    public IEnumerable<BaseProductModel> FilterProducts(IEnumerable<BaseProductModel> products,
+        Dictionary<string, List<string>> selectedFilters)
     {
         var filterService = productFilterServiceFactory.Get(category);
         var filteredProducts = filterService.Filter(products, selectedFilters);
@@ -48,9 +50,10 @@ public class ProductService<TProduct>(
     public Dictionary<string, List<string>> GetFilters(IEnumerable<BaseProductModel> productList)
     {
         var filterService = productFilterServiceFactory.Get(category);
-        var filters =  filterService.GetFilters(productList);
+        var filters = filterService.GetFilters(productList);
         return filters;
     }
+
     #endregion
 
     #region Cache

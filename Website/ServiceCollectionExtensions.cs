@@ -40,7 +40,7 @@ public static class ServiceCollectionExtensions
             containerBuilder.RegisterType<ProductService<CoolerModel>>()
                 .WithParameter("category", "COOLER")
                 .Keyed<IProductService>("COOLER");
-            
+
             containerBuilder.RegisterType<CpuFilterService>().Keyed<IProductFilterService>("CPU");
             containerBuilder.RegisterType<GpuFilterService>().Keyed<IProductFilterService>("GPU");
             containerBuilder.RegisterType<CoolerFilterService>().Keyed<IProductFilterService>("COOLER");

@@ -13,7 +13,7 @@ public partial class ProductsAll : ComponentBase
     private IProductService ProductService { get; set; }
     private IEnumerable<BaseProductModel> ProductList { get; set; }
     private Dictionary<string, List<string>> AvailableFilters { get; set; }
-    
+
 
     protected override async Task OnParametersSetAsync()
     {
@@ -46,7 +46,7 @@ public partial class ProductsAll : ComponentBase
     {
         ProductList = ProductService.FilterProducts(ProductList, _selectedFilters);
     }
-    
+
     private async Task ClearFilters()
     {
         _selectedFilters.Clear();
