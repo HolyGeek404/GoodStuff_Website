@@ -1,11 +1,13 @@
 using Autofac.Features.Indexed;
+using GoodStuff_DomainModels.Models.Enums;
 using Website.Services.Interfaces;
 
 namespace Website.Factories;
 
-public class ProductServiceFactory(IIndex<string, IProductService> productServiceCollection) : IProductServiceFactory
+public class ProductServiceFactory(IIndex<ProductCategories, IProductService> productServiceCollection)
+    : IProductServiceFactory
 {
-    public IProductService Get(string type)
+    public IProductService Get(ProductCategories type)
     {
         return productServiceCollection.TryGetValue(type, out var service) ? service : null;
     }

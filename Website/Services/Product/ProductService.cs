@@ -1,12 +1,12 @@
+using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
-using Website.Factories;
 using Website.Services.Interfaces;
 
 namespace Website.Services.Product;
 
 public class ProductService<TProduct>(
-    string category,
+    ProductCategories category,
     IMemoryCache cache,
     IProductApiClientFactory productApiClientFactory,
     IProductFilterServiceFactory productFilterServiceFactory)
@@ -80,14 +80,14 @@ public class ProductService<TProduct>(
 
     private async Task<IEnumerable<TProduct>> GetAllProductsByType()
     {
-        var client = productApiClientFactory.Get(category.ToUpper());
+        var client = productApiClientFactory.Get(category);
         var response = await client.GetAllProductsByType(category);
         return (IEnumerable<TProduct>)response.Content;
     }
 
     private async Task<TProduct> GetProductById(string id)
     {
-        var client = productApiClientFactory.Get(category.ToUpper());
+        var client = productApiClientFactory.Get(category);
         var response = await client.GetSingleProductById(category, id);
         return (TProduct)response.Content;
     }

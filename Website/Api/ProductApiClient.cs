@@ -1,4 +1,5 @@
-﻿using Website.Models;
+﻿using GoodStuff_DomainModels.Models.Enums;
+using Website.Models;
 using Website.Services.Interfaces;
 
 namespace Website.Api;
@@ -11,14 +12,14 @@ public class ProductApiClient<TProduct>(
 {
     private readonly string _scope = configuration.GetSection("GoodStuffProductApi")["Scope"]!;
 
-    public async Task<ApiResult> GetAllProductsByType(string type)
+    public async Task<ApiResult> GetAllProductsByType(ProductCategories type)
     {
         var request = await requestMessageBuilder.BuildGet(_scope, $"Product/GetAllProductsByType?type={type}");
         var response = await Send<IEnumerable<TProduct>>(request);
         return response;
     }
 
-    public async Task<ApiResult> GetSingleProductById(string type, string id)
+    public async Task<ApiResult> GetSingleProductById(ProductCategories type, string id)
     {
         var request = await requestMessageBuilder.BuildGet(_scope, $"Product/GetProductById?type={type}&id={id}");
         var response = await Send<TProduct>(request);

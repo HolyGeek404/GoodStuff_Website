@@ -1,4 +1,5 @@
-﻿<div class="container col-12 border justify-content-center bg-light ">
+﻿@using GoodStuff_DomainModels.Models.Enums
+<div class="container col-12 border justify-content-center bg-light ">
 	<div class="col-10 d-flex justify-content-center">
 		<div class="dropdown p-3 kategoria float-left">
 			<span class="dropdown-toggle text-black-50 font-weight-bold p-2  small" data-toggle="dropdown" href="#"
@@ -10,7 +11,7 @@
 				<a href="/">
 					<span class="dropdown-item">AMD</span>
 				</a>
-				<a href="/Products/CPU">
+				<a href="/Products/@ProductCategories.Cpu">
 					<span class="dropdown-item">Wszystkie</span>
 				</a>
 			</div>
@@ -25,7 +26,7 @@
 				<a href="/">
 					<span class="dropdown-item">Powietrzne</span>
 				</a>
-				<a href="/Products/COOLER">
+				<a href="/Products/@ProductCategories.Cooler">
 					<span class="dropdown-item">Wszystkie</span>
 				</a>
 			</div>
@@ -62,7 +63,7 @@
 				<a href="/">
 					<span class="dropdown-item">Nvidia</span>
 				</a>
-				<a href="/Products/GPU">
+				<a href="/Products/@ProductCategories.Gpu">
 					<span class="dropdown-item">Wszystkie</span>
 				</a>
 

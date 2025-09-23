@@ -1,13 +1,14 @@
+using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
 using Microsoft.AspNetCore.Components;
-using Website.Services.Other;
+using Website.Services.Interfaces;
 
 namespace Website.Components.Products.All;
 
 public partial class BaseProduct : ComponentBase
 {
     [Parameter] public IEnumerable<BaseProductModel> ProductModelList { get; set; }
-    [Parameter] public string Category { get; set; }
+    [Parameter] public ProductCategories Category { get; set; }
     [Inject] private IComponentResolver ComponentResolver { get; set; }
     public Type ProductType { get; set; }
 
