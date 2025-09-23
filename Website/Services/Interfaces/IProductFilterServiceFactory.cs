@@ -1,8 +1,8 @@
-using Website.Services.Interfaces;
+using GoodStuff_DomainModels.Models.Enums;
 
-namespace Website.Factories;
+namespace Website.Services.Interfaces;
 
 public interface IProductFilterServiceFactory
 {
-    IProductFilterService Get(string type);
+    IProductFilterService Get(ProductCategories type);
 }

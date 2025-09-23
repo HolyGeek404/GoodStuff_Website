@@ -1,6 +1,8 @@
+using GoodStuff_DomainModels.Models.Enums;
+
 namespace Website.Services.Interfaces;
 
 public interface IProductApiClientFactory
 {
-    IProductApiClient Get(string type);
+    IProductApiClient Get(ProductCategories type);
 }

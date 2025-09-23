@@ -1,6 +1,8 @@
-namespace Website.Services.Other;
+using GoodStuff_DomainModels.Models.Enums;
+
+namespace Website.Services.Interfaces;
 
 public interface IComponentResolver
 {
-    Type Resolve(string key);
+    Type Resolve(ProductCategories key);
 }

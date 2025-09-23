@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using Autofac;
+using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
 using Website.Api;
 using Website.Factories;
@@ -12,7 +13,7 @@ namespace Website;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
+    public static void AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
@@ -24,31 +25,29 @@ public static class ServiceCollectionExtensions
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
-            containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>("GPU");
-            containerBuilder.RegisterType<ProductApiClient<CpuModel>>().Keyed<IProductApiClient>("CPU");
-            containerBuilder.RegisterType<ProductApiClient<CoolerModel>>().Keyed<IProductApiClient>("COOLER");
+            containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>(ProductCategories.Gpu);
+            containerBuilder.RegisterType<ProductApiClient<CpuModel>>().Keyed<IProductApiClient>(ProductCategories.Cpu);
+            containerBuilder.RegisterType<ProductApiClient<CoolerModel>>().Keyed<IProductApiClient>(ProductCategories.Cooler);
 
             containerBuilder.RegisterType<ProductService<CpuModel>>()
-                .WithParameter("category", "CPU")
-                .Keyed<IProductService>("CPU");
+                .WithParameter("category", ProductCategories.Cpu)
+                .Keyed<IProductService>(ProductCategories.Cpu);
 
             containerBuilder.RegisterType<ProductService<GpuModel>>()
-                .WithParameter("category", "GPU")
-                .Keyed<IProductService>("GPU");
+                .WithParameter("category", ProductCategories.Gpu)
+                .Keyed<IProductService>(ProductCategories.Gpu);
 
             containerBuilder.RegisterType<ProductService<CoolerModel>>()
-                .WithParameter("category", "COOLER")
-                .Keyed<IProductService>("COOLER");
+                .WithParameter("category", ProductCategories.Cooler)
+                .Keyed<IProductService>(ProductCategories.Cooler);
 
-            containerBuilder.RegisterType<CpuFilterService>().Keyed<IProductFilterService>("CPU");
-            containerBuilder.RegisterType<GpuFilterService>().Keyed<IProductFilterService>("GPU");
-            containerBuilder.RegisterType<CoolerFilterService>().Keyed<IProductFilterService>("COOLER");
+            containerBuilder.RegisterType<CpuFilterService>().Keyed<IProductFilterService>(ProductCategories.Cpu);
+            containerBuilder.RegisterType<GpuFilterService>().Keyed<IProductFilterService>(ProductCategories.Gpu);
+            containerBuilder.RegisterType<CoolerFilterService>().Keyed<IProductFilterService>(ProductCategories.Cooler);
         });
-
-        return services;
     }
 
-    public static IServiceCollection AddHttpGoodStuffProductApiClient(this IServiceCollection services,
+    public static void AddHttpGoodStuffProductApiClient(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddHttpClient("ProductClient", client =>
@@ -64,11 +63,9 @@ public static class ServiceCollectionExtensions
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
-
-        return services;
     }
 
-    public static IServiceCollection AddHttpGoodStuffUserApiClient(this IServiceCollection services,
+    public static void AddHttpGoodStuffUserApiClient(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddHttpClient<UserApiClient>(client =>
@@ -84,16 +81,12 @@ public static class ServiceCollectionExtensions
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
-
-        return services;
     }
 
-    public static ILoggingBuilder AddLoggingConfig(this ILoggingBuilder loggingBuilder)
+    public static void AddLoggingConfig(this ILoggingBuilder loggingBuilder)
     {
         loggingBuilder.ClearProviders();
         loggingBuilder.AddConsole();
         loggingBuilder.AddDebug();
-
-        return loggingBuilder;
     }
 }
