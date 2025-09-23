@@ -4,7 +4,8 @@ using Website.Services.Interfaces;
 
 namespace Website.Factories;
 
-public class ProductApiClientFactory(IIndex<ProductCategories, IProductApiClient> productApiClients) : IProductApiClientFactory
+public class ProductApiClientFactory(IIndex<ProductCategories, IProductApiClient> productApiClients)
+    : IProductApiClientFactory
 {
     public IProductApiClient Get(ProductCategories type)
     {

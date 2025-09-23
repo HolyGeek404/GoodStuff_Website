@@ -12,7 +12,7 @@
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0"/>
         <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.4.0"/>
         <PackageReference Include="Azure.Identity" Version="1.16.0"/>
-        <PackageReference Include="GoodStuff_DomainModels" Version="1.0.5" />
+        <PackageReference Include="GoodStuff_DomainModels" Version="1.0.5"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.9"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.9"/>
         <PackageReference Include="Microsoft.Identity.Web" Version="3.14.1"/>
@@ -25,9 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="GoodStuff_DomainModels">
-        <HintPath>..\..\..\.nuget\packages\goodstuff_domainmodels\1.0.4\lib\net9.0\GoodStuff_DomainModels.dll</HintPath>
-      </Reference>
+        <Reference Include="GoodStuff_DomainModels">
+            <HintPath>..\..\..\.nuget\packages\goodstuff_domainmodels\1.0.4\lib\net9.0\GoodStuff_DomainModels.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

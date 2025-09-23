@@ -4,7 +4,8 @@ using Website.Services.Interfaces;
 
 namespace Website.Factories;
 
-public class ProductServiceFactory(IIndex<ProductCategories, IProductService> productServiceCollection) : IProductServiceFactory
+public class ProductServiceFactory(IIndex<ProductCategories, IProductService> productServiceCollection)
+    : IProductServiceFactory
 {
     public IProductService Get(ProductCategories type)
     {
