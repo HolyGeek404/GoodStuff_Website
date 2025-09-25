@@ -1,7 +1,6 @@
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
 using GoodStuff.Application.Services.Interfaces;
-using GoodStuff.Application.Services.Other;
 
 namespace GoodStuff.Application.Services.Product;
 

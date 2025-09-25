@@ -12,7 +12,8 @@ public class CoolerFilterService : IProductFilterService
 
         var fans = selectedFilters.GetValueOrDefault("Fans")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var rpmControl = selectedFilters.GetValueOrDefault("RPMControll")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var compatibility = selectedFilters.GetValueOrDefault("Compatibility")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var compatibility = selectedFilters.GetValueOrDefault("Compatibility")
+            ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var heatPipes = selectedFilters.GetValueOrDefault("HeatPipes")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var teams = selectedFilters.GetValueOrDefault("Team")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         decimal? minPrice = null;

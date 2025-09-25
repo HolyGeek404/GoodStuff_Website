@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GoodStuff.Application\GoodStuff.Application.csproj" />
+        <ProjectReference Include="..\GoodStuff.Application\GoodStuff.Application.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="GoodStuff_DomainModels">
-        <HintPath>..\..\..\.nuget\packages\goodstuff_domainmodels\1.0.5\lib\net9.0\GoodStuff_DomainModels.dll</HintPath>
-      </Reference>
+        <Reference Include="GoodStuff_DomainModels">
+            <HintPath>..\..\..\.nuget\packages\goodstuff_domainmodels\1.0.5\lib\net9.0\GoodStuff_DomainModels.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

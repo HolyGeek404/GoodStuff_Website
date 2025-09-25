@@ -8,6 +8,7 @@ public partial class SignUp
 {
     [SupplyParameterFromForm] private SignUpModel SignUpModel { get; } = new();
     [Inject] private UserApiClient ApiClient { get; set; }
+
     private async Task SignUpAsync()
     {
         var result = await ApiClient.SignUpAsync(SignUpModel);

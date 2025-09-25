@@ -4,7 +4,8 @@ using GoodStuff.Application.Services.Interfaces;
 
 namespace GoodStuff.Application.Factories;
 
-public class ProductServiceFactory(IIndex<ProductCategories, IProductService> productServiceCollection) : IProductServiceFactory
+public class ProductServiceFactory(IIndex<ProductCategories, IProductService> productServiceCollection)
+    : IProductServiceFactory
 {
     public IProductService Get(ProductCategories type)
     {

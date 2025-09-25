@@ -11,8 +11,10 @@ public class CpuFilterService : IProductFilterService
         var cpus = productList.OfType<CpuModel>();
 
         var sockets = selectedFilters.GetValueOrDefault("Socket")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var architectures = selectedFilters.GetValueOrDefault("Architecture")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var unlockedMultiplayer = selectedFilters.GetValueOrDefault("UnlockedMultiplayer")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var architectures = selectedFilters.GetValueOrDefault("Architecture")
+            ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var unlockedMultiplayer = selectedFilters.GetValueOrDefault("UnlockedMultiplayer")
+            ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var teams = selectedFilters.GetValueOrDefault("Team")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         decimal? minPrice = null;
 
