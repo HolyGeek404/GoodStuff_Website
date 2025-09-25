@@ -2,12 +2,13 @@ using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
 using Website.Services.Interfaces;
+using Website.Services.Other;
 
 namespace Website.Services.Product;
 
 public class ProductService<TProduct>(
     ProductCategories category,
-    IMemoryCache cache,
+    ICacheManager cache,
     IProductApiClientFactory productApiClientFactory,
     IProductFilterServiceFactory productFilterServiceFactory)
     : IProductService
@@ -60,18 +61,12 @@ public class ProductService<TProduct>(
 
     private IEnumerable<TProduct> CheckProductsInCache()
     {
-        return cache.TryGetValue($"{category}Products", out IEnumerable<TProduct> products) ? products : null;
+        return cache.CheckProductsInCache<TProduct>(category);
     }
 
     private void AddProductToCache(IEnumerable<TProduct> product)
     {
-        var cacheOptions = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
-            SlidingExpiration = TimeSpan.FromMinutes(1),
-            Priority = CacheItemPriority.Normal
-        };
-        cache.Set($"{category}Products", product.ToList().AsReadOnly(), cacheOptions);
+        cache.AddProductToCache(product, category);
     }
 
     #endregion

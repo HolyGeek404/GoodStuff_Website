@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IRequestMessageBuilder, RequestMessageBuilder>();
         services.AddTransient<ITokenProvider, TokenProvider>();
+        services.AddSingleton<ICacheManager, CacheManager>();
         services.AddScoped<IProductApiClientFactory, ProductApiClientFactory>();
         services.AddScoped<IProductServiceFactory, ProductServiceFactory>();
         services.AddSingleton<IProductFilterServiceFactory, ProductFilterServiceFactory>();
