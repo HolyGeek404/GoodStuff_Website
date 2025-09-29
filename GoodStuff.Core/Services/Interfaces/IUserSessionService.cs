@@ -1,6 +1,6 @@
 using GoodStuff.Domain.Models.User;
 
-namespace GoodStuff.Application.Services.Interfaces;
+namespace GoodStuff.Core.Services.Interfaces;
 
 public interface IUserSessionService
 {

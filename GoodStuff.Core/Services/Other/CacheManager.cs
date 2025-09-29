@@ -1,9 +1,9 @@
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace GoodStuff.Application.Services.Other;
+namespace GoodStuff.Core.Services.Other;
 
 public class CacheManager(IMemoryCache cache) : ICacheManager
 {

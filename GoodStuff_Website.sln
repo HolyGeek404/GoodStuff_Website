@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodStuff.Web", "GoodStuff.Web\GoodStuff.Web.csproj", "{879B4261-B2C6-4D09-9B95-9B68F1DE1BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodStuff.Application", "GoodStuff.Application\GoodStuff.Application.csproj", "{EB1953C7-228A-427A-B1B0-B497D52F993F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodStuff.Core", "GoodStuff.Core\GoodStuff.Core.csproj", "{EB1953C7-228A-427A-B1B0-B497D52F993F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodStuff.Infrastructure.Http", "GoodStuff.Infrastructure.Http\GoodStuff.Infrastructure.Http.csproj", "{61F57C6F-4BB4-47F3-8AD9-177B9C581256}"
 EndProject

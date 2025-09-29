@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 using GoodStuff.Domain.Models;
 using GoodStuff.Domain.Models.User;
 using Microsoft.Extensions.Configuration;

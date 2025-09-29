@@ -1,21 +1,20 @@
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 
-namespace GoodStuff.Application.Services.Filters;
+namespace GoodStuff.Core.Services.Filters;
 
-public class GpuFilterService : IProductFilterService
+public class CpuFilterService : IProductFilterService
 {
     public List<BaseProductModel> Filter(IEnumerable<BaseProductModel> productList,
         Dictionary<string, List<string>> selectedFilters)
     {
-        var cpus = productList.OfType<GpuModel>();
+        var cpus = productList.OfType<CpuModel>();
 
-        var manufacturers = selectedFilters.GetValueOrDefault("Manufacturer")
+        var sockets = selectedFilters.GetValueOrDefault("Socket")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var architectures = selectedFilters.GetValueOrDefault("Architecture")
             ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var gpuNames = selectedFilters.GetValueOrDefault("GpuProcessorName")
+        var unlockedMultiplayer = selectedFilters.GetValueOrDefault("UnlockedMultiplayer")
             ?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var memorySizes = selectedFilters.GetValueOrDefault("MemorySize")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var memoryTypes = selectedFilters.GetValueOrDefault("MemoryType")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var teams = selectedFilters.GetValueOrDefault("Team")?.ToHashSet(StringComparer.OrdinalIgnoreCase);
         decimal? minPrice = null;
 
@@ -29,10 +28,10 @@ public class GpuFilterService : IProductFilterService
             maxPrice = xp;
 
         var filtered = cpus.Where(cpu =>
-            (manufacturers == null || manufacturers.Count == 0 || manufacturers.Contains(cpu.Manufacturer)) &&
-            (gpuNames == null || gpuNames.Count == 0 || gpuNames.Contains(cpu.GpuProcessorName)) &&
-            (memorySizes == null || memorySizes.Count == 0 || memorySizes.Contains(cpu.MemorySize.ToString())) &&
-            (memoryTypes == null || memoryTypes.Count == 0 || memoryTypes.Contains(cpu.MemoryType)) &&
+            (sockets == null || sockets.Count == 0 || sockets.Contains(cpu.Socket)) &&
+            (architectures == null || architectures.Count == 0 || architectures.Contains(cpu.Architecture)) &&
+            (unlockedMultiplayer == null || unlockedMultiplayer.Count == 0 ||
+             unlockedMultiplayer.Contains(cpu.UnlockedMultiplayer.ToString())) &&
             (teams == null || teams.Count == 0 || teams.Contains(cpu.Team)) &&
             (!minPrice.HasValue || int.Parse(cpu.Price) >= minPrice.Value) &&
             (!maxPrice.HasValue || int.Parse(cpu.Price) <= maxPrice.Value));
@@ -41,11 +40,11 @@ public class GpuFilterService : IProductFilterService
 
     public Dictionary<string, List<string>> GetFilters(IEnumerable<BaseProductModel> productList)
     {
-        var gpus = productList.OfType<GpuModel>();
+        var cpus = productList.OfType<CpuModel>();
 
-        List<string> ExtractFilters(Func<GpuModel, string> selector)
+        List<string> ExtractFilters(Func<CpuModel, string> selector)
         {
-            return gpus
+            return cpus
                 .Select(selector)
                 .Where(value => !string.IsNullOrWhiteSpace(value))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -55,10 +54,9 @@ public class GpuFilterService : IProductFilterService
 
         return new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase)
         {
-            ["Manufacturer"] = ExtractFilters(g => g.Manufacturer),
-            ["GpuProcessorName"] = ExtractFilters(g => g.GpuProcessorName),
-            ["MemorySize"] = ExtractFilters(g => g.MemorySize.ToString()),
-            ["MemoryType"] = ExtractFilters(g => g.MemoryType),
+            ["Socket"] = ExtractFilters(g => g.Socket),
+            ["Architecture"] = ExtractFilters(g => g.Architecture),
+            ["UnlockedMultiplayer"] = ExtractFilters(g => g.UnlockedMultiplayer.ToString()),
             ["Team"] = ExtractFilters(g => g.Team)
         };
     }

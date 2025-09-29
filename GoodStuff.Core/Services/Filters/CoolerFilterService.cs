@@ -1,7 +1,7 @@
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 
-namespace GoodStuff.Application.Services.Filters;
+namespace GoodStuff.Core.Services.Filters;
 
 public class CoolerFilterService : IProductFilterService
 {

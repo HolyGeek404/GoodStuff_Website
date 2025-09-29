@@ -1,8 +1,8 @@
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 
-namespace GoodStuff.Application.Services.Other;
+namespace GoodStuff.Core.Services.Other;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {

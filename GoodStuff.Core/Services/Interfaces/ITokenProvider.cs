@@ -1,4 +1,4 @@
-namespace GoodStuff.Application.Services.Interfaces;
+namespace GoodStuff.Core.Services.Interfaces;
 
 public interface ITokenProvider
 {

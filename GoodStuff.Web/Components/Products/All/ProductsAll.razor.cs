@@ -1,6 +1,6 @@
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace GoodStuff.Web.Components.Products.All;

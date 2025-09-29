@@ -1,7 +1,7 @@
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff.Domain.Models;
 
-namespace GoodStuff.Application.Services.Interfaces;
+namespace GoodStuff.Core.Services.Interfaces;
 
 public interface IProductApiClient
 {

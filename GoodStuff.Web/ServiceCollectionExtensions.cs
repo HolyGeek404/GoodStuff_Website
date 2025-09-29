@@ -2,11 +2,11 @@
 using Autofac;
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Application.Factories;
-using GoodStuff.Application.Services.Filters;
-using GoodStuff.Application.Services.Interfaces;
-using GoodStuff.Application.Services.Other;
-using GoodStuff.Application.Services.Product;
+using GoodStuff.Core.Factories;
+using GoodStuff.Core.Services.Filters;
+using GoodStuff.Core.Services.Interfaces;
+using GoodStuff.Core.Services.Other;
+using GoodStuff.Core.Services.Product;
 using GoodStuff.Infrastructure.Http.Api;
 using GoodStuff.Web.Components.Products;
 

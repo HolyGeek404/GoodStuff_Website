@@ -1,8 +1,8 @@
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 
-namespace GoodStuff.Application.Services.Product;
+namespace GoodStuff.Core.Services.Product;
 
 public class ProductService<TProduct>(
     ProductCategories category,

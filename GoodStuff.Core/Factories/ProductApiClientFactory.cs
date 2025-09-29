@@ -1,8 +1,8 @@
 using Autofac.Features.Indexed;
 using GoodStuff_DomainModels.Models.Enums;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 
-namespace GoodStuff.Application.Factories;
+namespace GoodStuff.Core.Factories;
 
 public class ProductApiClientFactory(IIndex<ProductCategories, IProductApiClient> productApiClients)
     : IProductApiClientFactory

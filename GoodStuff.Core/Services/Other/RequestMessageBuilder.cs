@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using GoodStuff.Application.Services.Interfaces;
+using GoodStuff.Core.Services.Interfaces;
 
-namespace GoodStuff.Application.Services.Other;
+namespace GoodStuff.Core.Services.Other;
 
 public class RequestMessageBuilder(ITokenProvider tokenProvider) : IRequestMessageBuilder
 {
