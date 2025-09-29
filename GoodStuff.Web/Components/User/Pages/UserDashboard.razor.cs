@@ -11,7 +11,6 @@ public partial class UserDashboard
     [Inject] private IUserSessionService SessionService { get; set; }
 
     private UserSession UserSession { get; set; }
-    private string? ErrorMessage { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
