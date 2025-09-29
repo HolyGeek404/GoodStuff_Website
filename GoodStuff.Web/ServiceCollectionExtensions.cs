@@ -8,7 +8,6 @@ using GoodStuff.Core.Services.Interfaces;
 using GoodStuff.Core.Services.Other;
 using GoodStuff.Core.Services.Product;
 using GoodStuff.Infrastructure.Http.Api;
-using GoodStuff.Web.Components.Products;
 
 namespace GoodStuff.Web;
 
@@ -28,7 +27,8 @@ public static class ServiceCollectionExtensions
         {
             containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>(ProductCategories.Gpu);
             containerBuilder.RegisterType<ProductApiClient<CpuModel>>().Keyed<IProductApiClient>(ProductCategories.Cpu);
-            containerBuilder.RegisterType<ProductApiClient<CoolerModel>>().Keyed<IProductApiClient>(ProductCategories.Cooler);
+            containerBuilder.RegisterType<ProductApiClient<CoolerModel>>()
+                .Keyed<IProductApiClient>(ProductCategories.Cooler);
 
             containerBuilder.RegisterType<ProductService<CpuModel>>()
                 .WithParameter("category", ProductCategories.Cpu)
@@ -82,12 +82,5 @@ public static class ServiceCollectionExtensions
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
-    }
-
-    public static void AddLoggingConfig(this ILoggingBuilder loggingBuilder)
-    {
-        loggingBuilder.ClearProviders();
-        loggingBuilder.AddConsole();
-        loggingBuilder.AddDebug();
     }
 }

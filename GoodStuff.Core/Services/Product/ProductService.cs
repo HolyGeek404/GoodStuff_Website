@@ -66,7 +66,8 @@ public class ProductService<TProduct>(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error occurred while fetching product {ProductId} for category {Category}", id, category);
+            logger.LogError(ex, "Error occurred while fetching product {ProductId} for category {Category}", id,
+                category);
             return null;
         }
     }
@@ -157,7 +158,8 @@ public class ProductService<TProduct>(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error occurred while fetching all products from API for category {Category}", category);
+            logger.LogError(ex, "Error occurred while fetching all products from API for category {Category}",
+                category);
             return Enumerable.Empty<TProduct>();
         }
     }
@@ -174,7 +176,8 @@ public class ProductService<TProduct>(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error occurred while fetching product {ProductId} from API for category {Category}", id, category);
+            logger.LogError(ex, "Error occurred while fetching product {ProductId} from API for category {Category}",
+                id, category);
             return null;
         }
     }
