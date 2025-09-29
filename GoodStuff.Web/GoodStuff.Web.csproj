@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>958e2b7b-fbc5-4002-b426-888d501d1f1b</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <AssemblyName>GoodStuff.Web</AssemblyName>
+        <RootNamespace>GoodStuff.Web</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="8.4.0"/>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0"/>
+        <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.4.0"/>
+        <PackageReference Include="Azure.Identity" Version="1.16.0"/>
+        <PackageReference Include="GoodStuff_DomainModels" Version="1.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.9"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.9"/>
+        <PackageReference Include="Microsoft.Identity.Web" Version="3.14.1"/>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Properties\launchSettings.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="GoodStuff_DomainModels">
+            <HintPath>..\..\..\.nuget\packages\goodstuff_domainmodels\1.0.4\lib\net9.0\GoodStuff_DomainModels.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\GoodStuff.Application\GoodStuff.Application.csproj"/>
+        <ProjectReference Include="..\GoodStuff.Infrastructure.Http\GoodStuff.Infrastructure.Http.csproj"/>
+    </ItemGroup>
+
+</Project>

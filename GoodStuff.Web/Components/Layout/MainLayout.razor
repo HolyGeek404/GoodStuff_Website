@@ -1,0 +1,12 @@
+﻿@using GoodStuff.Web.Components.Footer
+@using GoodStuff.Web.Components.Nav
+@inherits LayoutComponentBase
+
+
+<div class="d-flex flex-column" style="min-height: 100vh">
+    <NavMain/>
+    <main class="flex-fill">
+        @Body
+    </main>
+    <Footer/>
+</div>

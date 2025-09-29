@@ -1,0 +1,70 @@
+@page "/Products/{CategoryString}"
+@using GoodStuff_DomainModels.Models.Enums
+@using GoodStuff_DomainModels.Models.Products
+
+@if (ProductList == null)
+{
+    <div><em>Loading...</em></div>
+}
+else
+{
+    <div @key="_areFiltersClear" class="col-2 border-top rounded border-right p-0 m-0 float-left">
+
+        <div class="p-2">
+            <span class="h6 d-block">Cena</span>
+            <input name="PriceMin" type="number" class="col-4 p-0 m-0 border rounded text-center"/> -
+            <input name="PriceMax" type="number" class="col-4 p-0 m-0 border rounded text-center"/>
+        </div>
+        @foreach (var filter in AvailableFilters)
+        {
+            <fieldset>
+                <div class="p-2">
+                    <span class="h6 d-block">@filter.Key</span>
+
+                    @foreach (var param in filter.Value)
+                    {
+                        <label class="d-block m-0">
+                            <input type="checkbox" @onchange="e => UpdateFilters(filter.Key, param,e)"/><span
+                                class="p-1">@param</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+        }
+        <div class="col-12 d-flex align-items-center justify-content-center">
+            <button @onclick="Filter" class="d-block btn-primary col-7 rounded">Filtruj</button>
+            <i @onclick="ClearFilters" class="fa-solid ml-2 fa-circle-xmark clearFilters fa-xl text-danger"
+               style="cursor: pointer"></i>
+        </div>
+    </div>
+    <div class="col-10  p-0 m-0 d-flex flex-wrap justify-content-center float-left" id="products">
+            @foreach (var product in ProductList)
+            {
+                <a href="@($"/Product/{product.Category}/{product.ProductId}")">
+                    <div class="col-lg-10 col-8 shadow-sm rounded m-2" style="height:400px;width:450px;">
+                        <div class="col-12 p-0 m-1">
+                            <img src="@product.ProductImg" width="230" height="200" alt="ProductImg"/>
+                        </div>
+                        <div class="col-12 text p-0 m-0">
+                            <h6>@product.Name</h6>
+                        </div>
+                            @switch (Category)
+                            {
+                                case ProductCategories.Gpu when product is GpuModel gpu:
+                                    <Gpu Model="gpu" />
+                                    break;
+                                case ProductCategories.Cpu when product is CpuModel cpu:
+                                    <Cpu Model="cpu" />
+                                    break;
+                                case ProductCategories.Cooler when product is CoolerModel cooler:
+                                    <Cooler Model="cooler" />
+                                    break;
+                            }
+                    </div>
+                    <div class="col-12 text-center mt-4 m-1">
+                        <h4>@product.Price zl</h4>
+                    </div>
+                </a>
+            }
+    </div>
+}
