@@ -1,6 +1,6 @@
 using GoodStuff_DomainModels.Models.Products;
 
-namespace GoodStuff.Core.Services.Interfaces;
+namespace GoodStuff.Website.Application.Services.Interfaces;
 
 public interface IProductFilterService
 {

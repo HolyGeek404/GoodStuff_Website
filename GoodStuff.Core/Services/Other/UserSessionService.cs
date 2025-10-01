@@ -1,11 +1,11 @@
 using System.Security.Cryptography;
-using GoodStuff.Core.Services.Interfaces;
-using GoodStuff.Domain.Models.User;
+using GoodStuff.Website.Application.Services.Interfaces;
+using GoodStuff.Website.Domain.Models.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace GoodStuff.Core.Services.Other;
+namespace GoodStuff.Website.Application.Services.Other;
 
 public class UserSessionService(
     IMemoryCache cache,

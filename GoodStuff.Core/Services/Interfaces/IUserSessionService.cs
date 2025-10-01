@@ -1,6 +1,6 @@
-using GoodStuff.Domain.Models.User;
+using GoodStuff.Website.Domain.Models.User;
 
-namespace GoodStuff.Core.Services.Interfaces;
+namespace GoodStuff.Website.Application.Services.Interfaces;
 
 public interface IUserSessionService
 {

@@ -1,7 +1,7 @@
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Core.Services.Interfaces;
+using GoodStuff.Website.Application.Services.Interfaces;
 
-namespace GoodStuff.Core.Services.Filters;
+namespace GoodStuff.Website.Application.Services.Filters;
 
 public class GpuFilterService : IProductFilterService
 {
