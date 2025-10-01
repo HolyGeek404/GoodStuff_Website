@@ -4,14 +4,15 @@ using GoodStuff.Website.Presentation;
 using GoodStuff.Website.Presentation.Components;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.UseSerilog((context, loggerConfiguration) => { loggerConfiguration.WriteTo.Console(); });
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddControllers();
 builder.Services.AddServices(builder);
-builder.Logging.AddLoggingConfig();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 

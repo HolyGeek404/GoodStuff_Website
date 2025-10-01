@@ -83,11 +83,4 @@ public static class ServiceCollectionExtensions
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
     }
-
-    public static void AddLoggingConfig(this ILoggingBuilder loggingBuilder)
-    {
-        loggingBuilder.ClearProviders();
-        loggingBuilder.AddConsole();
-        loggingBuilder.AddDebug();
-    }
 }
