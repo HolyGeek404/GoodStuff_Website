@@ -1,9 +1,9 @@
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
-using GoodStuff.Core.Services.Interfaces;
+using GoodStuff.Website.Application.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace GoodStuff.Core.Services.Product;
+namespace GoodStuff.Website.Application.Services.Product;
 
 public class ProductService<TProduct>(
     ProductCategories category,
