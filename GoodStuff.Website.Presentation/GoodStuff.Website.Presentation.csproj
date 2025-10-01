@@ -32,8 +32,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\GoodStuff.Website.Application\GoodStuff.Website.Application.csproj" />
-        <ProjectReference Include="..\GoodStuff.Website.Infrastructure\GoodStuff.Website.Infrastructure.csproj" />
+        <ProjectReference Include="..\GoodStuff.Website.Application\GoodStuff.Website.Application.csproj"/>
+        <ProjectReference Include="..\GoodStuff.Website.Infrastructure\GoodStuff.Website.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

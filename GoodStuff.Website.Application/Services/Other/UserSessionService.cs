@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
-using GoodStuff.Website.Domain.Models.User;
 using GoodStuff.Website.Application.Services.Interfaces;
+using GoodStuff.Website.Domain.Models.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;

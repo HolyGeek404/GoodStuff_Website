@@ -1,4 +1,5 @@
-﻿using GoodStuff.Website.Infrastructure.Api;
+﻿using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Infrastructure.Api;
 using Microsoft.AspNetCore.Components;
 
 namespace GoodStuff.Website.Presentation.Components.User.Pages;

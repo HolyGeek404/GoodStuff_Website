@@ -1,4 +1,5 @@
 using GoodStuff.Website.Application.Services.Interfaces;
+using GoodStuff.Website.Domain.Models.User;
 using GoodStuff.Website.Infrastructure.Api;
 using Microsoft.AspNetCore.Mvc;
 

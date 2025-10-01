@@ -4,8 +4,7 @@ namespace GoodStuff.Website.Presentation.Components.Products.Single;
 
 public partial class ProductSingle
 {
-    [Parameter]
-    public string Id { get; set; }
+    [Parameter] public string Id { get; set; }
 
     [Parameter] public string Category { get; set; }
 

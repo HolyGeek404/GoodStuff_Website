@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\GoodStuff.Website.Domain\GoodStuff.Website.Domain.csproj" />
+        <ProjectReference Include="..\GoodStuff.Website.Domain\GoodStuff.Website.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

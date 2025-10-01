@@ -31,7 +31,7 @@ public partial class ProductsAll : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         ProductList = null; // force "Loading..." state
-        StateHasChanged();  // trigger re-render with null list
+        StateHasChanged(); // trigger re-render with null list
 
         ProductService = ProductServiceFactory.Get(Category);
         ProductList = await ProductService.GetProducts();

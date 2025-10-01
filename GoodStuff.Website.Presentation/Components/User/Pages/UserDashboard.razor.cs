@@ -1,4 +1,5 @@
 using GoodStuff.Website.Application.Services.Interfaces;
+using GoodStuff.Website.Domain.Models.User;
 using Microsoft.AspNetCore.Components;
 
 namespace GoodStuff.Website.Presentation.Components.User.Pages;
