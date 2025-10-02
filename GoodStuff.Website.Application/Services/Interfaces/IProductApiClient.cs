@@ -1,5 +1,5 @@
 using GoodStuff_DomainModels.Models.Enums;
-using GoodStuff.Website.Domain.Models;
+using GoodStuff.Website.Domain.Entities;
 
 namespace GoodStuff.Website.Application.Services.Interfaces;
 

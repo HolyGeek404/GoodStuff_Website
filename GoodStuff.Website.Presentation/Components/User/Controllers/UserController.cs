@@ -1,6 +1,8 @@
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Domain.Entities.User;
+using GoodStuff.Website.Domain.ValueObjects;
 using GoodStuff.Website.Infrastructure.Api;
+using GoodStuff.Website.Presentation.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodStuff.Website.Presentation.Components.User.Controllers;
@@ -13,13 +15,15 @@ public class UserController(
 {
     [HttpPost]
     [Route("signin")]
-    public async Task<IActionResult> SignIn([FromForm] SignInModel model)
+    public async Task<IActionResult> SignIn([FromForm] SignInRequest request)
     {
-        logger.LogInformation($"Creating session for user {model.Email}.");
+        logger.LogInformation($"Creating session for user {request.Email}.");
         try
         {
-            var result = await userApiClient.SignInAsync(model.Email, model.Password);
-            var userModel = (UserModel)result.Content;
+            var email = new Email(request.Email);
+            var password = new Password(request.Password);
+            var result = await userApiClient.SignInAsync(email, password);
+            var userModel = (Domain.Entities.User.User)result.Content;
             if (!result.Success) return BadRequest();
 
             var sessionId = userSessionService.CreateSession(userModel);
@@ -39,7 +43,7 @@ public class UserController(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Error signing in user {model.Email}. Error: {ex.Message}");
+            logger.LogError(ex, $"Error signing in user {request.Email}. Error: {ex.Message}");
             return BadRequest();
         }
     }

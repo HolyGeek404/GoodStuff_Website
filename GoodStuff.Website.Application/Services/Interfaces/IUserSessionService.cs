@@ -1,10 +1,10 @@
-using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Domain.Entities.User;
 
 namespace GoodStuff.Website.Application.Services.Interfaces;
 
 public interface IUserSessionService
 {
-    string CreateSession(UserModel userModel);
+    string CreateSession(User user);
     UserSession? GetUserSession();
     bool Validate();
     void ClearUserCachedData(string sessionId);

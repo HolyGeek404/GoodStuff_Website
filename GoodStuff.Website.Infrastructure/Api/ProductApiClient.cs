@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Json;
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Models;
+using GoodStuff.Website.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

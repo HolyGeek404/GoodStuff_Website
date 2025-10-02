@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Domain.Entities.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ public class UserSessionService(
 {
     private const int SessionTimeoutMinutes = 30;
 
-    public string CreateSession(UserModel userModel)
+    public string CreateSession(User user)
     {
         try
         {
@@ -27,7 +27,7 @@ public class UserSessionService(
             };
             var userSession = new UserSession
             {
-                UserData = userModel,
+                UserData = user,
                 LastActivity = DateTime.UtcNow,
                 LoginTime = DateTime.UtcNow,
                 IpAddress = GetClientIpAddress()
@@ -38,7 +38,7 @@ public class UserSessionService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Error creating user session for {userModel.Email}");
+            logger.LogError(ex, $"Error creating user session for {user.Email}");
             throw;
         }
     }

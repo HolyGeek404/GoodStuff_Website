@@ -1,8 +1,9 @@
 using System.Net;
 using System.Net.Http.Json;
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Models;
-using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Domain.Entities;
+using GoodStuff.Website.Domain.Entities.User;
+using GoodStuff.Website.Domain.ValueObjects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +17,7 @@ public class UserApiClient(
 {
     private readonly string _scope = configuration.GetSection("GoodStuffUserApi")["Scope"]!;
 
-    public async Task<ApiResult> SignUpAsync(SignUpModel model)
+    public async Task<ApiResult> SignUpAsync(User model)
     {
         var apiResult = new ApiResult();
 
@@ -52,14 +53,14 @@ public class UserApiClient(
         return apiResult;
     }
 
-    public async Task<ApiResult> SignInAsync(string email, string password)
+    public async Task<ApiResult> SignInAsync(Email email, Password password)
     {
         var apiResult = new ApiResult();
 
         try
         {
             var request =
-                await requestMessageBuilder.BuildGet(_scope, $"user/signin?email={email}&password={password}");
+                await requestMessageBuilder.BuildGet(_scope, $"user/signin?email={email.Value}&password={password.Value}");
             var response = await client.SendAsync(request);
 
             apiResult.Success = response.IsSuccessStatusCode;
@@ -67,7 +68,7 @@ public class UserApiClient(
 
             if (response.IsSuccessStatusCode)
             {
-                apiResult.Content = await response.Content.ReadFromJsonAsync<UserModel>();
+                apiResult.Content = await response.Content.ReadFromJsonAsync<User>();
                 apiResult.Success = response.IsSuccessStatusCode;
             }
             else

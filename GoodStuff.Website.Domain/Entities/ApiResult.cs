@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace GoodStuff.Website.Domain.Models;
+namespace GoodStuff.Website.Domain.Entities;
 
 public class ApiResult
 {
