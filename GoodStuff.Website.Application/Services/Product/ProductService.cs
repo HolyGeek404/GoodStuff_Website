@@ -49,20 +49,19 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Fetching product with ID {ProductId} for category {Category}", id, category);
-            //TODO this is not going to work well, need story for it
             var productsInCache = CheckProductsInCache();
-            var searchedProduct = productsInCache.FirstOrDefault(x => x.ProductId == id);
+            var searchedProduct = productsInCache?.FirstOrDefault(x => x.ProductId == id);
 
-            if (searchedProduct != null)
+            if (searchedProduct is not null)
             {
                 logger.LogInformation("Product {ProductId} found in cache", id);
                 return searchedProduct;
             }
-
+            
             logger.LogInformation("Product {ProductId} not found in cache. Fetching from API", id);
-            searchedProduct = await GetProductById(id);
+            var product = await GetProductById(id);
 
-            return searchedProduct;
+            return product;
         }
         catch (Exception ex)
         {
