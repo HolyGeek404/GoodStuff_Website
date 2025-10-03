@@ -81,8 +81,12 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Filtering products for category {Category}", category);
+            
             var filterService = productFilterServiceFactory.Get(category);
+            if(filterService is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
             var filteredProducts = filterService.Filter(products, selectedFilters);
+            
             logger.LogInformation("Filtering completed for category {Category}", category);
             return filteredProducts;
         }
@@ -99,6 +103,8 @@ public class ProductService<TProduct>(
         {
             logger.LogInformation("Getting filters for category {Category}", category);
             var filterService = productFilterServiceFactory.Get(category);
+            if(filterService is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
             var filters = filterService.GetFilters(productList);
             logger.LogInformation("Filters successfully retrieved for category {Category}", category);
             return filters;
@@ -150,8 +156,12 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Calling API to fetch all products for category {Category}", category);
+            
             var client = productApiClientFactory.Get(category);
+            if(client is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
             var response = await client.GetAllProductsByType<TProduct>(category);
+            
             logger.LogInformation("API call successful for category {Category}", category);
             return response;
         }
@@ -168,8 +178,12 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Calling API to fetch product {ProductId} for category {Category}", id, category);
+            
             var client = productApiClientFactory.Get(category);
+            if(client is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
             var response = await client.GetSingleProductById<TProduct>(category, id);
+            
             logger.LogInformation("API call successful for product {ProductId} in category {Category}", id, category);
             return response;
         }
