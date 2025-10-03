@@ -7,7 +7,7 @@ namespace GoodStuff.Website.Application.Services.Other;
 
 public class CacheManager(IMemoryCache cache) : ICacheManager
 {
-    public IEnumerable<TProduct> CheckProductsInCache<TProduct>(ProductCategories category)
+    public IEnumerable<TProduct>? CheckProductsInCache<TProduct>(ProductCategories category)
         where TProduct : BaseProductModel
     {
         return cache.TryGetValue($"{Enum.GetName(category).ToUpper()}Products", out IEnumerable<TProduct> products)
