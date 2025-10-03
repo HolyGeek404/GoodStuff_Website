@@ -6,5 +6,5 @@ public class UserSession
     public List<string> Roles { get; set; } = [];
     public DateTime LoginTime { get; set; }
     public DateTime LastActivity { get; set; }
-    public string IpAddress { get; init; } =  string.Empty;
+    public string IpAddress { get; init; } = string.Empty;
 }

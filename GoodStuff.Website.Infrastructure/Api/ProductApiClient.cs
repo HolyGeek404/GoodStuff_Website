@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using GoodStuff_DomainModels.Models.Enums;
 using GoodStuff_DomainModels.Models.Products;
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -17,14 +16,16 @@ public class ProductApiClient(
 {
     private readonly string _scope = configuration.GetSection("GoodStuffProductApi")["Scope"]!;
 
-    public async Task<IEnumerable<TProduct>> GetAllProductsByType<TProduct>(ProductCategories type) where TProduct : BaseProductModel
+    public async Task<IEnumerable<TProduct>> GetAllProductsByType<TProduct>(ProductCategories type)
+        where TProduct : BaseProductModel
     {
         var request = await requestMessageBuilder.BuildGet(_scope, $"Product/GetAllProductsByType?type={type}");
         var response = await Send<IEnumerable<TProduct>>(request);
         return response;
     }
 
-    public async Task<TProduct> GetSingleProductById<TProduct>(ProductCategories type, string id)  where TProduct : BaseProductModel
+    public async Task<TProduct> GetSingleProductById<TProduct>(ProductCategories type, string id)
+        where TProduct : BaseProductModel
     {
         var request = await requestMessageBuilder.BuildGet(_scope, $"Product/GetProductById?type={type}&id={id}");
         var response = await Send<TProduct>(request);
@@ -48,7 +49,8 @@ public class ProductApiClient(
             }
 
             var err = await response.Content.ReadAsStringAsync();
-            logger.LogError("Couldn't get products. Http Code: {ResponseStatusCode}. Error Message: {ApiResultErrorMessage}",
+            logger.LogError(
+                "Couldn't get products. Http Code: {ResponseStatusCode}. Error Message: {ApiResultErrorMessage}",
                 response.StatusCode, err);
 
             throw new HttpRequestException($"Request failed: {response.StatusCode}: {err}");

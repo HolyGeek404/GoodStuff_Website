@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using GoodStuff.Website.Domain.ValueObjects;
+using GoodStuff.Website.Domain.ValueObjects.Password;
 
 namespace GoodStuff.Website.Presentation.Requests.Validators;
 

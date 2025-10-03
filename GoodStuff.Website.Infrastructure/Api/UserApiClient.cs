@@ -2,6 +2,8 @@ using System.Net.Http.Json;
 using GoodStuff.Website.Application.Services.Interfaces;
 using GoodStuff.Website.Domain.Entities.User;
 using GoodStuff.Website.Domain.ValueObjects;
+using GoodStuff.Website.Domain.ValueObjects.Email;
+using GoodStuff.Website.Domain.ValueObjects.Password;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -25,14 +27,16 @@ public class UserApiClient(
             if (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                logger.LogError("Sign up failed. Status: {StatusCode}, Error: {ErrorMessage}", response.StatusCode, errorMessage);
+                logger.LogError("Sign up failed. Status: {StatusCode}, Error: {ErrorMessage}", response.StatusCode,
+                    errorMessage);
 
-                throw new HttpRequestException($"Sign up failed. Status: {response.StatusCode}. Message: {errorMessage}");
+                throw new HttpRequestException(
+                    $"Sign up failed. Status: {response.StatusCode}. Message: {errorMessage}");
             }
 
             var success = await response.Content.ReadFromJsonAsync<bool>();
             if (success) return model;
-            
+
             logger.LogError("SignUp response returned false for user {Email}", model.Email.Value);
             throw new InvalidOperationException("SignUp succeeded but returned false.");
         }
@@ -47,7 +51,8 @@ public class UserApiClient(
     {
         try
         {
-            var request = await requestMessageBuilder.BuildGet(_scope, $"user/signin?email={email.Value}&password={password.Value}");
+            var request = await requestMessageBuilder.BuildGet(_scope,
+                $"user/signin?email={email.Value}&password={password.Value}");
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
@@ -57,7 +62,8 @@ public class UserApiClient(
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            logger.LogError("Couldn't sign in {Email}. Http Code: {ResponseStatusCode}. Error Message: {ErrorMessage}",email.Value, response.StatusCode, errorMessage);
+            logger.LogError("Couldn't sign in {Email}. Http Code: {ResponseStatusCode}. Error Message: {ErrorMessage}",
+                email.Value, response.StatusCode, errorMessage);
             throw new HttpRequestException(errorMessage);
         }
         catch (Exception e)

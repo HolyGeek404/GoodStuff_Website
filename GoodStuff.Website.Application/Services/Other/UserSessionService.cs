@@ -9,7 +9,7 @@ namespace GoodStuff.Website.Application.Services.Other;
 
 public class UserSessionService(
     IMemoryCache cache,
-    IHttpContextAccessor httpContextAccessor,
+    IHttpContextAccessor? httpContextAccessor,
     ILogger<UserSessionService> logger) : IUserSessionService
 {
     private const int SessionTimeoutMinutes = 30;
@@ -73,7 +73,7 @@ public class UserSessionService(
             if (sessionAge.TotalMinutes > SessionTimeoutMinutes)
             {
                 var sessionId = GetSessionIdFromCookie();
-                ClearUserCachedData(sessionId);
+                if (sessionId != null) ClearUserCachedData(sessionId);
                 return false;
             }
 
@@ -81,7 +81,7 @@ public class UserSessionService(
             if (currentIp == session.IpAddress) return true;
             {
                 var sessionId = GetSessionIdFromCookie();
-                ClearUserCachedData(sessionId);
+                if (sessionId != null) ClearUserCachedData(sessionId);
                 return false;
             }
         }
@@ -100,9 +100,9 @@ public class UserSessionService(
 
     #region Private
 
-    private string GetSessionIdFromCookie()
+    private string? GetSessionIdFromCookie()
     {
-        return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];
+        return httpContextAccessor?.HttpContext?.Request.Cookies["UserSessionId"];
     }
 
     private static string GetCacheKey(string sessionId)

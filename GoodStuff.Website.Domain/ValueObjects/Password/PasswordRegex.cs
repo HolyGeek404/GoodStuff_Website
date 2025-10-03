@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace GoodStuff.Website.Domain.ValueObjects;
+namespace GoodStuff.Website.Domain.ValueObjects.Password;
 
 public static partial class PasswordRegex
 {

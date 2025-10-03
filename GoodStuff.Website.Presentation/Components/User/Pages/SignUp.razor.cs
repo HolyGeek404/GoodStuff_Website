@@ -1,4 +1,7 @@
 ﻿using GoodStuff.Website.Domain.ValueObjects;
+using GoodStuff.Website.Domain.ValueObjects.Email;
+using GoodStuff.Website.Domain.ValueObjects.Name;
+using GoodStuff.Website.Domain.ValueObjects.Password;
 using GoodStuff.Website.Infrastructure.Api;
 using GoodStuff.Website.Presentation.Requests;
 using Microsoft.AspNetCore.Components;

@@ -57,7 +57,7 @@ public class ProductService<TProduct>(
                 logger.LogInformation("Product {ProductId} found in cache", id);
                 return searchedProduct;
             }
-            
+
             logger.LogInformation("Product {ProductId} not found in cache. Fetching from API", id);
             var product = await GetProductById(id);
 
@@ -180,5 +180,6 @@ public class ProductService<TProduct>(
             return null;
         }
     }
+
     #endregion
 }
