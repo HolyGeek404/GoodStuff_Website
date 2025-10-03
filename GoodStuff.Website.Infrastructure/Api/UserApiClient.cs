@@ -1,8 +1,9 @@
-using System.Net;
 using System.Net.Http.Json;
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Models;
-using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Domain.Entities.User;
+using GoodStuff.Website.Domain.ValueObjects;
+using GoodStuff.Website.Domain.ValueObjects.Email;
+using GoodStuff.Website.Domain.ValueObjects.Password;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -16,76 +17,59 @@ public class UserApiClient(
 {
     private readonly string _scope = configuration.GetSection("GoodStuffUserApi")["Scope"]!;
 
-    public async Task<ApiResult> SignUpAsync(SignUpModel model)
+    public async Task<User> SignUpAsync(User model)
     {
-        var apiResult = new ApiResult();
-
         try
         {
             var request = await requestMessageBuilder.BuildPost(_scope, "user/signup", model);
             var response = await client.SendAsync(request);
 
-            apiResult.Success = response.IsSuccessStatusCode;
-            apiResult.StatusCode = response.StatusCode;
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                logger.LogError("Sign up failed. Status: {StatusCode}, Error: {ErrorMessage}", response.StatusCode,
+                    errorMessage);
 
-            if (response.IsSuccessStatusCode)
-            {
-                apiResult.Content = await response.Content.ReadFromJsonAsync<bool>();
-                apiResult.Success = true;
+                throw new HttpRequestException(
+                    $"Sign up failed. Status: {response.StatusCode}. Message: {errorMessage}");
             }
-            else
-            {
-                apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
-                apiResult.Success = false;
-                logger.LogError(
-                    $"Couldn't SignUp. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
-            }
+
+            var success = await response.Content.ReadFromJsonAsync<bool>();
+            if (success) return model;
+
+            logger.LogError("SignUp response returned false for user {Email}", model.Email.Value);
+            throw new InvalidOperationException("SignUp succeeded but returned false.");
         }
         catch (Exception e)
         {
-            logger.LogError(e, $"Couldn't sign up user {model.Email}. Error: {e.Message}");
-            apiResult.Success = false;
-            apiResult.ErrorMessage = "An error unexpected occurred while signing up";
-            apiResult.StatusCode = HttpStatusCode.InternalServerError;
+            logger.LogError(e, "Couldn't sign up user {Email}. Error: {Message}", model.Email.Value, e.Message);
+            throw;
         }
-
-        return apiResult;
     }
 
-    public async Task<ApiResult> SignInAsync(string email, string password)
+    public async Task<User> SignInAsync(Email email, Password password)
     {
-        var apiResult = new ApiResult();
-
         try
         {
-            var request =
-                await requestMessageBuilder.BuildGet(_scope, $"user/signin?email={email}&password={password}");
+            var request = await requestMessageBuilder.BuildGet(_scope,
+                $"user/signin?email={email.Value}&password={password.Value}");
             var response = await client.SendAsync(request);
-
-            apiResult.Success = response.IsSuccessStatusCode;
-            apiResult.StatusCode = response.StatusCode;
 
             if (response.IsSuccessStatusCode)
             {
-                apiResult.Content = await response.Content.ReadFromJsonAsync<UserModel>();
-                apiResult.Success = response.IsSuccessStatusCode;
+                var content = await response.Content.ReadFromJsonAsync<User>();
+                return content ?? throw new InvalidOperationException("Couldn't get user");
             }
-            else
-            {
-                apiResult.ErrorMessage = await response.Content.ReadAsStringAsync();
-                apiResult.Success = false;
-                logger.LogError(
-                    $"Couldn't SignIn. Http Code: {response.StatusCode}. Error Message: {apiResult.ErrorMessage}");
-            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            logger.LogError("Couldn't sign in {Email}. Http Code: {ResponseStatusCode}. Error Message: {ErrorMessage}",
+                email.Value, response.StatusCode, errorMessage);
+            throw new HttpRequestException(errorMessage);
         }
         catch (Exception e)
         {
-            logger.LogError(e, $"Couldn't sign iun user {email}. Error: {e.Message}");
-            apiResult.Success = false;
-            apiResult.ErrorMessage = "An error unexpected occurred while signing in";
-            apiResult.StatusCode = HttpStatusCode.InternalServerError;
+            logger.LogError(e, "Couldn't sign in user {Email}. Error: {EMessage}", email.Value, e.Message);
+            throw;
         }
-
-        return apiResult;
     }
 }

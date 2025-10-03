@@ -7,7 +7,7 @@ namespace GoodStuff.Website.Application.Factories;
 public class ProductFilterServiceFactory(
     IIndex<ProductCategories, IProductFilterService> productFilterServiceCollection) : IProductFilterServiceFactory
 {
-    public IProductFilterService Get(ProductCategories type)
+    public IProductFilterService? Get(ProductCategories type)
     {
         return productFilterServiceCollection.TryGetValue(type, out var client) ? client : null;
     }

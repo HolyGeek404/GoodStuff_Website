@@ -22,7 +22,7 @@ public class ProductService<TProduct>(
             logger.LogInformation("Fetching products for category {Category}", category);
 
             var products = CheckProductsInCache();
-            if (products != null && products.Any())
+            if (products is not null)
             {
                 logger.LogInformation("Products found in cache for category {Category}", category);
                 return products;
@@ -40,7 +40,7 @@ public class ProductService<TProduct>(
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred while fetching products for category {Category}", category);
-            return Enumerable.Empty<BaseProductModel>();
+            return [];
         }
     }
 
@@ -49,20 +49,19 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Fetching product with ID {ProductId} for category {Category}", id, category);
-
             var productsInCache = CheckProductsInCache();
-            var searchedProduct = productsInCache.FirstOrDefault(x => x.ProductId == id);
+            var searchedProduct = productsInCache?.FirstOrDefault(x => x.ProductId == id);
 
-            if (searchedProduct != null)
+            if (searchedProduct is not null)
             {
                 logger.LogInformation("Product {ProductId} found in cache", id);
                 return searchedProduct;
             }
 
             logger.LogInformation("Product {ProductId} not found in cache. Fetching from API", id);
-            searchedProduct = await GetProductById(id);
+            var product = await GetProductById(id);
 
-            return searchedProduct;
+            return product;
         }
         catch (Exception ex)
         {
@@ -82,15 +81,19 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Filtering products for category {Category}", category);
+            
             var filterService = productFilterServiceFactory.Get(category);
+            if(filterService is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
             var filteredProducts = filterService.Filter(products, selectedFilters);
+            
             logger.LogInformation("Filtering completed for category {Category}", category);
             return filteredProducts;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred while filtering products for category {Category}", category);
-            return Enumerable.Empty<BaseProductModel>();
+            return [];
         }
     }
 
@@ -100,6 +103,8 @@ public class ProductService<TProduct>(
         {
             logger.LogInformation("Getting filters for category {Category}", category);
             var filterService = productFilterServiceFactory.Get(category);
+            if(filterService is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
             var filters = filterService.GetFilters(productList);
             logger.LogInformation("Filters successfully retrieved for category {Category}", category);
             return filters;
@@ -115,7 +120,7 @@ public class ProductService<TProduct>(
 
     #region Cache
 
-    private IEnumerable<TProduct> CheckProductsInCache()
+    private IEnumerable<TProduct>? CheckProductsInCache()
     {
         try
         {
@@ -125,7 +130,7 @@ public class ProductService<TProduct>(
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred while checking cache for category {Category}", category);
-            return Enumerable.Empty<TProduct>();
+            return [];
         }
     }
 
@@ -151,16 +156,20 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Calling API to fetch all products for category {Category}", category);
+            
             var client = productApiClientFactory.Get(category);
-            var response = await client.GetAllProductsByType(category);
+            if(client is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
+            var response = await client.GetAllProductsByType<TProduct>(category);
+            
             logger.LogInformation("API call successful for category {Category}", category);
-            return (IEnumerable<TProduct>)response.Content;
+            return response;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred while fetching all products from API for category {Category}",
                 category);
-            return Enumerable.Empty<TProduct>();
+            return [];
         }
     }
 
@@ -169,10 +178,14 @@ public class ProductService<TProduct>(
         try
         {
             logger.LogInformation("Calling API to fetch product {ProductId} for category {Category}", id, category);
+            
             var client = productApiClientFactory.Get(category);
-            var response = await client.GetSingleProductById(category, id);
+            if(client is null) 
+                throw new ArgumentNullException($"Not supported product's category {category}");
+            var response = await client.GetSingleProductById<TProduct>(category, id);
+            
             logger.LogInformation("API call successful for product {ProductId} in category {Category}", id, category);
-            return (TProduct)response.Content;
+            return response;
         }
         catch (Exception ex)
         {

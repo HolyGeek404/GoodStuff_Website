@@ -25,10 +25,9 @@ public static class ServiceCollectionExtensions
 
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
-            containerBuilder.RegisterType<ProductApiClient<GpuModel>>().Keyed<IProductApiClient>(ProductCategories.Gpu);
-            containerBuilder.RegisterType<ProductApiClient<CpuModel>>().Keyed<IProductApiClient>(ProductCategories.Cpu);
-            containerBuilder.RegisterType<ProductApiClient<CoolerModel>>()
-                .Keyed<IProductApiClient>(ProductCategories.Cooler);
+            containerBuilder.RegisterType<ProductApiClient>().Keyed<IProductApiClient>(ProductCategories.Gpu);
+            containerBuilder.RegisterType<ProductApiClient>().Keyed<IProductApiClient>(ProductCategories.Cpu);
+            containerBuilder.RegisterType<ProductApiClient>().Keyed<IProductApiClient>(ProductCategories.Cooler);
 
             containerBuilder.RegisterType<ProductService<CpuModel>>()
                 .WithParameter("category", ProductCategories.Cpu)

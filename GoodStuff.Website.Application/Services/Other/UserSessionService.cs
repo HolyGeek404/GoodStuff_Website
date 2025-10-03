@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 using GoodStuff.Website.Application.Services.Interfaces;
-using GoodStuff.Website.Domain.Models.User;
+using GoodStuff.Website.Domain.Entities.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -9,12 +9,12 @@ namespace GoodStuff.Website.Application.Services.Other;
 
 public class UserSessionService(
     IMemoryCache cache,
-    IHttpContextAccessor httpContextAccessor,
+    IHttpContextAccessor? httpContextAccessor,
     ILogger<UserSessionService> logger) : IUserSessionService
 {
     private const int SessionTimeoutMinutes = 30;
 
-    public string CreateSession(UserModel userModel)
+    public string CreateSession(User user)
     {
         try
         {
@@ -27,7 +27,7 @@ public class UserSessionService(
             };
             var userSession = new UserSession
             {
-                UserData = userModel,
+                UserData = user,
                 LastActivity = DateTime.UtcNow,
                 LoginTime = DateTime.UtcNow,
                 IpAddress = GetClientIpAddress()
@@ -38,7 +38,7 @@ public class UserSessionService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Error creating user session for {userModel.Email}");
+            logger.LogError(ex, $"Error creating user session for {user.Email}");
             throw;
         }
     }
@@ -73,7 +73,7 @@ public class UserSessionService(
             if (sessionAge.TotalMinutes > SessionTimeoutMinutes)
             {
                 var sessionId = GetSessionIdFromCookie();
-                ClearUserCachedData(sessionId);
+                if (sessionId != null) ClearUserCachedData(sessionId);
                 return false;
             }
 
@@ -81,7 +81,7 @@ public class UserSessionService(
             if (currentIp == session.IpAddress) return true;
             {
                 var sessionId = GetSessionIdFromCookie();
-                ClearUserCachedData(sessionId);
+                if (sessionId != null) ClearUserCachedData(sessionId);
                 return false;
             }
         }
@@ -100,9 +100,9 @@ public class UserSessionService(
 
     #region Private
 
-    private string GetSessionIdFromCookie()
+    private string? GetSessionIdFromCookie()
     {
-        return httpContextAccessor.HttpContext?.Request.Cookies["UserSessionId"];
+        return httpContextAccessor?.HttpContext?.Request.Cookies["UserSessionId"];
     }
 
     private static string GetCacheKey(string sessionId)

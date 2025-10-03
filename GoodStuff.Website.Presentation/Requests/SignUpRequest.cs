@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using GoodStuff.Website.Domain.Validators;
+using GoodStuff.Website.Presentation.Requests.Validators;
 
-namespace GoodStuff.Website.Domain.Models.User;
+namespace GoodStuff.Website.Presentation.Requests;
 
-public class SignUpModel
+public class SignUpRequest
 {
     [Required(ErrorMessage = "You have to provide your Name")]
     [NameValidation(ErrorMessage = "Name can't contains numbers and special characters.")]

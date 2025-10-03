@@ -4,5 +4,5 @@ namespace GoodStuff.Website.Application.Services.Interfaces;
 
 public interface IProductServiceFactory
 {
-    IProductService Get(ProductCategories type);
+    IProductService? Get(ProductCategories type);
 }

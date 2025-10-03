@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GoodStuff.Website.Domain.Models.User;
+namespace GoodStuff.Website.Presentation.Requests;
 
-public class SignInModel
+public class SignInRequest
 {
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress]

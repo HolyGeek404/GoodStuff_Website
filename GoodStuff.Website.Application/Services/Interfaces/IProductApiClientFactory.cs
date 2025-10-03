@@ -4,5 +4,5 @@ namespace GoodStuff.Website.Application.Services.Interfaces;
 
 public interface IProductApiClientFactory
 {
-    IProductApiClient Get(ProductCategories type);
+    IProductApiClient? Get(ProductCategories type);
 }
